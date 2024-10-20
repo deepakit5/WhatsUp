@@ -6,8 +6,8 @@ const userSchema = new Schema(
   {
     username: {
       type: String,
-
       trim: true,
+      required: true,
       // index: true,
       minLength: [3, "Username must caontain at least 3 characters."],
       maxLength: [30, "Username cannot exceed 40 characters."],
@@ -20,15 +20,53 @@ const userSchema = new Schema(
       trim: true,
       index: true, // it helps/enhance searching with this field
     },
-
-    avatar: {
-      type: String, // cloudinary url
-      required: true,
-    },
     password: {
       type: String,
       required: [true, "Password is required"],
     },
+    phone: {
+      type: Number,
+      required: true,
+      unique: true,
+    },
+
+    avatar: {
+      type: String, // cloudinary url
+      required: true,
+      default: "", // URL of profile picture
+    },
+
+    about: {
+      type: String,
+      default: "Hey there! I am using WhatsApp.",
+    },
+    lastSeen: {
+      type: Date,
+      default: Date.now,
+    },
+    isOnline: {
+      type: Boolean,
+      default: false,
+    },
+    socketId: {
+      type: String,
+      default: null, // To store socket connection ID
+    },
+    // createdAt: {
+    //   type: Date,
+    //   default: Date.now,
+    // },
+
+    // contacts: [
+    //   {
+    //     contactId: {
+    //       type: mongoose.Schema.Types.ObjectId,
+    //       ref: "User",
+    //     },
+    //     nickname: String, // Optional nickname for contact
+    //   },
+    // ],
+
     refreshToken: {
       type: String,
     },
