@@ -18,7 +18,7 @@ const uploadOnCloudinary = async (localFilePath) => {
     //upload the file on cloudinary
     const response = await cloudinary.uploader.upload(localFilePath, {
       resource_type: "image",
-      folder: "mern_auction_platform/profile_images",
+      folder: "WattsUp/profile-images",
       public_id: "avatar",
     });
     // file has been uploaded successfully
