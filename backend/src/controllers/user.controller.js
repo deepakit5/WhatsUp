@@ -36,23 +36,23 @@ const registerUser = asyncHandler(async (req, res) => {
   // check for user creation
   // return res
 
-  const {fullName, email, username, password} = req.body;
+  const {phone, email, username, password} = req.body;
   //console.log("email: ", email);
 
   if (
-    [fullName, email, username, password].some((field) => field?.trim() === "")
+    [phone, email, username, password].some((field) => field?.trim() === "")
   ) {
     throw new ApiError(400, "All fields are required");
   }
 
   const existedUser = await User.findOne({
-    $or: [{username}, {email}],
+    $or: [{phone}, {email}],
   });
 
   if (existedUser) {
-    throw new ApiError(409, "User with email or username already exists");
+    throw new ApiError(409, "User with email or phone no. already exists");
   }
-  console.log(req.files);
+  // console.log(req.files);
 
   const avatarLocalPath = req.files?.avatar[0]?.path;
 
@@ -61,14 +61,14 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   const avatar = await uploadOnCloudinary(avatarLocalPath);
-  console.log("avatar-", avatar);
+  // console.log("avatar-", avatar);
 
   if (!avatar) {
     throw new ApiError(400, "Avatar file is required 22");
   }
 
   const user = await User.create({
-    fullName,
+    phone,
     avatar: avatar.url, //this url comes from cloudinary
     email,
     password,
@@ -96,7 +96,7 @@ const loginUser = asyncHandler(async (req, res) => {
   //access and referesh token
   //send cookie
 
-  const {email, username, password} = req.body;
+  const {email, phone, password} = req.body;
   console.log(email);
 
   if (!email || !password) {
@@ -105,13 +105,13 @@ const loginUser = asyncHandler(async (req, res) => {
 
   // now this 'user' also has full access of user model
   const user = await User.findOne({
-    $or: [{username}, {email}],
+    $or: [{phone}, {email}],
   });
 
   if (!user) {
     throw new ApiError(404, "User does not exist");
   }
-  console.log("user line 144: ", user);
+  // console.log("user line 144: ", user);
   // isPasswordCorrect is a function in user model
   // user can also access usermodel file
   const isPasswordValid = await user.isPasswordCorrect(password);
@@ -249,9 +249,9 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 });
 
 const updateAccountDetails = asyncHandler(async (req, res) => {
-  const {fullName, email} = req.body;
+  const {phone, email} = req.body;
 
-  if (!fullName || !email) {
+  if (!phone || !email) {
     throw new ApiError(400, "All fields are required");
   }
 
@@ -259,7 +259,7 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
     req.user?._id,
     {
       $set: {
-        fullName,
+        phone,
         email: email,
       },
     },
