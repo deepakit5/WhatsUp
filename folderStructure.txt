@@ -1,0 +1,102 @@
+/whatsapp-clone
+│
+├── /frontend
+│   ├── /src
+│   │   ├── /components
+│   │   ├── /redux (or /store if using Redux Toolkit)
+│   │   ├── /hooks
+│   │   ├── /pages
+│   │   ├── /services
+│   │   ├── /utils
+│   │   ├── App.js
+│   │   ├── index.js
+│   ├── /public
+│   ├── package.json
+│   └── vite.config.js (or react.config.js)
+│
+├── /backend
+│   ├── /controllers
+│   ├── /models
+│   ├── /routes
+│   ├── /middlewares
+│   ├── /services
+│   ├── /config (for DB connections, env variables)
+│   ├── /utils
+│   ├── /sockets (socket.io related logic)
+│   ├── app.js (Express app setup)
+│   ├── server.js (entry point, starts Express and socket.io)
+│   ├── package.json
+│   └── .env (env variables)
+│
+├── /socket
+│   ├── /events (handle socket.io event listeners and emitters)
+│   ├── /middlewares (authentication for socket connections)
+│   ├── socket.js (main socket.io server config)
+│   └── package.json
+│
+├── /shared
+│   ├── /interfaces (shared type definitions if using TypeScript)
+│   ├── /utils (common helper functions used across frontend and backend)
+│   └── /constants
+│
+├── /tests (or /__tests__, for full app testing)
+│
+└── README.md
+
+
+---------------x------------------x---------------x-------------x----------------
+-------------x----------x--------------x------------------x---------------x-----
+
+/whatsapp-clone
+  /backend
+  /frontend
+  /socket-server
+  /shared
+  package.json
+  README.md
+
+
+/backend
+  /controllers     # All route handlers, such as messages, users, chats
+  /models          # Mongoose schemas for messages, users, chats, statuses
+  /routes          # Express routes
+  /middlewares     # Custom middlewares like authentication, validation
+  /services        # External APIs or business logic services
+  /config          # Configuration files (e.g., environment variables)
+  /utils           # Helper functions
+  /database        # Database connection logic (e.g., MongoDB)
+  /socket          # Socket.io event handlers (optional, or put this in /socket-server)
+  /tests           # Backend tests (e.g., Jest, Mocha)
+  app.js           # Main Express app file
+  server.js        # Entry point to start the server
+
+
+/frontend
+  /public           # Static assets (favicon, etc.)
+  /src
+    /components     # React components
+    /pages          # Pages or views (e.g., ChatScreen, Login)
+    /redux          # Redux store, reducers, actions
+    /hooks          # Custom hooks
+    /utils          # Utility functions (e.g., formatDate, getInitials)
+    /services       # API service to communicate with the backend
+    /assets         # Images, icons, etc.
+    /styles         # CSS, SCSS, Tailwind files, or other styles
+    App.js          # Main App component
+    index.js        # Entry point for the React app
+    store.js        # Redux store configuration
+    routes.js       # App routing
+    socket.js       # Frontend socket.io connection management
+
+
+/socket-server
+  /events         # Event handlers for different socket events (message, typing, call)
+  /middlewares    # Custom middlewares for authentication over sockets
+  /config         # Socket server configurations
+  server.js       # Entry point to start the socket server
+
+
+/shared
+  /constants      # Shared constants (e.g., message types, status enums)
+  /utils          # Shared utility functions
+  /types          # Shared TypeScript types or validation schemas
