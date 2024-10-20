@@ -1,40 +1,19 @@
-import {Router} from "express";
+import express from "express";
 import {
-  loginUser,
-  logoutUser,
-  registerUser,
-  refreshAccessToken,
-  changeCurrentPassword,
-  getCurrentUser,
-  updateUserAvatar,
-  updateAccountDetails,
-} from "../controllers/user.controller.js";
-import {upload} from "../middlewares/multer.middleware.js";
-import {verifyJWT} from "../middlewares/auth.middleware.js";
+  getUser,
+  updateUserStatus,
+  getUserContacts,
+} from "../controllers/userController.js";
 
-const router = Router();
+const router = express.Router();
 
-router.route("/register").post(
-  upload.fields([
-    {
-      name: "avatar",
-      maxCount: 1,
-    },
-  ]),
-  registerUser
-);
+// GET /api/users/:id - Get user details by ID
+router.route("/:id").get(getUser);
 
-router.route("/login").post(loginUser);
+// PUT /api/users/:id/status - Update user status (online/offline, last seen)
+router.route("/:id/status").put(updateUserStatus);
 
-//secured routes
-router.route("/logout").post(verifyJWT, logoutUser);
-router.route("/refresh-token").post(refreshAccessToken);
-router.route("/change-password").post(verifyJWT, changeCurrentPassword);
-router.route("/current-user").get(verifyJWT, getCurrentUser);
-router.route("/update-account").patch(verifyJWT, updateAccountDetails);
-
-router
-  .route("/avatar")
-  .patch(verifyJWT, upload.single("avatar"), updateUserAvatar);
+// GET /api/users/:id/contacts - Get user contacts by ID
+router.route("/:id/contacts").get(getUserContacts);
 
 export default router;
