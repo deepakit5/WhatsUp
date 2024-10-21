@@ -20,12 +20,11 @@ app.use(express.urlencoded({extended: true, limit: "16kb"}));
 app.use(cookieParser()); //parses cookies from the incoming request
 
 //routes import
-// import userRouter from "./routes/user.routes.js";
 import allRoutes from "./routes/index.routes.js";
-//routes declaration
 
+//routes declaration
 app.use("/api/v1", allRoutes);
-// app.use("/api/v1/users", userRouter);
+
 // http://localhost:8000/api/v1/users/register
 
 export {app};
