@@ -8,9 +8,6 @@ const userSchema = new Schema(
       type: String,
       trim: true,
       required: true,
-      // index: true,
-      minLength: [3, "Username must caontain at least 3 characters."],
-      maxLength: [30, "Username cannot exceed 40 characters."],
     },
     email: {
       type: String,
@@ -52,20 +49,16 @@ const userSchema = new Schema(
       type: String,
       default: null, // To store socket connection ID
     },
-    // createdAt: {
-    //   type: Date,
-    //   default: Date.now,
-    // },
 
-    // contacts: [
-    //   {
-    //     contactId: {
-    //       type: mongoose.Schema.Types.ObjectId,
-    //       ref: "User",
-    //     },
-    //     nickname: String, // Optional nickname for contact
-    //   },
-    // ],
+    contacts: [
+      {
+        contactId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+        nickname: String, // Optional nickname for contact
+      },
+    ],
 
     refreshToken: {
       type: String,
