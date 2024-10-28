@@ -97,7 +97,7 @@ const loginUser = asyncHandler(async (req, res) => {
   //access and referesh token
   //send cookie
 
-  const {email, phone, password} = req.body;
+  const {email, password} = req.body;
   console.log(email);
 
   if (!email || !password) {
@@ -106,13 +106,14 @@ const loginUser = asyncHandler(async (req, res) => {
 
   // now this 'user' also has full access of user model
   const user = await User.findOne({
-    $or: [{phone}, {email}],
+    // $or: [{email}, {phone}],
+    email,
   });
 
   if (!user) {
     throw new ApiError(404, "User does not exist");
   }
-  // console.log("user line 144: ", user);
+
   // isPasswordCorrect is a function in user model
   // user can also access usermodel file
   const isPasswordValid = await user.isPasswordCorrect(password);
