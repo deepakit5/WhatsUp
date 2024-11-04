@@ -1,7 +1,7 @@
 // src/store/store.js
 import {configureStore} from "@reduxjs/toolkit";
-import authReducer from "../redux/slices/auth.slice.js";
-import chatReducer from "../redux/slices/chat.slice.js";
+import authReducer from "../redux/slices/authentication/auth.slice.js";
+import chatReducer from "../redux/slices/chat/chatWindow.slice.js";
 // import socketReducer from "./slices/socketSlice";
 
 export const store = configureStore({

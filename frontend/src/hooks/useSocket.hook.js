@@ -1,13 +1,41 @@
-import {useEffect} from "react";
+// hooks/useSocket.js
+import {useEffect, useState} from "react";
 import socket from "../services/socket.service.js";
+import {useSelector} from "react-redux";
 
 export const useSocket = () => {
+  const token = useSelector((state) => state.auth.token);
+  const [socketId, setSocketId] = useState(null);
+
   useEffect(() => {
-    socket.connect();
+    if (token) {
+      // Update the socket's auth token
+      socket.auth = {token};
+      // Connect to the Socket.IO server
+      socket.connect();
+      // Listen for the 'connect' event to ensure socket.id is defined
+      socket.on("connect", () => {
+        console.log("Connected with socket ID:", socket.id);
+        setSocketId(socket.id); // Store the socket ID in state or use as needed
+      });
+    } else {
+      // Disconnect if no token is present
+      socket.disconnect();
+    }
+
+    // Emit 'offline' event when the tab is closed
+    const handleTabClose = () => {
+      socket.emit("disconnect");
+    };
+    window.addEventListener("beforeunload", handleTabClose);
+
+    // Cleanup function to disconnect the socket when the component unmounts
     return () => {
+      window.removeEventListener("beforeunload", handleTabClose);
+      socket.off("connect"); // Remove the connect event listener
       socket.disconnect();
     };
-  }, []);
+  }, [token]);
 
   return socket;
 };

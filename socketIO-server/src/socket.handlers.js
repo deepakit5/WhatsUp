@@ -17,8 +17,6 @@ import {handleNotification} from "./controllers/notification.controller.js";
 
 const socketHandlers = (io, socket) => {
   // Handle user presence
-  // console.log("first");
-  socket.on("userOnline", (userId) => handleUserOnline(io, socket, userId)); //tested
   socket.on("disconnect", () => handleUserOffline(io, socket)); //tested
 
   // Handle notifications
