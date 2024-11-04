@@ -1,0 +1,14 @@
+/* @import "tailwind/base";
+@import "tailwind/components";
+@import "tailwind/utilities"; */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Outfit", Arial, Helvetica, sans-serif;
+}
