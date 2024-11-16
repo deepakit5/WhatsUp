@@ -37,23 +37,26 @@ const registerUser = asyncHandler(async (req, res) => {
   // check for user creation
   // return res
 
-  const {phone, email, username, password} = req.body;
-  //console.log("email: ", email);
+  const {phoneNumber, email, username, password} = req.body;
 
   if (
-    [phone, email, username, password].some((field) => field?.trim() === "")
+    [phoneNumber, email, username, password].some(
+      (field) => field?.trim() === ""
+    )
   ) {
     throw new ApiError(400, "All fields are required");
   }
 
   const existedUser = await User.findOne({
-    $or: [{phone}, {email}],
+    $or: [{phoneNumber}, {email}],
   });
 
   if (existedUser) {
-    throw new ApiError(409, "User with email or phone no. already exists");
+    throw new ApiError(
+      409,
+      "User with email or phoneNumber no. already exists"
+    );
   }
-  // console.log(req.files);
 
   const avatarLocalPath = req.files?.avatar[0]?.path;
 
@@ -62,14 +65,13 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   const avatar = await uploadOnCloudinary(avatarLocalPath);
-  // console.log("avatar-", avatar);
 
   if (!avatar) {
     throw new ApiError(400, "Avatar file is required 22");
   }
 
   const user = await User.create({
-    phone,
+    phoneNumber,
     avatar: avatar.url, //this url comes from cloudinary
     email,
     password,
@@ -106,7 +108,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
   // now this 'user' also has full access of user model
   const user = await User.findOne({
-    // $or: [{email}, {phone}],
+    // $or: [{email}, {phoneNumber}],
     email,
   });
 

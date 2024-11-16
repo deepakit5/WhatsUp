@@ -12,3 +12,32 @@
   padding: 0;
   font-family: "Outfit", Arial, Helvetica, sans-serif;
 }
+body {
+  /* overflow: inherit; */
+}
+/* text=  text-gray-900 */
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+/* ::-webkit-scrollbar-button {
+  width: 10px;
+  background-color: #e1e1e1;
+  color: black;
+} */
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #d1d1d1;
+  border-radius: 4px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #c1c1c1;
+}

@@ -14,7 +14,8 @@ import GoogleIcon from "@mui/icons-material/Google";
 import bg from "../assets/images/bg-login.jpg";
 // import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
-import {loginUser} from "../redux/slices/auth.slice.js";
+import {loginUser} from "../redux/slices/authentication/auth.slice.js";
+import {fetchMyProfile} from "../redux/slices/user/user.slice.js";
 // import dotenv from "dotenv";
 // dotenv.config();
 
@@ -24,19 +25,11 @@ const LoginPage = () => {
   const dispatch = useDispatch();
   const {loading, error, user} = useSelector((state) => state.auth);
 
-  // const handleLogin = async () => {
-  //   const B_URL = import.meta.env.VITE_BACKEND_URL;
-  //   try {
-  //     const response = await axios.post(`${B_URL}/auth/login`);
-  //     return response.data;
-  //   } catch (error) {
-  //     return console.log("error in login ", error);
-  //   }
-  // };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(loginUser({email, password}));
+
+    dispatch(fetchMyProfile());
   };
 
   const handleGoogleSignIn = () => {
@@ -49,7 +42,7 @@ const LoginPage = () => {
 
   return (
     <Container
-      maxWidth="md"
+      maxWidth="full"
       sx={{
         height: "100vh",
         // width: "100vh",
@@ -61,13 +54,14 @@ const LoginPage = () => {
         backgroundPosition: "center",
       }}>
       <Box
+        maxWidth="md"
         sx={{
           width: "100%",
           height: "70vh",
           display: "flex",
           boxShadow: 3,
           borderRadius: 2,
-          overflow: "hidden",
+          // overflow: "hidden",
         }}>
         {/* Left Side - Login with Email */}
         <Box

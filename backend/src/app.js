@@ -7,7 +7,7 @@ const app = express();
 app.use(
   cors({
     origin: [process.env.FRONTEND_URL],
-    methods: ["POST", "GET", "PUT", "DELETE"],
+    methods: ["POST", "GET", "PUT", "DELETE", "PATCH"],
     credentials: true, //to make fronted and backend connection easier
   })
 );
@@ -23,6 +23,6 @@ import allRoutes from "./routes/index.routes.js";
 //routes declaration
 app.use("/api/v1", allRoutes);
 
-// http://localhost:7000/api/v1/users/register
+// http://localhost:5000/api/v1/users/register
 
 export {app};

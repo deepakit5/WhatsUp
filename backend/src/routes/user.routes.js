@@ -20,7 +20,7 @@ router.route("/me").get(verifyJWT, myProfile); // tested
 router.route("/:id").get(verifyJWT, getUser); // tested
 
 router.route("/change-password").post(verifyJWT, changeCurrentPassword); // tested
-router.route("/update/me/:id").patch(verifyJWT, updateUser); // tested
+router.route("/update/me").patch(verifyJWT, updateUser); // tested
 
 router
   .route("/update-avatar")

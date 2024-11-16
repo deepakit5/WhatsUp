@@ -53,8 +53,7 @@ export const changeCurrentPassword = asyncHandler(async (req, res) => {
 export const updateUser = asyncHandler(async (req, res) => {
   const userId = req.user?._id;
   //  The user ID from the request parameters
-  const {username, email, phone, about} = req.body; // Fields to update from the request body
-
+  const {username, email, phoneNumber, about} = req.body; // Fields to update from the request body
   try {
     // Find the user by ID
     const user = await User.findById(userId);
@@ -66,7 +65,7 @@ export const updateUser = asyncHandler(async (req, res) => {
     // Update the fields if provided in the request body
     if (username) user.username = username;
     if (email) user.email = email;
-    if (phone) user.phone = phone;
+    if (phoneNumber) user.phoneNumber = phoneNumber;
     if (about) user.about = about;
 
     // Save the updated user data
@@ -80,7 +79,7 @@ export const updateUser = asyncHandler(async (req, res) => {
           id: updatedUser._id,
           username: updatedUser.username,
           email: updatedUser.email,
-          phone: updatedUser.phone,
+          phoneNumber: updatedUser.phoneNumber,
           about: updatedUser.about,
         },
 

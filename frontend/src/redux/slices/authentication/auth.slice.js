@@ -1,6 +1,7 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
-import {io} from "socket.io-client";
+// import {io} from "socket.io-client";
+// import {fetchCurrentUser} from "../user/user.slices";
 
 // Thunk to handle login
 export const loginUser = createAsyncThunk(
@@ -32,7 +33,7 @@ const authSlice = createSlice({
     user: null,
     token: localStorage.getItem("token") || null,
     isAuthenticated: false,
-    loading: false,
+    isLoading: false,
     error: null,
   },
   reducers: {
@@ -48,11 +49,11 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
-        state.loading = true;
+        state.isLoading = true;
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.loading = false;
+        state.isLoading = false;
         state.isAuthenticated = true;
         state.user = action.payload;
         // state.user = action.payload.user;
@@ -60,7 +61,7 @@ const authSlice = createSlice({
         // state.token = action.payload.token;
       })
       .addCase(loginUser.rejected, (state, action) => {
-        state.loading = false;
+        state.isLoading = false;
         state.error = action.payload;
       });
   },
