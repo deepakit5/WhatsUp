@@ -1,6 +1,7 @@
 // src/redux/slices/userSlice.js
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
+import {toast} from "react-toastify";
 
 // Async thunk for fetching user data
 export const fetchMyProfile = createAsyncThunk(
@@ -91,7 +92,8 @@ const userSlice = createSlice({
     // about: "hey there, i am using WhatsUp not WhatsApp.",
     email: "",
     phoneNumber: "",
-    isLoading: false,
+    loading: false,
+    message: "",
     error: null,
   },
   reducers: {
@@ -104,7 +106,7 @@ const userSlice = createSlice({
     // Handle fetchUser cases
     builder
       .addCase(fetchMyProfile.pending, (state) => {
-        state.isLoading = true;
+        state.loading = true;
         state.error = null;
       })
       .addCase(fetchMyProfile.fulfilled, (state, action) => {
@@ -115,42 +117,51 @@ const userSlice = createSlice({
         state.phoneNumber = action.payload.phoneNumber;
         state.about = action.payload.about;
         state.email = action.payload.email;
-        state.isLoading = false;
+        state.loading = false;
+        state.message = action.payload.message;
+        toast.success(state.message);
       })
       .addCase(fetchMyProfile.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
+        state.loading = false;
+        state.error = action.payload.message;
+        toast.error(state.error);
       });
 
     // Handle updateUser cases
     builder
       .addCase(updateProfile.pending, (state) => {
-        state.isLoading = true;
+        state.loading = true;
       })
       .addCase(updateProfile.fulfilled, (state, action) => {
         state.username = action.payload.username || state.username;
         state.about = action.payload.about || state.about;
         state.email = action.payload.email || state.email;
         state.phoneNumber = action.payload.phoneNumber || state.phoneNumber;
-        state.isLoading = false;
+        state.loading = false;
+        state.message = action.payload.message;
+        toast.success(state.message);
       })
       .addCase(updateProfile.rejected, (state, action) => {
-        state.error = action.payload;
-        state.isLoading = false;
+        state.loading = false;
+        state.error = action.payload.message;
+        toast.error(state.error);
       });
 
     // Handle updateProfileImg cases
     builder
       .addCase(updateProfileImg.pending, (state) => {
-        state.isLoading = true;
+        state.loading = true;
       })
       .addCase(updateProfileImg.fulfilled, (state, action) => {
         state.profileImage = action.payload.avatar || state.profileImage;
-        state.isLoading = false;
+        state.loading = false;
+        state.message = action.payload.message;
+        toast.success(state.message);
       })
       .addCase(updateProfileImg.rejected, (state, action) => {
-        state.error = action.payload;
-        state.isLoading = false;
+        state.loading = false;
+        state.error = action.payload.message;
+        toast.error(state.error);
       });
   },
 });

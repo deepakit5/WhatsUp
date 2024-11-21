@@ -11,6 +11,10 @@ import {useSocket} from "./hooks/useSocket.hook.js";
 import HomePage from "./pages/HomePage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import "./App.css";
+import RegisterPage from "./pages/RegisterPage.jsx";
+import ForgotPassword from "./pages/ForgotPassword.jsx";
+import ResetPassword from "./pages/ResetPassword.jsx";
+// import AppRouter from "./router/App.routes.jsx";
 
 const App = () => {
   const {isAuthenticated} = useSelector((state) => state.auth);
@@ -19,18 +23,25 @@ const App = () => {
   console.log("socket-id: ", socket.id);
 
   return (
-    <Router>
-      <Routes>
-        <Route
-          path="/login"
-          element={isAuthenticated ? <Navigate to="/" /> : <LoginPage />}
-        />
-        <Route
-          path="/"
-          element={isAuthenticated ? <HomePage /> : <Navigate to="/login" />}
-        />
-      </Routes>
-    </Router>
+    <>
+      {/* <AppRouter /> */}
+      <Router>
+        <Routes>
+          <Route path="/register" element={<RegisterPage />} />
+
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
+          <Route
+            path="/login"
+            element={isAuthenticated ? <Navigate to="/" /> : <LoginPage />}
+          />
+          <Route
+            path="/"
+            element={isAuthenticated ? <HomePage /> : <Navigate to="/login" />}
+          />
+        </Routes>
+      </Router>
+    </>
   );
 };
 

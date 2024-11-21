@@ -4,6 +4,9 @@ import {User} from "../models/user.model.js";
 import {uploadOnCloudinary} from "../utils/cloudinary.js";
 import {ApiResponse} from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
+import generateToken from "../utils/generateToken.js";
+import sendEmail from "../utils/sendEmail.js";
+import bcrypt from "bcrypt";
 
 // here asyncHAndler is not used bcoz , we do not handle any web request here. it is a internal function
 const generateAccessAndRefereshTokens = async (userId) => {
@@ -48,19 +51,18 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   const existedUser = await User.findOne({
-    $or: [{phoneNumber}, {email}],
+    // $or: [{phoneNumber}, {email}],
+    email,
   });
 
   if (existedUser) {
-    throw new ApiError(
-      409,
-      "User with email or phoneNumber no. already exists"
-    );
+    throw new ApiError(409, "User already exists, please Login.");
   }
 
   const avatarLocalPath = req.files?.avatar[0]?.path;
 
   if (!avatarLocalPath) {
+    console.log("path not got ");
     throw new ApiError(400, "Avatar file is required");
   }
 
@@ -227,5 +229,68 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     throw new ApiError(401, error?.message || "Invalid refresh token");
   }
 });
+// -------------------   forgot password and reset password  ---------
 
-export {registerUser, loginUser, logoutUser, refreshAccessToken};
+const forgotPassword = async (req, res) => {
+  const {email} = req.body;
+
+  try {
+    const user = await User.findOne({email});
+    if (!user) return res.status(404).json({message: "User not found"});
+
+    const passwordResetToken = generateToken();
+    user.passwordResetToken = passwordResetToken;
+    user.passwordResetTokenExpires = Date.now() + 300000; // Token expires in 5 min
+    await user.save();
+
+    const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${passwordResetToken}`;
+    const html = `
+      <p>You requested a password reset. Click the link below to reset your password:</p>
+      <a href="${resetUrl}">${resetUrl}</a>
+    `;
+
+    await sendEmail(user.email, "Password Reset Request", html);
+
+    res
+      .status(200)
+      .json({message: " Reset Password link has been sent on email "});
+  } catch (error) {
+    res.status(500).json({message: "Server error", error});
+  }
+};
+
+const resetPassword = async (req, res) => {
+  const {token} = req.params;
+  const {password} = req.body;
+  console.log("input password ", password);
+
+  try {
+    const user = await User.findOne({
+      passwordResetToken: token,
+      passwordResetTokenExpires: {$gt: Date.now()}, // Ensure the token is not expired
+    });
+
+    if (!user)
+      return res.status(400).json({message: "Invalid or expired token"});
+
+    // const hashedPassword = await bcrypt.hash(password, 10);
+    // user.password = hashedPassword;
+    user.password = password;
+    user.passwordResetToken = undefined;
+    user.passwordResetTokenExpires = undefined;
+    await user.save();
+
+    res.status(200).json({message: "Password reset successfully"});
+  } catch (error) {
+    res.status(500).json({message: "Internal Server error", error});
+  }
+};
+
+export {
+  registerUser,
+  loginUser,
+  logoutUser,
+  refreshAccessToken,
+  forgotPassword,
+  resetPassword,
+};

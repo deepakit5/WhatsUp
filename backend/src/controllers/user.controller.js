@@ -104,7 +104,7 @@ export const updateAvatar = asyncHandler(async (req, res) => {
   const avatar = await uploadOnCloudinary(avatarLocalPath);
 
   if (!avatar.url) {
-    throw new ApiError(400, "Error while uploading on avatar");
+    throw new ApiError(400, "Error while uploading avatar");
   }
 
   const user = await User.findByIdAndUpdate(

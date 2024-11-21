@@ -18,8 +18,8 @@ const uploadOnCloudinary = async (localFilePath) => {
     //upload the file on cloudinary
     const response = await cloudinary.uploader.upload(localFilePath, {
       resource_type: "image",
-      folder: "WattsUp/profile-images",
-      public_id: "avatar",
+      folder: "WhatsUp/profile-images",
+      // public_id: "avatar333",
     });
     // file has been uploaded successfully
     console.log("file is uploaded on cloudinary ", response.url);
