@@ -6,6 +6,7 @@ import chatReducer from "../redux/slices/chat/chatWindow.slice.js";
 import leftDrawerReducer from "../redux/slices/chat/leftDrawer.slice.js";
 import chatListReducer from "../redux/slices/chat/chatList.slice.js";
 import registerReducer from "../redux/slices/authentication/register.slice.js";
+import settingsReducer from "../redux/slices/user/settings.slice.js";
 // import socketReducer from "./slices/socketSlice";
 
 export const store = configureStore({
@@ -15,6 +16,7 @@ export const store = configureStore({
     chat: chatReducer, // Manages chat-related data and actions
     // socket: socketReducer, // Manages socket connection and events
     user: userReducer,
+    settings: settingsReducer,
     leftDrawer: leftDrawerReducer,
     chatList: chatListReducer,
   },
