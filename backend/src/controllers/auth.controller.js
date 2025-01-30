@@ -229,6 +229,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     throw new ApiError(401, error?.message || "Invalid refresh token");
   }
 });
+
 // -------------------   forgot password and reset password  ---------
 
 const forgotPassword = async (req, res) => {
@@ -273,8 +274,6 @@ const resetPassword = async (req, res) => {
     if (!user)
       return res.status(400).json({message: "Invalid or expired token"});
 
-    // const hashedPassword = await bcrypt.hash(password, 10);
-    // user.password = hashedPassword;
     user.password = password;
     user.passwordResetToken = undefined;
     user.passwordResetTokenExpires = undefined;

@@ -3,7 +3,7 @@ import {
   startCall,
   endCall,
   getCallHistory,
-} from "../controllers/callController.js";
+} from "../controllers/call.controller.js";
 
 const router = express.Router();
 

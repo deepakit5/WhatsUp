@@ -4,12 +4,23 @@ import mongoose from "mongoose";
 
 const messageSchema = new mongoose.Schema(
   {
-    sender: {
+    tempId: {
+      type: String,
+    },
+
+    chatId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Chat",
+      default: null, // Set default to null instead of an empty string
+      // required: true,
+    },
+
+    senderId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
-    receiver: {
+    receiverId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
@@ -18,15 +29,35 @@ const messageSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    messageType: {
+    fileInfo: {
+      fileName: {type: String},
+      fileSize: {type: String},
+      fileType: {type: String},
+      filePages: {type: Number},
+    },
+    type: {
       type: String,
       enum: ["text", "image", "video", "audio", "file"],
       default: "text",
     },
     status: {
       type: String,
-      enum: ["sent", "delivered", "read"],
-      default: "sent",
+      enum: ["pending", "saved", "delivered", "read"],
+      default: "pending",
+    },
+    readBy: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "User",
+    },
+    time: {
+      type: String,
+      default: "00:00",
+      required: true,
+    },
+    date: {
+      type: String,
+      default: "",
+      required: true,
     },
   },
   {timestamps: true}

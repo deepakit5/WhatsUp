@@ -1,5 +1,5 @@
-import React from "react";
-import {useSelector} from "react-redux";
+import React, {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {
   BrowserRouter as Router,
   Route,
@@ -14,13 +14,12 @@ import "./App.css";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
-// import AppRouter from "./router/App.routes.jsx";
+import {chatWindowSocketListeners} from "./redux/slices/chat/chatWindow.slice.js";
 
 const App = () => {
+  const dispatch = useDispatch();
   const {isAuthenticated} = useSelector((state) => state.auth);
   console.log("isAuthenticated: ", isAuthenticated);
-  const socket = useSocket();
-  console.log("socket-id: ", socket.id);
 
   return (
     <>

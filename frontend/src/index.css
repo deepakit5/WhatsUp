@@ -12,6 +12,11 @@
   padding: 0;
   font-family: "Outfit", Arial, Helvetica, sans-serif;
 }
+
+:root {
+  --vh: 100%;
+}
+
 body {
   /* overflow: inherit; */
 }
@@ -40,4 +45,40 @@ body {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #c1c1c1;
+}
+::-webkit-scrollbar {
+  height: 12px; /* Sets the height of the horizontal scrollbar */
+}
+/* -------------x-- for object tag -----x----------------x---------- */
+object {
+  margin: 0;
+  padding: 0;
+  border: none;
+  box-sizing: border-box;
+}
+object::-webkit-scrollbar {
+  /* width: 10px; */
+  display: none;
+}
+
+/* -----------x----  for  audio tag  player ------x     */
+audio::-webkit-media-controls-panel {
+  background: rgb(187, 247, 208);
+}
+audio {
+  height: 33px; /* Adjust height of the player */
+}
+
+audio::-webkit-media-controls-mute-button {
+  background-size: 25px;
+}
+audio::-webkit-media-controls-play-button {
+  background-size: 40px;
+}
+
+/* Customizing the progress bar (only works in some browsers) */
+audio::-webkit-media-controls-progress-bar {
+  background-color: red; /* Progress bar color */
+  height: 6px; /* Progress bar height */
+  border-radius: 3px; /* Rounded edges */
 }

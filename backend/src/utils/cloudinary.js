@@ -1,9 +1,9 @@
 import {v2 as cloudinary} from "cloudinary";
 import fs from "fs";
 
-const uploadOnCloudinary = async (localFilePath) => {
+const uploadOnCloudinary = async (localFilePath, mediaType, folder) => {
   try {
-    if (!localFilePath) {
+    if (!localFilePath || !fs.existsSync(localFilePath)) {
       console.log("localFilePath does not got");
       return null;
     }
@@ -15,13 +15,18 @@ const uploadOnCloudinary = async (localFilePath) => {
       api_secret: process.env.CLOUDINARY_API_SECRET,
     });
 
+    console.log(
+      "localFilePath, mediaType, folder: ",
+      localFilePath,
+      mediaType,
+      folder
+    );
     //upload the file on cloudinary
     const response = await cloudinary.uploader.upload(localFilePath, {
-      resource_type: "image",
-      folder: "WhatsUp/profile-images",
+      resource_type: mediaType,
+      folder: `WhatsUp/${folder}`,
       // public_id: "avatar333",
     });
-    // file has been uploaded successfully
     console.log("file is uploaded on cloudinary ", response.url);
     fs.unlinkSync(localFilePath);
     return response;

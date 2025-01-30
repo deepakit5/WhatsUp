@@ -4,8 +4,6 @@ import {
   changeCurrentPassword,
   updateUser,
   updateAvatar,
-  // updateUserStatus,
-  // getUserContacts,
   myProfile,
 } from "../controllers/user.controller.js";
 import {verifyJWT} from "../middlewares/auth.middleware.js";
@@ -25,11 +23,5 @@ router.route("/update/me").patch(verifyJWT, updateUser); // tested
 router
   .route("/update-avatar")
   .patch(verifyJWT, upload.single("avatar"), updateAvatar); // tested
-
-// PUT /api/users/:id/status - Update user status (online/offline, last seen)
-// router.route("/:id/status").put(verifyJWT, updateUserStatus);
-
-// GET /api/users/:id/contacts - Get user contacts by ID
-// router.route("/:id/contacts").get(verifyJWT, getUserContacts);
 
 export default router;

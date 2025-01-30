@@ -14,19 +14,15 @@ export const loginUser = createAsyncThunk(
       });
 
       const token = response.data.data.accessToken;
-      // const { token } = response.data;// check this line
       localStorage.setItem("token", token); // Store token in localStorage
 
-      return response.data; // Assuming response contains user data or token
+      return response.data;
     } catch (error) {
-      // If there's an error, pass it to rejectWithValue to handle the error in reducers
-      // console.log("login user error ", error.response.data);
       return rejectWithValue(error.response.data);
     }
   }
 );
 
-// Async thunk for forgot password
 export const forgotPassword = createAsyncThunk(
   "auth/forgotPassword",
   async (email, {rejectWithValue}) => {
@@ -50,12 +46,10 @@ export const resetPassword = createAsyncThunk(
     const B_URL = import.meta.env.VITE_BACKEND_URL;
 
     try {
-      // const { data } = await resetPassword(token, password);
       const {data} = await axios.post(`${B_URL}/auth/reset-password/${token}`, {
         password,
       });
 
-      // export const resetPassword = (token, password) => API.post(`/reset-password/${token}`, { password });
       return data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -104,12 +98,9 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isAuthenticated = true;
-        // state.user = action.payload.data.user;
-        // state.user = action.payload.user;
-        // console.log("user inside 12 ", action.payload);
+
         state.token = action.payload.data.accessToken;
 
-        // state.token = action.payload.token;
         state.loading = false;
         state.success = true;
         state.message = action.payload.message;

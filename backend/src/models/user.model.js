@@ -22,7 +22,7 @@ const userSchema = new Schema(
       required: [true, "Password is required"],
     },
     phoneNumber: {
-      type: Number,
+      type: String,
       required: true,
       unique: true,
     },
@@ -49,6 +49,12 @@ const userSchema = new Schema(
       type: String,
       default: null, // To store socket connection ID
     },
+
+    chatsList: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "User",
+      default: [], // Initialize as an empty array
+    }, // Can store both chat and group chat IDs
 
     contacts: [
       {

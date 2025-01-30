@@ -38,7 +38,6 @@ const registerSlice = createSlice({
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
-        // toast.success("User Registered Successfully.");
         state.message = action.payload.message;
         toast.success(state.message);
       })

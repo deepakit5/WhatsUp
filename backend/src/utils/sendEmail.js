@@ -11,10 +11,6 @@ const sendEmail = async (to, subject, html) => {
   });
 
   const mailOptions = {
-    // from: "no-reply.wattsup@gmail.com",
-    // from: "no-reply.whatsup@gmail.com",
-    // from: "no-reply@yourapp.com",
-
     from: "whatsup.helpteam@gmail.com",
     to,
     subject,

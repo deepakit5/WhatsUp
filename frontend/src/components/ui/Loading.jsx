@@ -5,8 +5,13 @@ import PropTypes from "prop-types";
 
 const Loading = ({text = "Loading...", size = 40}) => {
   return (
-    <div className="flex flex-col items-center justify-center h-full w-full space-y-2  ">
-      <CircularProgress size={size} color="primary" />
+    <div className="  flex flex-col items-center justify-center h-full w-full space-y-2  ">
+      <CircularProgress
+        size={size}
+        thickness={5}
+        color="primary"
+        className=" rounded-full "
+      />
       {text && <p className="text-black text-base mt-2">{text}</p>}
     </div>
   );

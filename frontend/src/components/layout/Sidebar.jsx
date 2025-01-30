@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {
   closeDrawer,
-  openDrawer,
+  openDrawerLeft,
 } from "../../redux/slices/chat/leftDrawer.slice.js";
 
 // material ui
@@ -32,18 +32,8 @@ const Sidebar = () => {
     dispatch(closeDrawer());
 
     setSelectedIcon(componentName);
-    dispatch(openDrawer(componentName)); // Send component name as payload
+    dispatch(openDrawerLeft(componentName)); // Send component name as payload
   };
-
-  // useEffect(() => {
-  //   dispatch(fetchUserProfile(userId));
-  // }, [dispatch, userId]);
-
-  // useEffect(() => {
-  //   return () => {
-  //     dispatch(closeDrawer());
-  //   };
-  // }, [componentName]);
 
   return (
     <Box
@@ -83,17 +73,13 @@ const Sidebar = () => {
 
         <div className="flex">
           <IconButton
-            // style={{color: "green"}}
             onMouseEnter={() => setShowText("status")}
             onMouseLeave={() => setShowText(false)}
             onClick={() => handleDrawer("status")}>
             {selectedIcon === "status" ? (
               <WebStoriesIcon fontSize="large" />
             ) : (
-              <WebStoriesOutlinedIcon
-                style={{color: "green"}}
-                fontSize="medium"
-              />
+              <WebStoriesOutlinedIcon fontSize="medium" />
             )}
           </IconButton>
           <div>

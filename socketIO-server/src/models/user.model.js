@@ -20,7 +20,7 @@ const userSchema = new Schema(
       required: [true, "Password is required"],
     },
     phoneNumber: {
-      type: Number,
+      type: String,
       required: true,
       unique: true,
     },
@@ -48,6 +48,20 @@ const userSchema = new Schema(
       default: null, // To store socket connection ID
     },
 
+    undeliveredMessages: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Message",
+      },
+    ],
+
+    chatsList: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "User",
+      default: [], // Initialize as an empty array
+    }, // Can store both chat and group chat IDs
+    // remember update user Schema in backend
+
     contacts: [
       {
         contactId: {
@@ -58,12 +72,15 @@ const userSchema = new Schema(
       },
     ],
 
-    refreshToken: {
-      type: String,
-    },
+    // refreshToken: {
+    //   type: String,
+    // },
+    // passwordResetToken: {type: String}, // Token for resetting password
+    // passwordResetTokenExpires: {type: Date}, // Expiry time for the token
   },
   {
     timestamps: true,
   }
 );
+
 export const User = mongoose.model("User", userSchema);

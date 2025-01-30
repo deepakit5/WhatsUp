@@ -1,41 +1,29 @@
 import React, {useEffect, useRef, useState} from "react";
-import {Drawer, Dialog, IconButton} from "@mui/material";
+import {Drawer, Dialog, IconButton, Paper, ButtonBase} from "@mui/material";
 import ChatIcon from "@mui/icons-material/Chat";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
 import {useDispatch} from "react-redux";
-import {openDrawer} from "../../redux/slices/chat/leftDrawer.slice";
+import {openDrawerLeft} from "../../redux/slices/chat/leftDrawer.slice";
 import {logout} from "../../redux/slices/authentication/auth.slice";
 
 const LogoCard = () => {
   const dispatch = useDispatch();
   const [selectedIcon, setSelectedIcon] = useState("");
   const [showText, setShowText] = useState(false);
-  const [isOpenChatOpt, setIsOpenChatOpt] = useState(false);
+
+  const [threeDotClicked, setThreeDotClicked] = useState(false);
 
   // Each button/icon sends a different payload to indicate the component to display
   const handleDrawer = (componentName) => {
     setSelectedIcon(componentName);
-    dispatch(openDrawer(componentName)); // Send component name as payload
+    dispatch(openDrawerLeft(componentName));
   };
 
-  const handleChatOpt = () => {
-    setIsOpenChatOpt(!isOpenChatOpt);
+  const handleThreeDots = () => {
+    setThreeDotClicked(!threeDotClicked);
+    console.log("threeDotClicked in handle in logo card: ", threeDotClicked);
   };
-
-  // Close menu when clicking outside
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     if (menuRef.current && !menuRef.current.contains(event.target)) {
-  //       setIsOpen(false);
-  //     }
-  //   };
-
-  //   document.addEventListener("mousedown", handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, []);
 
   return (
     <div className="flex items-center justify-between p-2 bg-gray-100 border-b border-gray-200">
@@ -46,71 +34,97 @@ const LogoCard = () => {
         {/* New Chat Icon */}
         <div className="flex">
           <IconButton
-            // style={{color: "green"}}
             onMouseEnter={() => setShowText("newChat")}
             onMouseLeave={() => setShowText(false)}
             onClick={() => handleDrawer("newChat")}>
             {selectedIcon === "newChat" ? (
               <AddCommentOutlinedIcon fontSize="large" />
             ) : (
-              <AddCommentOutlinedIcon
-                style={{color: "green"}}
-                fontSize="medium"
-              />
+              <AddCommentOutlinedIcon fontSize="medium" />
             )}
           </IconButton>
           <div>
             {showText === "newChat" && (
-              <p className="absolute bg-black text-gray-200 rounded-xl pl-2 pr-2 text-base  ">
+              <p className="absolute bg-black text-gray-200 rounded-xl pl-2 pr-2 text-sm z-50 ">
                 New Chat
               </p>
             )}
           </div>
         </div>
-        {/* -------------------------- */}
-        <div className="flex">
-          <IconButton
-            // style={{color: "green"}}
-            onMouseEnter={() => setShowText("chatOptions")}
-            onMouseLeave={() => setShowText(false)}
-            onClick={handleChatOpt}>
-            <MoreVertIcon />
-          </IconButton>
+
+        {/*  3 dot icon----- -------- */}
+        <div className="flex relative">
+          <div
+            className={` ${threeDotClicked && " bg-gray-300 rounded-full  "} `}>
+            <IconButton
+              onMouseEnter={() => setShowText("chatOptions")}
+              onMouseLeave={() => setShowText("")}
+              onClick={handleThreeDots}>
+              <MoreVertIcon />
+            </IconButton>
+          </div>
           <div>
             {showText === "chatOptions" && (
-              <p className="absolute bg-black text-gray-200 rounded-xl pl-2 pr-2 text-base  ">
+              <p className="absolute right-5 top-10 bg-black text-gray-200 rounded-xl pl-2 pr-2 text-sm z-50 ">
                 More Options
               </p>
             )}
           </div>
-        </div>
-        {/* Animated Menu */}
-        <div
-          className={`${
-            isOpenChatOpt ? "scale-100 opacity-100" : "scale-0 opacity-0"
-          } transform origin-top-right transition-all duration-300 ease-out bg-white  rounded-lg shadow-lg absolute top-12 right-5 w-40 text-gray-700 text-base`}>
-          <ul className="">
-            <li
-              className="p-2 hover:bg-gray-100 cursor-pointer rounded"
-              onClick={() => handleDrawer("addGroupMembers")}>
-              New Group
-            </li>
-            <li
-              className="p-2 hover:bg-gray-100 cursor-pointer rounded"
-              onClick={() => handleDrawer("starredMessages")}>
-              Starred Message
-            </li>
-            <li
-              className="p-2 hover:bg-gray-100 cursor-pointer rounded"
-              onClick={() => handleDrawer("selectChats")}>
-              Select Chats
-            </li>
-            <li
-              className="p-2 hover:bg-gray-100 cursor-pointer rounded"
-              onClick={() => dispatch(logout())}>
-              Logout
-            </li>
-          </ul>
+
+          {/* Overlay to detect outside clicks */}
+          {threeDotClicked && (
+            <div
+              className="fixed inset-0 z-40"
+              onClick={() => setThreeDotClicked(false)}></div>
+          )}
+
+          {/* Animated Menu  for 3 dot */}
+          <div
+            className={`${
+              threeDotClicked ? "scale-100 opacity-100" : "scale-0 opacity-0"
+            } transform origin-top-right transition-all duration-300 ease-out bg-blue-500  rounded-lg shadow-lg absolute top-10 right-1 w-40 text-gray-700 text-base z-50`}>
+            <Paper elevation={4} square={false}>
+              <ul className="py-2 ">
+                <li className=" hover:bg-gray-200 ">
+                  <ButtonBase
+                    className="w-full h-full"
+                    onClick={() => handleDrawer("addGroupMembers")}>
+                    <p className=" w-full  h-full p-2 pl-4   text-left ">
+                      New Group
+                    </p>
+                  </ButtonBase>
+                </li>
+                <li className=" hover:bg-gray-200">
+                  <ButtonBase
+                    className="w-full h-full"
+                    onClick={() => handleDrawer("starredMessages")}>
+                    <p className=" w-full  h-full p-2 pl-4   text-left ">
+                      Starred Message
+                    </p>
+                  </ButtonBase>
+                </li>
+
+                <li className=" hover:bg-gray-200">
+                  <ButtonBase
+                    className="w-full h-full"
+                    onClick={() => handleDrawer("selectChats")}>
+                    <p className=" w-full  h-full p-2 pl-4   text-left ">
+                      Select Chats
+                    </p>
+                  </ButtonBase>
+                </li>
+                <li className=" hover:bg-gray-200">
+                  <ButtonBase
+                    className="w-full h-full"
+                    onClick={() => dispatch(logout())}>
+                    <p className=" w-full  h-full p-2 pl-4   text-left  text-red-500 ">
+                      Logout
+                    </p>
+                  </ButtonBase>
+                </li>
+              </ul>
+            </Paper>
+          </div>
         </div>
       </div>
     </div>

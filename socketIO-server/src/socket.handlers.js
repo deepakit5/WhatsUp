@@ -1,6 +1,13 @@
 // This file contains the socket event handlers, keeping server.js clean and organized.
+import {
+  handleUserOnline,
+  handleUserOffline,
+} from "./controllers/presence.controller.js";
+import {
+  handleChatMessage,
+  handleMessageRead,
+} from "./controllers/chat.controller.js";
 
-import {handleChatMessage} from "./controllers/chat.controller.js";
 import {
   handleCall,
   handleCallDisconnect,
@@ -9,24 +16,29 @@ import {
   handleVideoCall,
   handleVideoCallDisconnect,
 } from "./controllers/videoCall.controller.js";
-import {
-  handleUserOnline,
-  handleUserOffline,
-} from "./controllers/presence.controller.js";
+
 import {handleNotification} from "./controllers/notification.controller.js";
+import {handleDeleteMessage} from "./controllers/message.controller.js";
 
 const socketHandlers = (io, socket) => {
   // Handle user presence
   socket.on("disconnect", () => handleUserOffline(io, socket)); //tested
 
-  // Handle notifications
-  socket.on("sendNotification", (data) => handleNotification(io, socket, data));
-
   // Handle real-time chat messages
   socket.on("sendMessage", (data) => {
-    // console.log("data: ", data);
     handleChatMessage(io, socket, data); //one to one individual converation
   });
+
+  socket.on("message-read", (data) => {
+    handleMessageRead(io, socket, data); //one to one individual converation
+  });
+
+  socket.on("deleteMsgForEveryone", (data, ack) => {
+    handleDeleteMessage(io, socket, data, ack); // Pass the `ack` function //one to one individual converation
+  });
+
+  // Handle notifications
+  socket.on("sendNotification", (data) => handleNotification(io, socket, data));
 
   // Handle voice calls
   socket.on("startCall", (data) => handleCall(io, socket, data));

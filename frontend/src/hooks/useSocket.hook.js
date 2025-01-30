@@ -8,6 +8,8 @@ export const useSocket = () => {
   const [socketId, setSocketId] = useState(null);
 
   useEffect(() => {
+    // it runs for every component who use usesocket hook
+    console.log("--- use effect run in use socket hook .js :");
     if (token) {
       // Update the socket's auth token
       socket.auth = {token};
@@ -15,25 +17,33 @@ export const useSocket = () => {
       socket.connect();
       // Listen for the 'connect' event to ensure socket.id is defined
       socket.on("connect", () => {
-        console.log("Connected with socket ID:", socket.id);
+        console.log(
+          "Connected with socket ID from use-socket hook:",
+          socket.id
+        );
         setSocketId(socket.id); // Store the socket ID in state or use as needed
       });
     } else {
       // Disconnect if no token is present
+      console.log("--- token is absent: ");
+      console.log("--- disconnecting from frontend side...: ");
       socket.disconnect();
     }
 
     // Emit 'offline' event when the tab is closed
     const handleTabClose = () => {
+      console.log("--- disconnecting due to tab closed...: ");
+
+      socket.disconnect();
       socket.emit("disconnect");
     };
     window.addEventListener("beforeunload", handleTabClose);
 
-    // Cleanup function to disconnect the socket when the component unmounts
+    // // // Cleanup function to disconnect the socket when the component unmounts
     return () => {
       window.removeEventListener("beforeunload", handleTabClose);
-      socket.off("connect"); // Remove the connect event listener
-      socket.disconnect();
+      // socket.off("connect"); // Remove the connect event listener
+      console.log("--- disconnecting as clean up frontend side...: ");
     };
   }, [token]);
 

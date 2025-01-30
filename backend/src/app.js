@@ -24,8 +24,6 @@ import {errorHandler} from "./middlewares/errorHandler.middleware.js";
 //routes declaration
 app.use("/api/v1", allRoutes);
 
-// http://localhost:5000/api/v1/users/register
-
 // Catch-all for undefined routes (optional)
 app.use((req, res, next) => {
   res.status(404).json({

@@ -29,7 +29,6 @@ const ProfileMain = ({containerRef}) => {
   const [showText, setShowText] = useState(false);
   const {profileImage, username, email, about, phoneNumber, loading} =
     useSelector((state) => state.user);
-  // const show = useSelector((state) => state.leftDrawer.in); // Access drawer state
   const {isOpen} = useSelector((state) => state.leftDrawer);
 
   const [isEditing, setIsEditing] = useState({
@@ -50,7 +49,6 @@ const ProfileMain = ({containerRef}) => {
 
   const handleEditClick = (field) => {
     setIsEditing((prevState) => ({...prevState, [field]: true}));
-    // inputRef.focus(); // Focus on the input field to show the cursor
   };
 
   const handleSaveClick = (field) => {
@@ -63,7 +61,6 @@ const ProfileMain = ({containerRef}) => {
     setNewProfile((prevProfile) => ({...prevProfile, [field]: value}));
   };
 
-  // ------------------
   // for profile image view, update , delete
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewURL, setPreviewURL] = useState(null);
@@ -95,7 +92,6 @@ const ProfileMain = ({containerRef}) => {
 
     // Dispatch action to upload file to Cloudinary and update Redux store
     dispatch(updateProfileImg(selectedFile));
-
     setOpenImg(false);
   };
 
@@ -103,14 +99,14 @@ const ProfileMain = ({containerRef}) => {
     <Slide
       in={isOpen}
       direction="right"
-      timeout={500}
+      timeout={300}
       easing="ease"
       container={containerRef.current}>
-      <div>
-        <div className="flex items-center justify-between p-2 bg-gray-100    w-full  border-black ">
+      <div className="h-[89vh]">
+        <div className="  p-2 bg-gray-100    w-full  border-black ">
           <p className="font-bold text-2xl  ">Profile</p>
         </div>
-        <div className="h-[90vh]  overflow-y-auto  max-h-screen ">
+        <div className=" h-full   overflow-y-scroll ">
           {/* Profile Image */}
           <div className=" border-black  w-full  flex  justify-center  ">
             <div className="relative border border-blue-800    cursor-pointer w-64 h-64  mt-7 mb-7 rounded-full ">

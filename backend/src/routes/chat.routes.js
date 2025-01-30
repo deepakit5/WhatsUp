@@ -1,19 +1,20 @@
 import express from "express";
 import {
   getChatHistory,
-  sendMessage,
-  deleteMessage,
-} from "../controllers/chatController.js";
+  getChats,
+  searchUser,
+} from "../controllers/chat.controller.js";
+import {verifyJWT} from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
+// Route to fetch all chats for the logged-in user
+router.route("/getAllChats").get(verifyJWT, getChats);
+
+// Route to search chats for the logged-in user
+router.route("/searchUser").get(verifyJWT, searchUser);
+
 // GET /api/chats/:userId/:contactId - Get chat history between two users
-router.route("/:userId/:contactId").get(getChatHistory);
-
-// POST /api/chats/send - Send a new message
-router.route("/send").post(sendMessage);
-
-// DELETE /api/chats/:messageId - Delete a specific message
-router.route("/:messageId").delete(deleteMessage);
+router.route("/:chatId/history").get(verifyJWT, getChatHistory);
 
 export default router;

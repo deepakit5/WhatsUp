@@ -23,15 +23,12 @@ import {
 } from "../redux/slices/authentication/auth.slice.js";
 import {fetchMyProfile} from "../redux/slices/user/user.slice.js";
 import Loading from "../components/ui/Loading.jsx";
-// import dotenv from "dotenv";
-// dotenv.config();
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const {loading, error, success} = useSelector((state) => state.auth);
-  // console.log("first ", loading, error, success);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -54,7 +51,6 @@ const LoginPage = () => {
         maxWidth="full"
         sx={{
           height: "100vh",
-          // width: "100vh",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -70,7 +66,6 @@ const LoginPage = () => {
             display: "flex",
             boxShadow: 3,
             borderRadius: 2,
-            // overflow: "hidden",
           }}>
           {/* Left Side - Login with Email */}
           <Box

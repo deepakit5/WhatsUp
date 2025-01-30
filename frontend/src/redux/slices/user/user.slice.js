@@ -1,4 +1,3 @@
-// src/redux/slices/userSlice.js
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
 import {toast} from "react-toastify";
@@ -15,7 +14,6 @@ export const fetchMyProfile = createAsyncThunk(
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      // console.log("response in user slice ", response.data);
 
       return response.data.data;
     } catch (error) {
@@ -56,7 +54,6 @@ export const updateProfileImg = createAsyncThunk(
   async (file, {getState, rejectWithValue}) => {
     const B_URL = import.meta.env.VITE_BACKEND_URL;
     try {
-      // const {userId} = getState().user;
       const token = localStorage.getItem("token");
 
       const formData = new FormData();
@@ -84,12 +81,11 @@ const userSlice = createSlice({
   name: "user",
   initialState: {
     userId: "",
-    username: "",
-    // username: "anonymous",
-
-    profileImage: "",
-    about: "",
-    // about: "hey there, i am using WhatsUp not WhatsApp.",
+    username: "anonymous",
+    isOnline: "offline", // for real time update depend on socket
+    chatsList: [],
+    profileImage: "Your profile Image",
+    about: "hey there, i am using WhatsUp not WhatsApp.",
     email: "",
     phoneNumber: "",
     loading: false,
@@ -110,13 +106,13 @@ const userSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchMyProfile.fulfilled, (state, action) => {
-        state.userId = action.payload.__id;
-        // state.user = action.payload.data;
+        state.userId = action.payload._id;
         state.username = action.payload.username;
         state.profileImage = action.payload.avatar;
         state.phoneNumber = action.payload.phoneNumber;
         state.about = action.payload.about;
         state.email = action.payload.email;
+        state.chatsList = action.payload.chatsList;
         state.loading = false;
         state.message = action.payload.message;
         toast.success(state.message);

@@ -31,6 +31,7 @@ const ResetPassword = () => {
   useEffect(() => {
     if (message) {
       // Redirect to login page after successful reset
+      console.log("redirecting to login page: ");
       navigate("/login");
     }
   }, [message, navigate]);
