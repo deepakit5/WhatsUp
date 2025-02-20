@@ -1,12 +1,12 @@
 // EditableProfile.js
-import React, {useRef, useState} from "react";
-import {useSelector, useDispatch} from "react-redux";
+import React, {useRef, useState} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import {
   updateProfile,
   setProfileField,
   updateProfileImg,
-} from "../../redux/slices/user/user.slice.js";
-import Loading from "../ui/Loading.jsx";
+} from '../../redux/slices/user/user.slice.js';
+import Loading from '../ui/Loading.jsx';
 import {
   Drawer,
   Dialog,
@@ -16,12 +16,13 @@ import {
   DialogActions,
   Button,
   Slide,
-} from "@mui/material";
+  Avatar,
+} from '@mui/material';
 
-import EditIcon from "@mui/icons-material/Edit";
-import DoneIcon from "@mui/icons-material/Done";
-import PersonIcon from "@mui/icons-material/Person";
-import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+import EditIcon from '@mui/icons-material/Edit';
+import DoneIcon from '@mui/icons-material/Done';
+import PersonIcon from '@mui/icons-material/Person';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
 const ProfileMain = ({containerRef}) => {
   const dispatch = useDispatch();
@@ -68,13 +69,13 @@ const ProfileMain = ({containerRef}) => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (file && file.type.startsWith("image/")) {
+    if (file && file.type.startsWith('image/')) {
       const previewURL = URL.createObjectURL(file);
       setSelectedFile(file);
       setPreviewURL(previewURL);
       setOpenImg(true);
     } else {
-      alert("Please select a valid image file.");
+      alert('Please select a valid image file.');
     }
   };
 
@@ -110,11 +111,9 @@ const ProfileMain = ({containerRef}) => {
           {/* Profile Image */}
           <div className=" border-black  w-full  flex  justify-center  ">
             <div className="relative border border-blue-800    cursor-pointer w-64 h-64  mt-7 mb-7 rounded-full ">
-              <img
+              <Avatar
                 src={profileImage || <PersonIcon />}
-                alt="Profile"
-                className="w-full  h-full
-               rounded-full object-cover"
+                sx={{width: '100%', height: '100%'}}
               />
               {loading && (
                 <div className="absolute top-0 left-0 w-full h-full rounded-full  bg-opacity-70 bg-white ">
@@ -183,7 +182,7 @@ const ProfileMain = ({containerRef}) => {
                   type="text"
                   value={newProfile.username}
                   onChange={(e) =>
-                    handleInputChange("username", e.target.value)
+                    handleInputChange('username', e.target.value)
                   }
                   className="w-full mr-2  mb-2 outline-none bg-transparent border-blue-500 border-b-2 text-xl      "
                 />
@@ -194,28 +193,28 @@ const ProfileMain = ({containerRef}) => {
               <div className="relative   ">
                 {isEditing.username ? (
                   <IconButton
-                    onMouseEnter={() => setShowText("saveUsername")}
+                    onMouseEnter={() => setShowText('saveUsername')}
                     onMouseLeave={() => setShowText(false)}
-                    onClick={() => handleSaveClick("username")}>
+                    onClick={() => handleSaveClick('username')}>
                     <DoneIcon />
                   </IconButton>
                 ) : (
                   <IconButton
-                    onMouseEnter={() => setShowText("editUsername")}
+                    onMouseEnter={() => setShowText('editUsername')}
                     onMouseLeave={() => setShowText(false)}
-                    onClick={() => handleEditClick("username")}>
+                    onClick={() => handleEditClick('username')}>
                     <EditIcon />
                   </IconButton>
                 )}
 
                 <div className="absolute bottom-10">
-                  {showText === "editUsername" && (
+                  {showText === 'editUsername' && (
                     <p className="  bg-black text-gray-200 rounded-xl pl-2 pr-2   text-base  ">
                       Edit
                     </p>
                   )}
 
-                  {showText === "saveUsername" && (
+                  {showText === 'saveUsername' && (
                     <p className=" bg-black text-gray-200 rounded-xl pl-2 pr-2 text-base  ">
                       Save
                     </p>
@@ -233,7 +232,7 @@ const ProfileMain = ({containerRef}) => {
                 <input
                   type="text"
                   value={newProfile.about}
-                  onChange={(e) => handleInputChange("about", e.target.value)}
+                  onChange={(e) => handleInputChange('about', e.target.value)}
                   className="w-full mr-2  mb-2 outline-none bg-transparent border-blue-500 border-b-2 text-xl "
                 />
               ) : (
@@ -243,28 +242,28 @@ const ProfileMain = ({containerRef}) => {
               <div className="relative">
                 {isEditing.about ? (
                   <IconButton
-                    onMouseEnter={() => setShowText("saveAbout")}
+                    onMouseEnter={() => setShowText('saveAbout')}
                     onMouseLeave={() => setShowText(false)}
-                    onClick={() => handleSaveClick("about")}>
+                    onClick={() => handleSaveClick('about')}>
                     <DoneIcon />
                   </IconButton>
                 ) : (
                   <IconButton
-                    onMouseEnter={() => setShowText("editAbout")}
+                    onMouseEnter={() => setShowText('editAbout')}
                     onMouseLeave={() => setShowText(false)}
-                    onClick={() => handleEditClick("about")}>
+                    onClick={() => handleEditClick('about')}>
                     <EditIcon />
                   </IconButton>
                 )}
 
                 <div className="absolute bottom-10">
-                  {showText === "editAbout" && (
+                  {showText === 'editAbout' && (
                     <p className=" bg-black text-gray-200 rounded-xl pl-2 pr-2 text-base  ">
                       Edit
                     </p>
                   )}
 
-                  {showText === "saveAbout" && (
+                  {showText === 'saveAbout' && (
                     <p className=" bg-black text-gray-200 rounded-xl pl-2 pr-2 text-base  ">
                       Save
                     </p>
@@ -283,7 +282,7 @@ const ProfileMain = ({containerRef}) => {
                   type="text"
                   value={newProfile.phoneNumber}
                   onChange={(e) =>
-                    handleInputChange("phoneNumber", e.target.value)
+                    handleInputChange('phoneNumber', e.target.value)
                   }
                   className="w-full mr-2  mb-2 outline-none bg-transparent border-blue-500 border-b-2 text-xl    "
                 />
@@ -294,28 +293,28 @@ const ProfileMain = ({containerRef}) => {
               <div className="relative">
                 {isEditing.phoneNumber ? (
                   <IconButton
-                    onMouseEnter={() => setShowText("savePhoneNumber")}
+                    onMouseEnter={() => setShowText('savePhoneNumber')}
                     onMouseLeave={() => setShowText(false)}
-                    onClick={() => handleSaveClick("phoneNumber")}>
+                    onClick={() => handleSaveClick('phoneNumber')}>
                     <DoneIcon />
                   </IconButton>
                 ) : (
                   <IconButton
-                    onMouseEnter={() => setShowText("editPhoneNumber")}
+                    onMouseEnter={() => setShowText('editPhoneNumber')}
                     onMouseLeave={() => setShowText(false)}
-                    onClick={() => handleEditClick("phoneNumber")}>
+                    onClick={() => handleEditClick('phoneNumber')}>
                     <EditIcon />
                   </IconButton>
                 )}
 
                 <div className="absolute bottom-10">
-                  {showText === "editPhoneNumber" && (
+                  {showText === 'editPhoneNumber' && (
                     <p className=" bg-black text-gray-200 rounded-xl pl-2 pr-2 text-base  ">
                       Edit
                     </p>
                   )}
 
-                  {showText === "savePhoneNumber" && (
+                  {showText === 'savePhoneNumber' && (
                     <p className=" bg-black text-gray-200 rounded-xl pl-2 pr-2 text-base  ">
                       Save
                     </p>
@@ -333,38 +332,38 @@ const ProfileMain = ({containerRef}) => {
                 <input
                   type="text"
                   value={newProfile.email}
-                  onChange={(e) => handleInputChange("email", e.target.value)}
+                  onChange={(e) => handleInputChange('email', e.target.value)}
                   className="w-full mr-2  mb-2 outline-none bg-transparent border-blue-500 border-b-2 text-xl    "
                 />
               ) : (
-                <span className="text-xl">{email}</span>
+                <span className="text-xl truncate">{email}</span>
               )}
 
               <div className="relative">
                 {isEditing.email ? (
                   <IconButton
-                    onMouseEnter={() => setShowText("saveEmail")}
+                    onMouseEnter={() => setShowText('saveEmail')}
                     onMouseLeave={() => setShowText(false)}
-                    onClick={() => handleSaveClick("email")}>
+                    onClick={() => handleSaveClick('email')}>
                     <DoneIcon />
                   </IconButton>
                 ) : (
                   <IconButton
-                    onMouseEnter={() => setShowText("editEmail")}
+                    onMouseEnter={() => setShowText('editEmail')}
                     onMouseLeave={() => setShowText(false)}
-                    onClick={() => handleEditClick("email")}>
+                    onClick={() => handleEditClick('email')}>
                     <EditIcon />
                   </IconButton>
                 )}
 
                 <div className="absolute bottom-10">
-                  {showText === "editEmail" && (
+                  {showText === 'editEmail' && (
                     <p className=" bg-black text-gray-200 rounded-xl pl-2 pr-2 text-base  ">
                       Edit
                     </p>
                   )}
 
-                  {showText === "saveEmail" && (
+                  {showText === 'saveEmail' && (
                     <p className=" bg-black text-gray-200 rounded-xl pl-2 pr-2 text-base  ">
                       Save
                     </p>

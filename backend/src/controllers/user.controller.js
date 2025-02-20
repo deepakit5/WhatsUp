@@ -1,13 +1,13 @@
-import {asyncHandler} from "../utils/asyncHandler.js";
-import {ApiError} from "../utils/ApiError.js";
-import {ApiResponse} from "../utils/ApiResponse.js";
-import {User} from "../models/user.model.js";
-import {uploadOnCloudinary} from "../utils/cloudinary.js";
+import {asyncHandler} from '../utils/asyncHandler.js';
+import {ApiError} from '../utils/ApiError.js';
+import {ApiResponse} from '../utils/ApiResponse.js';
+import {User} from '../models/user.model.js';
+import {uploadOnCloudinary} from '../utils/cloudinary.js';
 
 export const myProfile = asyncHandler(async (req, res) => {
   return res
     .status(200)
-    .json(new ApiResponse(200, req.user, "User fetched successfully"));
+    .json(new ApiResponse(200, req.user, 'User fetched successfully'));
 });
 
 // Get user profile info by userID
@@ -16,19 +16,19 @@ export const getUser = asyncHandler(async (req, res) => {
     const userId = req.params.id;
 
     // Find the user by ID in the database
-    const user = await User.findById(userId).select("-password"); // Exclude password for security
+    const user = await User.findById(userId).select('-password'); // Exclude password for security
 
     if (!user) {
-      return res.status(404).json({message: "User not found"});
+      return res.status(404).json({message: 'User not found'});
     }
 
     // Send back the user details (excluding password)
     return res
       .status(200)
-      .json(new ApiResponse(200, user, "User fetched successfully"));
+      .json(new ApiResponse(200, user, 'User fetched successfully'));
   } catch (error) {
-    console.error("Error fetching user:", error);
-    res.status(500).json({message: "Server error"});
+    // console.error("Error fetching user:", error);
+    res.status(500).json({message: 'Server error'});
   }
 });
 
@@ -39,7 +39,7 @@ export const changeCurrentPassword = asyncHandler(async (req, res) => {
   const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
 
   if (!isPasswordCorrect) {
-    throw new ApiError(400, "Invalid old password");
+    throw new ApiError(400, 'Invalid old password');
   }
 
   user.password = newPassword;
@@ -47,7 +47,7 @@ export const changeCurrentPassword = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, {}, "Password changed successfully"));
+    .json(new ApiResponse(200, {}, 'Password changed successfully'));
 });
 
 export const updateUser = asyncHandler(async (req, res) => {
@@ -59,7 +59,7 @@ export const updateUser = asyncHandler(async (req, res) => {
     const user = await User.findById(userId);
 
     if (!user) {
-      return res.status(404).json({message: "User not found"});
+      return res.status(404).json({message: 'User not found'});
     }
 
     // Update the fields if provided in the request body
@@ -83,12 +83,12 @@ export const updateUser = asyncHandler(async (req, res) => {
           about: updatedUser.about,
         },
 
-        "User updated successfully"
+        'User updated successfully'
       )
     );
   } catch (error) {
-    console.error("Error updating user:", error);
-    throw new ApiError(500, "Internal Server error");
+    // console.error("Error updating user:", error);
+    throw new ApiError(500, 'Internal Server error');
   }
 });
 
@@ -96,7 +96,7 @@ export const updateAvatar = asyncHandler(async (req, res) => {
   const avatarLocalPath = req.file?.path;
 
   if (!avatarLocalPath) {
-    throw new ApiError(400, "Avatar file is missing");
+    throw new ApiError(400, 'Avatar file is missing');
   }
 
   //TODO: delete old image - assignment
@@ -104,7 +104,7 @@ export const updateAvatar = asyncHandler(async (req, res) => {
   const avatar = await uploadOnCloudinary(avatarLocalPath);
 
   if (!avatar.url) {
-    throw new ApiError(400, "Error while uploading avatar");
+    throw new ApiError(400, 'Error while uploading avatar');
   }
 
   const user = await User.findByIdAndUpdate(
@@ -115,10 +115,10 @@ export const updateAvatar = asyncHandler(async (req, res) => {
       },
     },
     {new: true}
-  ).select("-password");
+  ).select('-password');
 
   return res
     .status(200)
-    .json(new ApiResponse(200, user, "Avatar image updated successfully"));
+    .json(new ApiResponse(200, user, 'Avatar image updated successfully'));
 });
 //TODO: delete old image - assignment

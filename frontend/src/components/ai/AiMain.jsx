@@ -1,14 +1,14 @@
-import {Slide} from "@mui/material";
-import React, {useEffect} from "react";
-import {useSelector} from "react-redux";
+import {Slide} from '@mui/material';
+import React, {useEffect} from 'react';
+import {useSelector} from 'react-redux';
 
 const AiMain = ({containerRef}) => {
-  console.log("inside ai main");
+  // console.log('inside ai main');
   const {isOpen} = useSelector((state) => state.leftDrawer);
 
   // Log containerRef updates for debugging
   useEffect(() => {
-    console.log("containerRef in AiMain: ", containerRef?.current);
+    // console.log('containerRef in AiMain: ', containerRef?.current);
   }, [containerRef]);
 
   // Safeguard against null containerRef
@@ -26,7 +26,7 @@ const AiMain = ({containerRef}) => {
     >
       <div className="bg-gray-200 ">
         <p className="text-xl text-gray-600 p-5">
-          this feature will be coming soon
+          This feature will be coming soon...
         </p>
       </div>
     </Slide>

@@ -1,31 +1,31 @@
-import React, {useEffect, useState} from "react";
-import PropTypes from "prop-types";
-import {saveAs} from "file-saver";
-import {useDispatch, useSelector} from "react-redux";
-import {ButtonBase, IconButton, Paper, Tooltip} from "@mui/material";
-import Popper from "@mui/material/Popper";
+import React, {useEffect, useState} from 'react';
+import PropTypes from 'prop-types';
+import {saveAs} from 'file-saver';
+import {useDispatch, useSelector} from 'react-redux';
+import {ButtonBase, IconButton, Paper, Tooltip} from '@mui/material';
+import Popper from '@mui/material/Popper';
 
-import DoneIcon from "@mui/icons-material/Done";
-import DoneAllIcon from "@mui/icons-material/DoneAll";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import QueryBuilderOutlinedIcon from "@mui/icons-material/QueryBuilderOutlined";
-import Loading from "../../ui/Loading.jsx";
-import DoNotDisturbIcon from "@mui/icons-material/DoNotDisturb";
-import DownloadIcon from "@mui/icons-material/Download";
+import DoneIcon from '@mui/icons-material/Done';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import QueryBuilderOutlinedIcon from '@mui/icons-material/QueryBuilderOutlined';
+import Loading from '../../ui/Loading.jsx';
+import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
+import DownloadIcon from '@mui/icons-material/Download';
 
 // -------------------x---------
-import {FaFile} from "react-icons/fa6";
-import {FaFilePdf} from "react-icons/fa6";
-import {FaFilePowerpoint} from "react-icons/fa6";
-import {FaFileLines} from "react-icons/fa6";
-import {FaFileExcel} from "react-icons/fa6";
-import {FaFileWord} from "react-icons/fa6";
-import {FaFileZipper} from "react-icons/fa6";
-import {FaFileAudio} from "react-icons/fa6";
-import {toast} from "react-toastify";
+import {FaFile} from 'react-icons/fa6';
+import {FaFilePdf} from 'react-icons/fa6';
+import {FaFilePowerpoint} from 'react-icons/fa6';
+import {FaFileLines} from 'react-icons/fa6';
+import {FaFileExcel} from 'react-icons/fa6';
+import {FaFileWord} from 'react-icons/fa6';
+import {FaFileZipper} from 'react-icons/fa6';
+import {FaFileAudio} from 'react-icons/fa6';
+import {toast} from 'react-toastify';
 // -------------x---------------
-import {deleteMessage} from "../../../redux/slices/chat/chatWindow.slice.js";
-import {useSocket} from "../../../hooks/useSocket.hook.js";
+import {deleteMessage} from '../../../redux/slices/chat/chatWindow.slice.js';
+import {useSocket} from '../../../hooks/useSocket.hook.js';
 
 const Message = ({msg, onImageLoad}) => {
   const socket = useSocket(); // Initialize socket connection
@@ -36,15 +36,15 @@ const Message = ({msg, onImageLoad}) => {
   const [msgOptionClicked, setMsgOptionClicked] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const [fileUrl, setFileUrl] = useState("");
+  const [fileUrl, setFileUrl] = useState('');
 
   useEffect(() => {
-    if (typeof msg.content === "string") {
+    if (typeof msg.content === 'string') {
       setFileUrl(msg.content);
-    } else if (typeof msg.content === "object") {
+    } else if (typeof msg.content === 'object') {
       setFileUrl(URL.createObjectURL(msg.content));
     } else {
-      console.log("setting file null: ");
+      // console.log("setting file null: ");
       setFileUrl(null);
     }
   }, [msg, msg.content]);
@@ -52,10 +52,10 @@ const Message = ({msg, onImageLoad}) => {
   useEffect(() => {
     if (
       msg.senderId !== currentUserId &&
-      (msg.status === "saved" || msg.status === "delivered")
+      (msg.status === 'saved' || msg.status === 'delivered')
     ) {
-      console.log("--- message read emitting...");
-      socket.timeout(1000).emit("message-read", {
+      // console.log("--- message read emitting...");
+      socket.timeout(1000).emit('message-read', {
         messageId: msg._id,
         chatId: msg.chatId,
         senderId: msg.senderId,
@@ -64,12 +64,12 @@ const Message = ({msg, onImageLoad}) => {
   }, [msg, socket]);
 
   const downloadFile = (fileUrl, fileName) => {
-    saveAs(fileUrl, fileName || "downloaded-file");
+    saveAs(fileUrl, fileName || 'downloaded-file');
   };
 
   const renderContent = () => {
     switch (msg.type) {
-      case "text":
+      case 'text':
         return fileUrl ? (
           <span className="  break-words  text-base mx-2 mr-5 text-gray-800">
             {fileUrl}
@@ -79,7 +79,7 @@ const Message = ({msg, onImageLoad}) => {
             <DoNotDisturbIcon /> <span> Text not available </span>
           </p>
         );
-      case "image":
+      case 'image':
         return fileUrl ? (
           <div>
             <img
@@ -94,7 +94,7 @@ const Message = ({msg, onImageLoad}) => {
             <DoNotDisturbIcon /> <span> Image not available </span>
           </p>
         );
-      case "video":
+      case 'video':
         return fileUrl ? (
           <video
             controls
@@ -108,7 +108,7 @@ const Message = ({msg, onImageLoad}) => {
             <DoNotDisturbIcon /> <span> video not available </span>
           </p>
         );
-      case "audio":
+      case 'audio':
         return fileUrl ? (
           <div className="flex ">
             <div className="text-orange-600 mt-4  border-r-gray-400 w-10 h-full  ">
@@ -125,11 +125,11 @@ const Message = ({msg, onImageLoad}) => {
             <DoNotDisturbIcon /> <span> Audio not available </span>
           </p>
         );
-      case "file":
+      case 'file':
         return fileUrl ? (
           <>
-            <div className=" " style={{overflow: "hidden"}}>
-              {msg.fileInfo.fileType === "PDF" && (
+            <div className=" " style={{overflow: 'hidden'}}>
+              {msg.fileInfo.fileType === 'PDF' && (
                 <object
                   // style={{overflow: "hidden"}}
                   className="w-72 h-24 border-0  overflow-hidden"
@@ -145,48 +145,48 @@ const Message = ({msg, onImageLoad}) => {
                    */}
                   {(() => {
                     switch (msg.fileInfo.fileType) {
-                      case "PDF":
+                      case 'PDF':
                         return (
                           <span className="text-red-600 mr-2">
                             <FaFilePdf />
                           </span>
                         );
 
-                      case "DOC":
-                      case "DOCX":
+                      case 'DOC':
+                      case 'DOCX':
                         return (
                           <span className="text-blue-600 mr-2">
                             <FaFileWord />
                           </span>
                         );
 
-                      case "PPT":
-                      case "PPTX":
+                      case 'PPT':
+                      case 'PPTX':
                         return (
                           <span className="text-fuchsia-600 mr-2">
                             <FaFilePowerpoint />
                           </span>
                         );
 
-                      case "TXT":
+                      case 'TXT':
                         return (
                           <span className="text-slate-500 mr-2">
                             <FaFileLines />
                           </span>
                         );
 
-                      case "XLS":
-                      case "XLSX":
+                      case 'XLS':
+                      case 'XLSX':
                         return (
                           <span className="text-green-600 mr-2">
                             <FaFileExcel />
                           </span>
                         );
 
-                      case "ZIP":
-                      case "7Z":
-                      case "RAR":
-                      case "GZ":
+                      case 'ZIP':
+                      case '7Z':
+                      case 'RAR':
+                      case 'GZ':
                         return (
                           <span className="text-yellow-600 mr-2">
                             <FaFileZipper />
@@ -206,10 +206,10 @@ const Message = ({msg, onImageLoad}) => {
 
                   <div className=" ">
                     <p className="text-left w-48 text-sm break-words  break-all truncate">
-                      {msg.fileInfo.fileName || "no name"}
+                      {msg.fileInfo.fileName || 'no name'}
                     </p>
                     <div className="flex text-xs gap-1">
-                      {msg.fileInfo.fileType === "PDF" && (
+                      {msg.fileInfo.fileType === 'PDF' && (
                         <>
                           <pre className="font-sans font-semibold ">
                             {msg.fileInfo.filePages} pages
@@ -229,7 +229,7 @@ const Message = ({msg, onImageLoad}) => {
                   </div>
                 </div>
 
-                {msg.status === "pending" ? (
+                {msg.status === 'pending' ? (
                   <Loading text="" size={30} />
                 ) : (
                   <div
@@ -251,7 +251,7 @@ const Message = ({msg, onImageLoad}) => {
       default:
         return (
           <p className="text-base text-gray-500 italic md:w-60 ">
-            <DoNotDisturbIcon /> <span> Unsupported message type </span>{" "}
+            <DoNotDisturbIcon /> <span> Unsupported message type </span>{' '}
           </p>
         );
     }
@@ -273,8 +273,8 @@ const Message = ({msg, onImageLoad}) => {
 
   const handleDeleteMsgForEveryone = (msg) => {
     setMsgOptionClicked(false);
-    if (msg.status === "pending") {
-      console.log("--------- deleting msg locally...");
+    if (msg.status === 'pending') {
+      // console.log("--------- deleting msg locally...");
       dispatch(deleteMessage(msg.tempId));
     } else {
       try {
@@ -284,40 +284,40 @@ const Message = ({msg, onImageLoad}) => {
           chatId: msg.chatId,
           content: msg.content,
         };
-        console.log("msg to be deleted: ", msgInfo);
-        console.log("Socket connected:", socket.connected); // Should be true
-        console.log("Socket ID:", socket.id); // Should not be undefined
+        // console.log("msg to be deleted: ", msgInfo);
+        // console.log("Socket connected:", socket.connected); // Should be true
+        // console.log("Socket ID:", socket.id); // Should not be undefined
 
         socket
           .timeout(3000)
-          .emit("deleteMsgForEveryone", msgInfo, (err, res) => {
+          .emit('deleteMsgForEveryone', msgInfo, (err, res) => {
             if (err) {
-              console.error("message deletion failed");
+              // console.error("message deletion failed");
             } else {
-              if (res && res.status === "done") {
+              if (res && res.status === 'done') {
                 dispatch(deleteMessage(msg._id));
-                console.log(`Message ${msg.content} deleted successfully.`);
+                // console.log(`Message ${msg.content} deleted successfully.`);
               }
             }
           });
       } catch (error) {
-        console.error("Error in the  deleting message:", error);
+        // console.error("Error in the  deleting message:", error);
       }
     }
   };
 
   return (
     <div
-      className={`flex ${isSender ? "justify-end" : "justify-start"} my-1   `}>
+      className={`flex ${isSender ? 'justify-end' : 'justify-start'} my-1   `}>
       <div
         className={` px-1 relative group pt-1  max-w-full rounded-lg shadow-md ${
-          isSender ? "bg-green-200" : "bg-gray-100"
+          isSender ? 'bg-green-200' : 'bg-gray-100'
         }`}>
         {/* down arrow icon */}
         <div className="flex relative ">
           <div
             className={` z-30 border-green-800 border absolute top-0 right-0 size-7 flex rounded-full  justify-center items-center  opacity-0 group-hover:opacity-100   shadow-md bg-green-100  ${
-              msgOptionClicked && "  bg-gray-300  "
+              msgOptionClicked && '  bg-gray-300  '
             } `}>
             {/* handleMsgOptions */}
             <IconButton onClick={handleOpen} size="small">
@@ -338,15 +338,15 @@ const Message = ({msg, onImageLoad}) => {
             placement="bottom-end"
             modifiers={[
               {
-                name: "preventOverflow",
+                name: 'preventOverflow',
                 options: {
-                  boundary: "clippingParents", // Prevent overflow relative to parent
+                  boundary: 'clippingParents', // Prevent overflow relative to parent
                 },
               },
               {
-                name: "flip",
+                name: 'flip',
                 options: {
-                  fallbackPlacements: ["top", "left"], // Try other placements if needed
+                  fallbackPlacements: ['top', 'left'], // Try other placements if needed
                 },
               },
             ]}
@@ -382,8 +382,8 @@ const Message = ({msg, onImageLoad}) => {
         <div className=" flex flex-col relative max-w-md">
           {renderContent()}
 
-          {msg.status === "pending" &&
-            (msg.type === "image" || msg.type === "video") && (
+          {msg.status === 'pending' &&
+            (msg.type === 'image' || msg.type === 'video') && (
               <div className="z-50 w-full absolute top-1/3  ">
                 <Loading text="load" />
               </div>
@@ -395,11 +395,11 @@ const Message = ({msg, onImageLoad}) => {
 
             {isSender && (
               <span className="messageStatus status text-gray-500 mr-1 font-thin py-0 ">
-                {msg.status === "saved" ? (
+                {msg.status === 'saved' ? (
                   <DoneIcon fontSize="small" />
-                ) : msg.status === "delivered" ? (
+                ) : msg.status === 'delivered' ? (
                   <DoneAllIcon fontSize="small" />
-                ) : msg.status === "read" ? (
+                ) : msg.status === 'read' ? (
                   <DoneAllIcon fontSize="small" className=" text-blue-500  " />
                 ) : (
                   <QueryBuilderOutlinedIcon className="!w-4  " />
@@ -416,10 +416,10 @@ const Message = ({msg, onImageLoad}) => {
 Message.propTypes = {
   msg: PropTypes.shape({
     senderId: PropTypes.string.isRequired,
-    type: PropTypes.oneOf(["text", "image", "video", "audio", "file"])
+    type: PropTypes.oneOf(['text', 'image', 'video', 'audio', 'file'])
       .isRequired,
     time: PropTypes.string.isRequired,
-    status: PropTypes.oneOf(["pending", "saved", "delivered", "read"])
+    status: PropTypes.oneOf(['pending', 'saved', 'delivered', 'read'])
       .isRequired,
   }).isRequired,
 };

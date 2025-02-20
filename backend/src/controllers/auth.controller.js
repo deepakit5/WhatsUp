@@ -1,17 +1,16 @@
-import {asyncHandler} from "../utils/asyncHandler.js";
-import {ApiError} from "../utils/ApiError.js";
-import {User} from "../models/user.model.js";
-import {uploadOnCloudinary} from "../utils/cloudinary.js";
-import {ApiResponse} from "../utils/ApiResponse.js";
-import jwt from "jsonwebtoken";
-import generateToken from "../utils/generateToken.js";
-import sendEmail from "../utils/sendEmail.js";
-import bcrypt from "bcrypt";
+import {asyncHandler} from '../utils/asyncHandler.js';
+import {ApiError} from '../utils/ApiError.js';
+import {User} from '../models/user.model.js';
+import {uploadOnCloudinary} from '../utils/cloudinary.js';
+import {ApiResponse} from '../utils/ApiResponse.js';
+import jwt from 'jsonwebtoken';
+import generateToken from '../utils/generateToken.js';
+import sendEmail from '../utils/sendEmail.js';
+import bcrypt from 'bcrypt';
 
 // here asyncHAndler is not used bcoz , we do not handle any web request here. it is a internal function
 const generateAccessAndRefereshTokens = async (userId) => {
   try {
-    console.log("userId: ", userId);
     const user = await User.findById(userId);
     const accessToken = user.generateAccessToken();
 
@@ -24,7 +23,7 @@ const generateAccessAndRefereshTokens = async (userId) => {
   } catch (error) {
     throw new ApiError(
       500,
-      "Something went wrong while generating referesh and access token"
+      'Something went wrong while generating referesh and access token'
     );
   }
 };
@@ -44,10 +43,10 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if (
     [phoneNumber, email, username, password].some(
-      (field) => field?.trim() === ""
+      (field) => field?.trim() === ''
     )
   ) {
-    throw new ApiError(400, "All fields are required");
+    throw new ApiError(400, 'All fields are required');
   }
 
   const existedUser = await User.findOne({
@@ -56,20 +55,19 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (existedUser) {
-    throw new ApiError(409, "User already exists, please Login.");
+    throw new ApiError(409, 'User already exists, please Login.');
   }
 
   const avatarLocalPath = req.files?.avatar[0]?.path;
 
   if (!avatarLocalPath) {
-    console.log("path not got ");
-    throw new ApiError(400, "Avatar file is required");
+    throw new ApiError(400, 'Avatar file is required');
   }
 
   const avatar = await uploadOnCloudinary(avatarLocalPath);
 
   if (!avatar) {
-    throw new ApiError(400, "Avatar file is required 22");
+    throw new ApiError(400, 'Avatar file is required 22');
   }
 
   const user = await User.create({
@@ -81,16 +79,16 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   const createdUser = await User.findById(user._id).select(
-    "-password -refreshToken"
+    '-password -refreshToken'
   );
 
   if (!createdUser) {
-    throw new ApiError(500, "Something went wrong while registering the user");
+    throw new ApiError(500, 'Something went wrong while registering the user');
   }
 
   return res
     .status(201)
-    .json(new ApiResponse(200, createdUser, "User registered Successfully"));
+    .json(new ApiResponse(200, createdUser, 'User registered Successfully'));
 });
 
 const loginUser = asyncHandler(async (req, res) => {
@@ -102,10 +100,9 @@ const loginUser = asyncHandler(async (req, res) => {
   //send cookie
 
   const {email, password} = req.body;
-  console.log(email);
 
   if (!email || !password) {
-    throw new ApiError(400, "all fields are required.");
+    throw new ApiError(400, 'all fields are required.');
   }
 
   // now this 'user' also has full access of user model
@@ -115,7 +112,7 @@ const loginUser = asyncHandler(async (req, res) => {
   });
 
   if (!user) {
-    throw new ApiError(404, "User does not exist");
+    throw new ApiError(404, 'User does not exist');
   }
 
   // isPasswordCorrect is a function in user model
@@ -123,7 +120,7 @@ const loginUser = asyncHandler(async (req, res) => {
   const isPasswordValid = await user.isPasswordCorrect(password);
 
   if (!isPasswordValid) {
-    throw new ApiError(401, "Invalid user credentials");
+    throw new ApiError(401, 'Invalid user credentials');
   }
 
   const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(
@@ -131,7 +128,7 @@ const loginUser = asyncHandler(async (req, res) => {
   );
 
   const loggedInUser = await User.findById(user._id).select(
-    "-password -refreshToken"
+    '-password -refreshToken'
   );
 
   const options = {
@@ -141,8 +138,8 @@ const loginUser = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
+    .cookie('accessToken', accessToken, options)
+    .cookie('refreshToken', refreshToken, options)
     .json(
       new ApiResponse(
         200,
@@ -151,7 +148,7 @@ const loginUser = asyncHandler(async (req, res) => {
           accessToken,
           refreshToken,
         },
-        "User logged In Successfully"
+        'User logged In Successfully'
       )
     );
 });
@@ -177,9 +174,9 @@ const logoutUser = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .clearCookie("accessToken", options)
-    .clearCookie("refreshToken", options)
-    .json(new ApiResponse(200, {}, "User logged Out"));
+    .clearCookie('accessToken', options)
+    .clearCookie('refreshToken', options)
+    .json(new ApiResponse(200, {}, 'User logged Out successfully'));
 });
 
 const refreshAccessToken = asyncHandler(async (req, res) => {
@@ -187,7 +184,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     req.cookies.refreshToken || req.body.refreshToken;
 
   if (!incomingRefreshToken) {
-    throw new ApiError(401, "unauthorized request");
+    throw new ApiError(401, 'unauthorized request');
   }
 
   try {
@@ -199,11 +196,11 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     const user = await User.findById(decodedToken?._id);
 
     if (!user) {
-      throw new ApiError(401, "Invalid refresh token");
+      throw new ApiError(401, 'Invalid refresh token');
     }
 
     if (incomingRefreshToken !== user?.refreshToken) {
-      throw new ApiError(401, "Refresh token is expired or used");
+      throw new ApiError(401, 'Refresh token is expired or used');
     }
 
     const options = {
@@ -216,17 +213,17 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
     return res
       .status(200)
-      .cookie("accessToken", accessToken, options)
-      .cookie("refreshToken", newRefreshToken, options)
+      .cookie('accessToken', accessToken, options)
+      .cookie('refreshToken', newRefreshToken, options)
       .json(
         new ApiResponse(
           200,
           {accessToken, refreshToken: newRefreshToken},
-          "Access token refreshed"
+          'Access token refreshed'
         )
       );
   } catch (error) {
-    throw new ApiError(401, error?.message || "Invalid refresh token");
+    throw new ApiError(401, error?.message || 'Invalid refresh token');
   }
 });
 
@@ -237,7 +234,7 @@ const forgotPassword = async (req, res) => {
 
   try {
     const user = await User.findOne({email});
-    if (!user) return res.status(404).json({message: "User not found"});
+    if (!user) return res.status(404).json({message: 'User not found'});
 
     const passwordResetToken = generateToken();
     user.passwordResetToken = passwordResetToken;
@@ -250,20 +247,19 @@ const forgotPassword = async (req, res) => {
       <a href="${resetUrl}">${resetUrl}</a>
     `;
 
-    await sendEmail(user.email, "Password Reset Request", html);
+    await sendEmail(user.email, 'Password Reset Request', html);
 
     res
       .status(200)
-      .json({message: " Reset Password link has been sent on email "});
+      .json({message: ' Reset Password link has been sent on email '});
   } catch (error) {
-    res.status(500).json({message: "Server error", error});
+    res.status(500).json({message: 'Server error', error});
   }
 };
 
 const resetPassword = async (req, res) => {
   const {token} = req.params;
   const {password} = req.body;
-  console.log("input password ", password);
 
   try {
     const user = await User.findOne({
@@ -272,24 +268,79 @@ const resetPassword = async (req, res) => {
     });
 
     if (!user)
-      return res.status(400).json({message: "Invalid or expired token"});
+      return res.status(400).json({message: 'Invalid or expired token'});
 
     user.password = password;
     user.passwordResetToken = undefined;
     user.passwordResetTokenExpires = undefined;
     await user.save();
 
-    res.status(200).json({message: "Password reset successfully"});
+    res.status(200).json({message: 'Password reset successfully'});
   } catch (error) {
-    res.status(500).json({message: "Internal Server error", error});
+    res.status(500).json({message: 'Internal Server error', error});
   }
 };
 
+// Google OAuth callback
+const googleAuthCallback = (req, res) => {
+  // // console.log('Google Authentication Successful');
+
+  if (!req.user) return res.redirect('/login');
+  // Access the user and tokens returned by the `done` function
+  const {user, accessToken, refreshToken} = req.user;
+
+  // Send the tokens to the client (e.g., via cookies or JSON response)
+  const options = {
+    httpOnly: false,
+    secure: true,
+    sameSite: 'Strict',
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 2 days
+  };
+
+  res.cookie('accessToken', accessToken, options);
+  res.cookie('refreshToken', refreshToken, options);
+
+  res.redirect(`${process.env.FRONTEND_URL}/`);
+};
+
+const googleAuthenticatedUser = async (req, res) => {
+  // // console.log('req is: ', req);
+  // const user = {};
+  // const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(
+  //   user._id
+  // );
+  // const loggedInUser = await User.findById(user._id).select(
+  //   '-password -refreshToken'
+  // );
+  // const options = {
+  //   httpOnly: true,
+  //   secure: true,
+  // };
+  // return res
+  //   .status(200)
+  //   .cookie('accessToken', accessToken, options)
+  //   .cookie('refreshToken', refreshToken, options)
+  //   .json(
+  //     new ApiResponse(
+  //       200,
+  //       {
+  //         // user: loggedInUser,
+  //         accessToken,
+  //         refreshToken,
+  //       },
+  //       'User logged In Successfully'
+  //     )
+  //   );
+};
+
 export {
+  generateAccessAndRefereshTokens,
   registerUser,
   loginUser,
   logoutUser,
   refreshAccessToken,
   forgotPassword,
   resetPassword,
+  googleAuthCallback,
+  googleAuthenticatedUser,
 };

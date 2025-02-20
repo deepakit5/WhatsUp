@@ -1,19 +1,20 @@
-import React, {useEffect, useRef, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import React, {useEffect, useRef, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   resetNewMessage,
   selectChat,
   selectUser,
-} from "../../redux/slices/chat/chatWindow.slice.js"; // Assuming selectChat is an action to set the active chat
-import {FaFileAlt} from "react-icons/fa";
-import {openDrawerRight} from "../../redux/slices/chat/rightDrawer.slice.js";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import VideocamIcon from "@mui/icons-material/Videocam";
-import PersonIcon from "@mui/icons-material/Person";
-import PollIcon from "@mui/icons-material/Poll";
-import MicIcon from "@mui/icons-material/Mic";
-import {PiStickerFill} from "react-icons/pi";
-import {formatDateTime} from "../../utils/formatDateTime.js";
+} from '../../redux/slices/chat/chatWindow.slice.js'; // Assuming selectChat is an action to set the active chat
+import {FaFileAlt} from 'react-icons/fa';
+import {openDrawerRight} from '../../redux/slices/chat/rightDrawer.slice.js';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import VideocamIcon from '@mui/icons-material/Videocam';
+import PersonIcon from '@mui/icons-material/Person';
+import PollIcon from '@mui/icons-material/Poll';
+import MicIcon from '@mui/icons-material/Mic';
+import {PiStickerFill} from 'react-icons/pi';
+import {formatDateTime} from '../../utils/formatDateTime.js';
+import {Avatar} from '@mui/material';
 
 const ChatCard = ({chat}) => {
   const dispatch = useDispatch();
@@ -55,23 +56,23 @@ const ChatCard = ({chat}) => {
       setLastMsgType(newMessage.type);
       setLastMsgTime(newMessage.time);
 
-      if (newMessage?.type === "text") {
+      if (newMessage?.type === 'text') {
         setLastMsgText(newMessage.content);
-      } else if (newMessage?.type === "file") {
+      } else if (newMessage?.type === 'file') {
         setLastMsgText(newMessage.fileInfo.fileName);
       }
 
       const isSender = newMessage.senderId === userId;
 
       if (!isSender && !isActiveChat) {
-        console.log("\n--- counting increased by +1 :");
+        // console.log('\n--- counting increased by +1 :');
         setUnreadMsgCount((prevCount) => prevCount + 1);
       }
     }
 
     // Reset unread messages if the chat becomes active
     if (isActiveChat) {
-      console.log("setting set Unread MsgCount to 0: ");
+      // console.log('setting set Unread MsgCount to 0: ');
       setUnreadMsgCount(0);
     }
   }, [newMessage, isActiveChat, chat.chat._id]);
@@ -79,7 +80,7 @@ const ChatCard = ({chat}) => {
   // }, [chat, messages, newMessage, userId, isActiveChat]);
 
   const handleSelectedUser = (chat) => {
-    dispatch(openDrawerRight("rightHalfMain"));
+    dispatch(openDrawerRight('rightHalfMain'));
     dispatch(selectChat(chat));
     setUnreadMsgCount(0);
     dispatch(resetNewMessage());
@@ -87,10 +88,10 @@ const ChatCard = ({chat}) => {
 
   const renderLastMsg = () => {
     switch (lastMsgType) {
-      case "text":
+      case 'text':
         return <p className="text-gray-600 text-sm truncate">{lastMsgText}</p>;
 
-      case "image":
+      case 'image':
         return (
           <div className="text-sm text-gray-500 ">
             <span>
@@ -100,7 +101,7 @@ const ChatCard = ({chat}) => {
           </div>
         );
 
-      case "video":
+      case 'video':
         return (
           <div className="text-sm text-gray-500 ">
             <span>
@@ -110,7 +111,7 @@ const ChatCard = ({chat}) => {
           </div>
         );
 
-      case "audio":
+      case 'audio':
         return (
           <div className="text-sm text-gray-500 ">
             <span>
@@ -120,7 +121,7 @@ const ChatCard = ({chat}) => {
           </div>
         );
 
-      case "file":
+      case 'file':
         return (
           <div className=" flex gap-1 text-sm text-gray-500 ">
             <span>
@@ -130,7 +131,7 @@ const ChatCard = ({chat}) => {
           </div>
         );
 
-      case "contact":
+      case 'contact':
         return (
           <div>
             <span>
@@ -140,7 +141,7 @@ const ChatCard = ({chat}) => {
           </div>
         );
 
-      case "poll":
+      case 'poll':
         return (
           <div>
             <span>
@@ -150,7 +151,7 @@ const ChatCard = ({chat}) => {
           </div>
         );
 
-      case "sticker":
+      case 'sticker':
         return (
           <div>
             <span>
@@ -169,11 +170,11 @@ const ChatCard = ({chat}) => {
     <div
       onClick={() => handleSelectedUser(chat)}
       className={` ${
-        unreadMsgCount > 0 && !isActiveChat ? "font-semibold" : "font-normal"
+        unreadMsgCount > 0 && !isActiveChat ? 'font-semibold' : 'font-normal'
       }   flex items-center p-2 pl-4 hover:bg-gray-200 cursor-pointer border-b border-gray-200  `}>
       {/* Profile Image */}
       <div className="flex-shrink-0">
-        <img
+        <Avatar
           src={chat.user.avatar}
           alt="profile img"
           className="w-12 h-12 rounded-full"

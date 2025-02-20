@@ -1,9 +1,9 @@
-import React from "react";
-import {useSelector} from "react-redux";
+import React from 'react';
+import {useSelector} from 'react-redux';
 
-import SearchBar from "../chats/SearchBar.jsx";
-import SettingsSidebar from "./SettingsSidebar.jsx";
-import {Slide} from "@mui/material";
+import SearchBar from '../chats/SearchBar.jsx';
+import SettingsSidebar from './SettingsSidebar.jsx';
+import {Avatar, Slide} from '@mui/material';
 
 const SettingMain = ({containerRef}) => {
   const {isOpen} = useSelector((state) => state.leftDrawer); // Access drawer state
@@ -26,11 +26,7 @@ const SettingMain = ({containerRef}) => {
         <div className=" h-[80vh]  overflow-y-auto  bg-gray-50 ">
           <div className=" 1st card flex  items-center   border-b-gray-300 border-b  ">
             <div className="image-container  w-24 h-24  bg-blue-400   rounded-full object-cover  cursor-pointer m-3 ">
-              <img
-                src={profileImage}
-                alt="profile image"
-                className="w-24 h-24 object-cover  rounded-full "
-              />
+              <Avatar src={profileImage} sx={{width: '100%', height: '100%'}} />
             </div>
             <div>
               <p className="text-xl">{username}</p>

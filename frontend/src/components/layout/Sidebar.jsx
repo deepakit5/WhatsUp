@@ -1,28 +1,28 @@
-import React, {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   closeDrawer,
   openDrawerLeft,
-} from "../../redux/slices/chat/leftDrawer.slice.js";
+} from '../../redux/slices/chat/leftDrawer.slice.js';
 
 // material ui
-import {Box, IconButton, Avatar, Drawer} from "@mui/material";
+import {Box, IconButton, Avatar, Drawer} from '@mui/material';
 
-import InsertCommentOutlinedIcon from "@mui/icons-material/InsertCommentOutlined";
-import InsertCommentIcon from "@mui/icons-material/InsertComment";
-import WebStoriesOutlinedIcon from "@mui/icons-material/WebStoriesOutlined";
-import WebStoriesIcon from "@mui/icons-material/WebStories";
-import SensorOccupiedIcon from "@mui/icons-material/SensorOccupied";
-import SensorOccupiedOutlinedIcon from "@mui/icons-material/SensorOccupiedOutlined";
-import AutoFixHighOutlinedIcon from "@mui/icons-material/AutoFixHighOutlined";
-import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
-import SettingsIcon from "@mui/icons-material/Settings";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import PersonIcon from "@mui/icons-material/Person";
+import InsertCommentOutlinedIcon from '@mui/icons-material/InsertCommentOutlined';
+import InsertCommentIcon from '@mui/icons-material/InsertComment';
+import WebStoriesOutlinedIcon from '@mui/icons-material/WebStoriesOutlined';
+import WebStoriesIcon from '@mui/icons-material/WebStories';
+import SensorOccupiedIcon from '@mui/icons-material/SensorOccupied';
+import SensorOccupiedOutlinedIcon from '@mui/icons-material/SensorOccupiedOutlined';
+import AutoFixHighOutlinedIcon from '@mui/icons-material/AutoFixHighOutlined';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+import SettingsIcon from '@mui/icons-material/Settings';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import PersonIcon from '@mui/icons-material/Person';
 
 const Sidebar = () => {
   const dispatch = useDispatch();
-  const [selectedIcon, setSelectedIcon] = useState("");
+  const [selectedIcon, setSelectedIcon] = useState('');
   const [showText, setShowText] = useState(false);
 
   const {profileImage} = useSelector((state) => state.user);
@@ -53,17 +53,17 @@ const Sidebar = () => {
         gap={2}>
         <div className="flex">
           <IconButton
-            onMouseEnter={() => setShowText("chats")}
+            onMouseEnter={() => setShowText('chats')}
             onMouseLeave={() => setShowText(false)}
-            onClick={() => handleDrawer("chats")}>
-            {selectedIcon === "chats" ? (
+            onClick={() => handleDrawer('chats')}>
+            {selectedIcon === 'chats' ? (
               <InsertCommentIcon fontSize="large" />
             ) : (
               <InsertCommentOutlinedIcon fontSize="medium" />
             )}
           </IconButton>
           <div>
-            {showText === "chats" && (
+            {showText === 'chats' && (
               <p className="absolute bg-black text-gray-200 rounded-xl pl-2 pr-2 ">
                 Chats
               </p>
@@ -73,17 +73,17 @@ const Sidebar = () => {
 
         <div className="flex">
           <IconButton
-            onMouseEnter={() => setShowText("status")}
+            onMouseEnter={() => setShowText('status')}
             onMouseLeave={() => setShowText(false)}
-            onClick={() => handleDrawer("status")}>
-            {selectedIcon === "status" ? (
+            onClick={() => handleDrawer('status')}>
+            {selectedIcon === 'status' ? (
               <WebStoriesIcon fontSize="large" />
             ) : (
               <WebStoriesOutlinedIcon fontSize="medium" />
             )}
           </IconButton>
           <div>
-            {showText === "status" && (
+            {showText === 'status' && (
               <p className="absolute bg-black text-gray-200 rounded-xl pl-2 pr-2 ">
                 Status
               </p>
@@ -93,17 +93,17 @@ const Sidebar = () => {
 
         <div className="flex">
           <IconButton
-            onMouseEnter={() => setShowText("channels")}
+            onMouseEnter={() => setShowText('channels')}
             onMouseLeave={() => setShowText(false)}
-            onClick={() => handleDrawer("channels")}>
-            {selectedIcon === "channels" ? (
+            onClick={() => handleDrawer('channels')}>
+            {selectedIcon === 'channels' ? (
               <SensorOccupiedIcon fontSize="large" />
             ) : (
               <SensorOccupiedOutlinedIcon fontSize="medium" />
             )}
           </IconButton>
           <div>
-            {showText === "channels" && (
+            {showText === 'channels' && (
               <p className="absolute bg-black text-gray-200 rounded-xl pl-2 pr-2 ">
                 Channels
               </p>
@@ -112,17 +112,17 @@ const Sidebar = () => {
         </div>
         <div className="flex">
           <IconButton
-            onMouseEnter={() => setShowText("ai")}
+            onMouseEnter={() => setShowText('ai')}
             onMouseLeave={() => setShowText(false)}
-            onClick={() => handleDrawer("ai")}>
-            {selectedIcon === "ai" ? (
+            onClick={() => handleDrawer('ai')}>
+            {selectedIcon === 'ai' ? (
               <AutoFixHighIcon fontSize="large" />
             ) : (
               <AutoFixHighOutlinedIcon fontSize="medium" />
             )}
           </IconButton>
           <div>
-            {showText === "ai" && (
+            {showText === 'ai' && (
               <p className="absolute bg-black text-gray-200 rounded-xl pl-2 pr-2 ">
                 AI
               </p>
@@ -139,17 +139,17 @@ const Sidebar = () => {
         gap={2}>
         <div className="flex">
           <IconButton
-            onMouseEnter={() => setShowText("settings")}
+            onMouseEnter={() => setShowText('settings')}
             onMouseLeave={() => setShowText(false)}
-            onClick={() => handleDrawer("settings")}>
-            {selectedIcon === "settings" ? (
+            onClick={() => handleDrawer('settings')}>
+            {selectedIcon === 'settings' ? (
               <SettingsIcon fontSize="large" />
             ) : (
               <SettingsOutlinedIcon fontSize="medium" />
             )}
           </IconButton>
           <div>
-            {showText === "settings" && (
+            {showText === 'settings' && (
               <p className="absolute bg-black text-gray-200 rounded-xl pl-2 pr-2 ">
                 Settings
               </p>
@@ -159,20 +159,17 @@ const Sidebar = () => {
 
         <div className="flex">
           <IconButton
-            onMouseEnter={() => setShowText("profile")}
+            onMouseEnter={() => setShowText('profile')}
             onMouseLeave={() => setShowText(false)}
-            onClick={() => handleDrawer("profile")}>
-            {profileImage ? (
-              <img
-                src={profileImage}
-                className="w-10 h-10 rounded-full object-cover"
-              />
-            ) : (
-              <PersonIcon fontSize="large" /> // fallback icon if no profile image
-            )}
+            onClick={() => handleDrawer('profile')}>
+            <Avatar
+              src={profileImage}
+              sx={{width: 30, height: 30}}
+              // className="w-10 h-10 rounded-full object-cover"
+            />
           </IconButton>
           <div>
-            {showText === "profile" && (
+            {showText === 'profile' && (
               <p className="absolute bg-black text-gray-200 rounded-xl pl-2 pr-2 ">
                 Profile
               </p>

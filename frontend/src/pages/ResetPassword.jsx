@@ -1,17 +1,17 @@
-import React, {useState, useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import React, {useState, useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   resetPassword,
   clearMessage,
-} from "../redux/slices/authentication/auth.slice.js";
+} from '../redux/slices/authentication/auth.slice.js';
 
-import {TextField, Button, CircularProgress, Alert} from "@mui/material";
-import {useParams, useNavigate} from "react-router-dom";
+import {TextField, Button, CircularProgress, Alert} from '@mui/material';
+import {useParams, useNavigate} from 'react-router-dom';
 
 const ResetPassword = () => {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const {token} = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -20,10 +20,10 @@ const ResetPassword = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      setErrorMessage("Password must be same ");
+      setErrorMessage('Password must be same ');
       return;
     }
-    setErrorMessage("");
+    setErrorMessage('');
     dispatch(resetPassword({token, password}));
     dispatch(clearMessage());
   };
@@ -31,8 +31,8 @@ const ResetPassword = () => {
   useEffect(() => {
     if (message) {
       // Redirect to login page after successful reset
-      console.log("redirecting to login page: ");
-      navigate("/login");
+      // console.log("redirecting to login page: ");
+      navigate('/login');
     }
   }, [message, navigate]);
 
@@ -78,7 +78,7 @@ const ResetPassword = () => {
             color="primary"
             fullWidth
             disabled={loading}>
-            {loading ? <CircularProgress size={24} /> : "Reset Password"}
+            {loading ? <CircularProgress size={24} /> : 'Reset Password'}
           </Button>
         </div>
       </form>

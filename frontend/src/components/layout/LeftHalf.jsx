@@ -1,32 +1,32 @@
-import {Drawer, Slide} from "@mui/material";
-import React, {useEffect, useRef, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {Drawer, Slide} from '@mui/material';
+import React, {useEffect, useRef, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 
-import ChatMain from "../chats/ChatMain.jsx";
-import StatusMain from "../status/StatusMain.jsx";
-import ChannelMain from "../channels/ChannelMain.jsx";
-import SettingMain from "../settings/SettingMain.jsx";
-import ProfileMain from "../profile/ProfileMain.jsx";
-import AiMain from "../ai/AiMain.jsx";
+import ChatMain from '../chats/ChatMain.jsx';
+import StatusMain from '../status/StatusMain.jsx';
+import ChannelMain from '../channels/ChannelMain.jsx';
+import SettingMain from '../settings/SettingMain.jsx';
+import ProfileMain from '../profile/ProfileMain.jsx';
+import AiMain from '../ai/AiMain.jsx';
 
-import NewChat from "../chats/NewChat.jsx";
-import AddGroupMembers from "../chats/AddGroupMembers.jsx";
-import StarredMessages from "../chats/StarredMessages.jsx";
-import SelectChats from "../chats/SelectChats.jsx";
-import PrivacySettings from "../settings/PrivacySettings.jsx";
-import HelpAndSupport from "../settings/HelpAndSupport.jsx";
-import NotificationSettings from "../settings/NotificationSettings.jsx";
-import ThemeSettings from "../settings/ThemeSettings.jsx";
-import LoginPage from "../../pages/LoginPage.jsx";
-import ProfileSettings from "../settings/ProfileSettings.jsx";
+import NewChat from '../chats/NewChat.jsx';
+import AddGroupMembers from '../chats/AddGroupMembers.jsx';
+import StarredMessages from '../chats/StarredMessages.jsx';
+import SelectChats from '../chats/SelectChats.jsx';
+import PrivacySettings from '../settings/PrivacySettings.jsx';
+import HelpAndSupport from '../settings/HelpAndSupport.jsx';
+import NotificationSettings from '../settings/NotificationSettings.jsx';
+import ThemeSettings from '../settings/ThemeSettings.jsx';
+import LoginPage from '../../pages/LoginPage.jsx';
+import ProfileSettings from '../settings/ProfileSettings.jsx';
 
 // privacy settings imports----------
-import AboutPrivacy from "../settings/privacy/AboutPrivacy.jsx";
-import BlockedContacts from "../settings/privacy/BlockedContacts.jsx";
-import GroupsPrivacy from "../settings/privacy/GroupsPrivacy.jsx";
-import LastSeenAndOnline from "../settings/privacy/LastSeenAndOnline.jsx";
-import ProfilePhotoPrivacy from "../settings/privacy/ProfilePhotoPrivacy.jsx";
-import StatusPrivacy from "../settings/privacy/StatusPrivacy.jsx";
+import AboutPrivacy from '../settings/privacy/AboutPrivacy.jsx';
+import BlockedContacts from '../settings/privacy/BlockedContacts.jsx';
+import GroupsPrivacy from '../settings/privacy/GroupsPrivacy.jsx';
+import LastSeenAndOnline from '../settings/privacy/LastSeenAndOnline.jsx';
+import ProfilePhotoPrivacy from '../settings/privacy/ProfilePhotoPrivacy.jsx';
+import StatusPrivacy from '../settings/privacy/StatusPrivacy.jsx';
 
 const LeftHalf = () => {
   const dispatch = useDispatch();
@@ -39,58 +39,58 @@ const LeftHalf = () => {
   const renderComponent = () => {
     switch (content) {
       // sidebar icons
-      case "chats":
+      case 'chats':
         return <ChatMain containerRef={containerRef} />;
-      case "status":
+      case 'status':
         return <StatusMain containerRef={containerRef} />;
-      case "channels":
+      case 'channels':
         return <ChannelMain containerRef={containerRef} />;
-      case "ai":
+      case 'ai':
         return <AiMain containerRef={containerRef} />;
-      case "settings":
+      case 'settings':
         return <SettingMain containerRef={containerRef} />;
-      case "profile":
+      case 'profile':
         return <ProfileMain containerRef={containerRef} />;
 
       // -------------------chats main------
-      case "newChat":
+      case 'newChat':
         return <NewChat containerRef={containerRef} />;
-      case "addGroupMembers":
+      case 'addGroupMembers':
         return <AddGroupMembers containerRef={containerRef} />;
-      case "starredMessages":
+      case 'starredMessages':
         return <StarredMessages containerRef={containerRef} />;
-      case "selectChats":
+      case 'selectChats':
         return <SelectChats containerRef={containerRef} />;
 
       // ---------settingsMain  --------
-      case "profileSettings":
+      case 'profileSettings':
         return <ProfileMain containerRef={containerRef} />;
       // return <ProfileSettings containerRef={containerRef} />;
-      case "privacy":
+      case 'privacy':
         return <PrivacySettings containerRef={containerRef} />;
-      case "notifications":
+      case 'notifications':
         return <NotificationSettings containerRef={containerRef} />;
 
-      case "theme":
+      case 'theme':
         return <ThemeSettings containerRef={containerRef} />;
 
-      case "help":
+      case 'help':
         return <HelpAndSupport containerRef={containerRef} />;
       // case "logout":
       //   return <LoginPage containerRef={containerRef} />;
 
       // ----inside privacy settings --------
-      case "lastSeenAndOnlinePrivacy":
+      case 'lastSeenAndOnlinePrivacy':
         return <LastSeenAndOnline containerRef={containerRef} />;
-      case "profilePhotoPrivacy":
+      case 'profilePhotoPrivacy':
         return <ProfilePhotoPrivacy containerRef={containerRef} />;
-      case "aboutPrivacy":
+      case 'aboutPrivacy':
         return <AboutPrivacy containerRef={containerRef} />;
-      case "statusPrivacy":
+      case 'statusPrivacy':
         return <StatusPrivacy containerRef={containerRef} />;
-      case "groupsPrivacy":
+      case 'groupsPrivacy':
         return <GroupsPrivacy containerRef={containerRef} />;
-      case "blockedContacts":
+      case 'blockedContacts':
         return <BlockedContacts containerRef={containerRef} />;
 
       default:
@@ -101,10 +101,10 @@ const LeftHalf = () => {
   // useEffect(() => {
   //   // Cleanup function to close the drawer when the component unmounts
   //   return () => {
-  //     console.log("isDrawerOpen inside effect before dispatch: ", isDrawerOpen);
+  //     // console.log("isDrawerOpen inside effect before dispatch: ", isDrawerOpen);
 
   //     dispatch(closeDrawer());
-  //     console.log("isDrawerOpen inside effect after dispatch: ", isDrawerOpen);
+  //     // console.log("isDrawerOpen inside effect after dispatch: ", isDrawerOpen);
   //   };
   // }, [content]);
 

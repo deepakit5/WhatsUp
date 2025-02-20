@@ -1,18 +1,18 @@
-import {io} from "socket.io-client";
+import {io} from 'socket.io-client';
 
 // Define the URL of your Socket.IO server
 const SO_URL = import.meta.env.VITE_SOCKET_URL;
 
 const socket = io(SO_URL, {
   autoConnect: true, // Prevents automatic connection, so you can manually connect/disconnect
-  transports: ["websocket"],
+  transports: ['websocket'],
   auth: {
     // we can add any default authentication info if necessary, e.g., tokens
-    token: localStorage.getItem("token"), // Assuming token is stored in localStorage
+    token: localStorage.getItem('token'), // Assuming token is stored in localStorage
   },
 });
 
-console.log("\n\n\n-----socket.id in socket SERVICES : ", socket.id);
+// console.log("\n\n\n-----socket.id in socket SERVICES : ", socket.id);
 export default socket;
 
 //

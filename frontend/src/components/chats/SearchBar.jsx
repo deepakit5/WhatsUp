@@ -1,16 +1,16 @@
-import React, {useEffect, useState} from "react";
-import {debounce} from "lodash";
-import {FiSearch, FiArrowLeft, FiArrowRight} from "react-icons/fi";
+import React, {useEffect, useState} from 'react';
+import {debounce} from 'lodash';
+import {FiSearch, FiArrowLeft, FiArrowRight} from 'react-icons/fi';
 
 const SearchBar = ({
   placeholder,
   onSearch = () => {},
   debounceDelay = 300,
-  searchContext = "default", // Added searchContext to identify the component
+  searchContext = 'default', // Added searchContext to identify the component
 }) => {
   // Validate onSearch to ensure it's a function
-  if (typeof onSearch !== "function") {
-    console.error("onSearch prop must be a function");
+  if (typeof onSearch !== 'function') {
+    // console.error("onSearch prop must be a function");
     return null; // Render nothing if onSearch is invalid
   }
 
@@ -42,7 +42,7 @@ const SearchBar = ({
       {/* Conditionally render search or arrow icon */}
       <div
         className={`mr-7 transition-transform duration-300 ${
-          isFocused ? "-rotate-180" : "rotate-0"
+          isFocused ? '-rotate-180' : 'rotate-0'
         }`}>
         {isFocused ? (
           <FiArrowRight className="text-black text-xl" />
@@ -53,7 +53,7 @@ const SearchBar = ({
 
       <input
         type="text"
-        placeholder={placeholder || "Search..."}
+        placeholder={placeholder || 'Search...'}
         onFocus={handleFocus}
         onBlur={handleBlur}
         onChange={handleInputChange}

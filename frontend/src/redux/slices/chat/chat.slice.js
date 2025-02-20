@@ -1,27 +1,27 @@
-import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
-import axios from "axios";
-import {toast} from "react-toastify";
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import axios from 'axios';
+import {toast} from 'react-toastify';
 
 // Async thunk to fetch chat list from the server
 export const fetchChatList = createAsyncThunk(
-  "chat/fetchChatList",
+  'chat/fetchChatList',
 
   async (_, {rejectWithValue}) => {
     const B_URL = import.meta.env.VITE_BACKEND_URL;
     try {
       const response = await axios.get(`${B_URL}/chat/getAllChats`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
 
-      console.log("---- fetch Chat List response: ", response.data);
+      // // console.log("---- fetch Chat List response: ", response.data);
       return response.data;
     } catch (error) {
-      console.log("Error in fetchChatList 111:", error);
-      console.error("Error in fetchChatList:", error.response || error.message);
+      // console.log('Error in fetchChatList 111:', error);
+      // console.error('Error in fetchChatList:', error.response || error.message);
       return rejectWithValue(
-        error.response?.data || {message: "failed to fetch Chat list"}
+        error.response?.data || {message: 'failed to fetch Chat list'}
       );
     }
   }
@@ -29,20 +29,20 @@ export const fetchChatList = createAsyncThunk(
 
 // The chat slice
 const chatSlice = createSlice({
-  name: "chat",
+  name: 'chat',
   initialState: {
     chatsList: [], // Holds the fetched chat list
     unreadMessages: [],
-    searchTerm: "", // Add searchQuery to the state
+    searchTerm: '', // Add searchQuery to the state
     filteredChatsList: [], // Holds the filtered chat list
     loading: false, // Can be 'idle', 'loading', 'succeeded', or 'failed'
-    message: "",
+    message: '',
     error: null, // For handling errors
   },
   reducers: {
     setSearchTerm: (state, action) => {
       state.searchTerm = action.payload;
-      console.log("search term is setted to zero");
+      // console.log('search term is setted to zero');
     },
     // Action to filter the chat list based on search input
     filterChats: (state, action) => {
@@ -67,13 +67,13 @@ const chatSlice = createSlice({
 
       .addCase(fetchChatList.fulfilled, (state, action) => {
         state.chatsList = action.payload;
-        console.log("value of chatslist in redux : ", state.chatsList);
+        // // console.log("value of chatslist in redux : ", state.chatsList);
         state.loading = false;
         state.message = action.payload.message;
       })
       .addCase(fetchChatList.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload?.message || "Failed to fetch chat list";
+        state.error = action.payload?.message || 'Failed to fetch chat list';
       });
   },
 });

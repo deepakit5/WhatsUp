@@ -1,34 +1,34 @@
-import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 
-import socket from "../../../services/socket.service.js"; // Centralized socket setup
+import socket from '../../../services/socket.service.js'; // Centralized socket setup
 
 let listenersInitialized = false;
 // Async thunk to initialize socket listeners
 export const chatWindowHeaderSocketListeners = createAsyncThunk(
-  "chat/chatWindowHeaderSocketListeners",
+  'chat/chatWindowHeaderSocketListeners',
   (_, {dispatch}) => {
     if (!listenersInitialized) {
       listenersInitialized = true;
-      socket.on("userOnline", ({userId}) => {
-        dispatch(setOnlineStatus({userId, status: "online"}));
+      socket.on('userOnline', ({userId}) => {
+        dispatch(setOnlineStatus({userId, status: 'online'}));
       });
 
-      socket.on("userOffline", ({userId}) => {
-        console.log("userOffline listener userId : ", userId);
+      socket.on('userOffline', ({userId}) => {
+        // console.log("userOffline listener userId : ", userId);
 
-        dispatch(setOnlineStatus({userId, status: "offline"}));
+        dispatch(setOnlineStatus({userId, status: 'offline'}));
       });
     }
   }
 );
 
 const chatWindowHeaderSlice = createSlice({
-  name: "chatWindowHeader",
+  name: 'chatWindowHeader',
   initialState: {
-    onlineUserId: "",
-    isOnline: "",
+    onlineUserId: '',
+    isOnline: '',
     loading: false, // Loading state for fetch operations
-    message: "", //  by backend in response like operations successfull etc.
+    message: '', //  by backend in response like operations successfull etc.
     error: null, // Error handling
   },
   reducers: {

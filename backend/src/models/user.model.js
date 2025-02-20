@@ -1,9 +1,10 @@
-import mongoose, {Schema} from "mongoose";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import mongoose, {Schema} from 'mongoose';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
 const userSchema = new Schema(
   {
+    googleId: {type: String}, // For Google OAuth
     username: {
       type: String,
       trim: true,
@@ -19,7 +20,7 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: [true, "Password is required"],
+      required: [true, 'Password is required'],
     },
     phoneNumber: {
       type: String,
@@ -30,12 +31,12 @@ const userSchema = new Schema(
     avatar: {
       type: String, // cloudinary url
       required: true,
-      default: "", // URL of profile picture
+      default: '', // URL of profile picture
     },
 
     about: {
       type: String,
-      default: "Hey there! I am using WhatsApp.",
+      default: 'Hey there! I am using WhatsApp.',
     },
     lastSeen: {
       type: Date,
@@ -52,7 +53,7 @@ const userSchema = new Schema(
 
     chatsList: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: "User",
+      ref: 'User',
       default: [], // Initialize as an empty array
     }, // Can store both chat and group chat IDs
 
@@ -60,7 +61,7 @@ const userSchema = new Schema(
       {
         contactId: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
+          ref: 'User',
         },
         nickname: String, // Optional nickname for contact
       },
@@ -79,8 +80,8 @@ const userSchema = new Schema(
 
 // pre hooks -> it execute some provided function before the execution of the event(i.e., save here)
 // means-> below fun. encrypt the password before saving the it in mongoDB
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
 
   this.password = await bcrypt.hash(this.password, 10);
   next(); //next act as a flag ,it handover the execution to the main flow. since pre hook work as a middleware.
@@ -116,4 +117,4 @@ userSchema.methods.generateRefreshToken = function () {
   );
 };
 
-export const User = mongoose.model("User", userSchema);
+export const User = mongoose.model('User', userSchema);

@@ -1,36 +1,36 @@
-import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
-import axios from "axios";
-import {toast} from "react-toastify";
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import axios from 'axios';
+import {toast} from 'react-toastify';
 
 // Async thunk to perform search
 export const searchUsers = createAsyncThunk(
-  "search/searchUsers",
+  'search/searchUsers',
 
   async (query, {rejectWithValue}) => {
     const B_URL = import.meta.env.VITE_BACKEND_URL;
     try {
-      console.log("BEFORE searchUsers call api: ");
-      console.log("query ji in slice: ", query);
+      // console.log("BEFORE searchUsers call api: ");
+      // console.log("query ji in slice: ", query);
 
       const response = await axios.get(
         `${B_URL}/chat/searchUser?query=${query}`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         }
       );
 
       return response.data;
     } catch (error) {
-      console.error("Error in searchUsers:", error);
-      return rejectWithValue(error.response?.data || "Failed to search users ");
+      // console.error("Error in searchUsers:", error);
+      return rejectWithValue(error.response?.data || 'Failed to search users ');
     }
   }
 );
 
 const searchSlice = createSlice({
-  name: "search",
+  name: 'search',
   initialState: {
     results: [],
     loading: false,
@@ -52,7 +52,7 @@ const searchSlice = createSlice({
       })
       .addCase(searchUsers.rejected, (state, action) => {
         state.loading = false;
-        console.log(action.error);
+        // console.log(action.error);
         state.error = action.error.message;
         toast.error(state.error);
       });

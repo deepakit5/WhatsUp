@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {formatDateTime} from "../../../utils/formatDateTime.js";
-import SendIcon from "@mui/icons-material/Send";
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {formatDateTime} from '../../../utils/formatDateTime.js';
+import SendIcon from '@mui/icons-material/Send';
 import {
   Button,
   ButtonBase,
@@ -13,31 +13,31 @@ import {
   Paper,
   TextareaAutosize,
   Typography,
-} from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import MicIcon from "@mui/icons-material/Mic";
-import DescriptionIcon from "@mui/icons-material/Description";
-import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
-import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import PollIcon from "@mui/icons-material/Poll";
-import VideoCameraBackIcon from "@mui/icons-material/VideoCameraBack";
-import {useSocket} from "../../../hooks/useSocket.hook.js";
+} from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import MicIcon from '@mui/icons-material/Mic';
+import DescriptionIcon from '@mui/icons-material/Description';
+import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
+import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import PollIcon from '@mui/icons-material/Poll';
+import VideoCameraBackIcon from '@mui/icons-material/VideoCameraBack';
+import {useSocket} from '../../../hooks/useSocket.hook.js';
 import {
   addMessage,
   addMessageLocally,
   sendMessageMedia,
-} from "../../../redux/slices/chat/chatWindow.slice.js";
+} from '../../../redux/slices/chat/chatWindow.slice.js';
 
-import {PDFDocument} from "pdf-lib";
-import {v4 as uuidv4} from "uuid";
-import {toast} from "react-toastify";
+import {PDFDocument} from 'pdf-lib';
+import {v4 as uuidv4} from 'uuid';
+import {toast} from 'react-toastify';
 
 const MessageInput = () => {
   const socket = useSocket(); // Initialize socket connection
 
-  const [mediaUrl, setMediaUrl] = useState("");
-  const [message, setMessage] = useState("");
+  const [mediaUrl, setMediaUrl] = useState('');
+  const [message, setMessage] = useState('');
   const dispatch = useDispatch();
 
   const [addBtnClicked, setAddBtnClicked] = useState(false);
@@ -46,20 +46,20 @@ const MessageInput = () => {
   const {selectedChat, selectedUser} = useSelector((state) => state.chatWindow);
 
   const [selectedFile, setSelectedFile] = useState(null);
-  const [fileUrl, setFileUrl] = useState("");
+  const [fileUrl, setFileUrl] = useState('');
   const [openPreview, setOpenPreview] = useState(false);
   const [pages, setPages] = useState(0);
   // const [caption, setCaption] = useState("");
   const [fileInfo, setFileInfo] = useState({
-    fileType: "",
-    fileSize: "",
+    fileType: '',
+    fileSize: '',
     filePages: 0,
-    caption: "",
+    caption: '',
   });
 
   const handleAddBtn = (e) => {
     setAddBtnClicked(!addBtnClicked);
-    console.log("addBtnClicked in handle in chats: ", addBtnClicked);
+    // console.log("addBtnClicked in handle in chats: ", addBtnClicked);
   };
 
   const formatFileSize = (sizeInBytes) => {
@@ -79,21 +79,21 @@ const MessageInput = () => {
 
     //  for File Extension
     const type = fileName
-      .substring(fileName.lastIndexOf(".") + 1)
+      .substring(fileName.lastIndexOf('.') + 1)
       .toUpperCase();
 
     // Format the file size
     const formattedSize = formatFileSize(selectedFile.size);
 
     let pages = null;
-    if (selectedFile.type.includes("pdf")) {
+    if (selectedFile.type.includes('pdf')) {
       try {
         const arrayBuffer = await selectedFile.arrayBuffer();
         const pdfDoc = await PDFDocument.load(arrayBuffer);
 
         pages = pdfDoc.getPageCount(); // Extract page count
       } catch (error) {
-        console.error("Error loading PDF:", error);
+        // console.error("Error loading PDF:", error);
       }
     }
     // ------------------x--------
@@ -120,19 +120,19 @@ const MessageInput = () => {
     if (!selectedFile)
       return <Typography>Select a file to preview.</Typography>;
 
-    const fileType = selectedFile.type.split("/")[0];
+    const fileType = selectedFile.type.split('/')[0];
 
     switch (fileType) {
-      case "image":
+      case 'image':
         return <img src={fileUrl} alt="Preview" className="max-h-80" />;
-      case "video":
+      case 'video':
         return (
           <video controls className="max-h-80">
             <source src={fileUrl} type={selectedFile.type} />
             Your browser does not support the video tag.
           </video>
         );
-      case "audio":
+      case 'audio':
         return (
           <audio controls className="bg-green-200 w-3/4 h-16">
             <source src={fileUrl} type={selectedFile.type} />
@@ -153,7 +153,7 @@ const MessageInput = () => {
   };
 
   const handleClose = () => {
-    setMessage(""); // Clear input field
+    setMessage(''); // Clear input field
     setOpenPreview(false);
     if (fileUrl) {
       URL.revokeObjectURL(fileUrl); // Clean up URL object
@@ -164,34 +164,34 @@ const MessageInput = () => {
 
   const handleKeyDown = (e) => {
     // Check if Enter key is pressed without Shift
-    if (e.key === "Enter" && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault(); // Prevents form submission or page refresh
       handleSend();
     }
     // If Shift + Enter is pressed, allow new line
-    else if (e.key === "Enter" && e.shiftKey) {
+    else if (e.key === 'Enter' && e.shiftKey) {
       return; // Allows the new line
     }
   };
 
   const handleSend = async () => {
-    let msgType = "";
-    if (selectedFile?.type.startsWith("image/")) {
-      msgType = "image";
-    } else if (selectedFile?.type.startsWith("video/")) {
-      msgType = "video";
-    } else if (selectedFile?.type.startsWith("audio/")) {
-      msgType = "audio";
+    let msgType = '';
+    if (selectedFile?.type.startsWith('image/')) {
+      msgType = 'image';
+    } else if (selectedFile?.type.startsWith('video/')) {
+      msgType = 'video';
+    } else if (selectedFile?.type.startsWith('audio/')) {
+      msgType = 'audio';
     } else if (
-      selectedFile?.type.startsWith("application/") ||
-      selectedFile?.type.startsWith("text/")
+      selectedFile?.type.startsWith('application/') ||
+      selectedFile?.type.startsWith('text/')
     ) {
-      msgType = "file";
+      msgType = 'file';
     } else {
-      msgType = "text";
+      msgType = 'text';
     }
 
-    if (msgType !== "text" || (msgType === "text" && message.trim())) {
+    if (msgType !== 'text' || (msgType === 'text' && message.trim())) {
       const newMessage = {
         tempId: uuidv4(), // Generate a unique temporary ID
         chatId: selectedChat?.chat?._id || null, // if new chat , chatid will empty
@@ -205,7 +205,7 @@ const MessageInput = () => {
         },
         senderId: currentUserId, // Replace with the actual user ID from state or context
         receiverId: selectedChat?.user?._id || selectedUser?._id || null, // null is used for group chat , there is not single receiver in group chat
-        status: "pending", // Initial status
+        status: 'pending', // Initial status
         type: msgType,
         time: formatDateTime(new Date(), {time: true}),
         date: formatDateTime(new Date(), {date: true}),
@@ -213,7 +213,7 @@ const MessageInput = () => {
       handleClose();
       dispatch(addMessageLocally(newMessage));
 
-      if (newMessage.type !== "text" && selectedFile) {
+      if (newMessage.type !== 'text' && selectedFile) {
         const msgMediaUrl = await dispatch(
           sendMessageMedia(selectedFile)
         ).unwrap();
@@ -221,10 +221,10 @@ const MessageInput = () => {
         if (msgMediaUrl) {
           const newMessage2 = {...newMessage, content: msgMediaUrl};
 
-          socket.emit("sendMessage", newMessage2); // Emit message through socket
+          socket.emit('sendMessage', newMessage2); // Emit message through socket
         }
       } else {
-        socket.emit("sendMessage", newMessage); // Emit message through socket
+        socket.emit('sendMessage', newMessage); // Emit message through socket
       }
     } else {
       toast.error("Empty message can't be send.");
@@ -239,8 +239,8 @@ const MessageInput = () => {
           onClick={handleAddBtn}
           className={` flex items-center  transform transition-transform duration-500    ${
             addBtnClicked
-              ? "rotate-[135deg] bg-gray-300 rounded-full  "
-              : "rotate-0"
+              ? 'rotate-[135deg] bg-gray-300 rounded-full  '
+              : 'rotate-0'
           }`}>
           <IconButton>
             <AddIcon fontSize="large" />
@@ -257,7 +257,7 @@ const MessageInput = () => {
         {/* Animated Menu  for add icon */}
         <div
           className={`${
-            addBtnClicked ? "scale-100 opacity-100" : "scale-0 opacity-0"
+            addBtnClicked ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
           } transform origin-bottom-left transition-all duration-300 ease-out bg-white  rounded-lg shadow-lg absolute bottom-16  w-44 text-gray-700 text-base z-50 `}>
           <Paper elevation={8} square={false}>
             <ul className="py-2 ">
@@ -310,7 +310,7 @@ const MessageInput = () => {
                   className="hidden"
                   accept="image/*"
                   onChange={handleFileChange}
-                  // onChange={(e) => console.log(e.target.files[0])} // Handle file selection
+                  // onChange={(e) => // console.log(e.target.files[0])} // Handle file selection
                 />
               </li>
               {/* videos */}
@@ -369,7 +369,7 @@ const MessageInput = () => {
               <li className="hover:bg-gray-200  ">
                 <ButtonBase
                   className="w-full h-full"
-                  onClick={() => handleDrawer("addGroupMembers")}>
+                  onClick={() => handleDrawer('addGroupMembers')}>
                   <span className=" pl-2  text-green-500">
                     <PollIcon />
                   </span>
@@ -418,14 +418,14 @@ const MessageInput = () => {
         maxRows={7}
         minRows={1}
         style={{
-          resize: "none", // Disable resizing
+          resize: 'none', // Disable resizing
         }}
         className=" m-1 px-2 border p-2    rounded-lg focus:outline-none w-full  text-lg text-gray-700"
       />
 
       <div className="mr-4">
         <IconButton onClick={handleSend}>
-          {message === "" ? (
+          {message === '' ? (
             <MicIcon fontSize="medium" className="text-black mb-1" />
           ) : (
             <SendIcon fontSize="large" className="text-green-500" />

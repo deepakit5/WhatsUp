@@ -17,11 +17,11 @@ const getUserSocket = async (userId) => {
     if (user) {
       return user;
     } else {
-      console.log("User not found");
+      // console.log("User not found");
       return null;
     }
   } catch (error) {
-    console.error("Error fetching socketId:", error);
+    // console.error("Error fetching socketId:", error);
     throw error; // Re-throw the error for higher-level handling
   }
 };
@@ -57,7 +57,7 @@ export const handleChatMessage = async (io, socket, data) => {
     });
     const savedMessage = await newMessage.save();
 
-    console.log("---- Message saved successfully ");
+    // console.log("---- Message saved successfully ");
 
     // Check if a chat already exists between senderId and receiverId
     let chat = await Chat.findOne({
@@ -78,7 +78,7 @@ export const handleChatMessage = async (io, socket, data) => {
       chat.lastMsgInfo.time = time; // Update the last activity time
       chat.lastMsgInfo.type = type;
       const savedChat = await chat.save();
-      console.log("Chat updated successfully.");
+      // console.log("Chat updated successfully.");
     } else {
       // Chat does not exist, create a new one
       const newChat = new Chat({
@@ -96,7 +96,7 @@ export const handleChatMessage = async (io, socket, data) => {
       const msg = await Message.findById(savedMessage._id);
       msg.chatId = createdChat._id;
       await msg.save();
-      console.log("New chat created successfully.");
+      // console.log("New chat created successfully.");
 
       await User.updateOne(
         {_id: senderId},
@@ -118,7 +118,7 @@ export const handleChatMessage = async (io, socket, data) => {
         }
       );
 
-      console.log(
+      // console.log(
         "Sender's chatsList updated with the latest chat at the beginning."
       );
 
@@ -144,7 +144,7 @@ export const handleChatMessage = async (io, socket, data) => {
         }
       );
 
-      console.log(
+      // console.log(
         "receiver's chatsList updated with the latest chat at the beginning."
       );
     }
@@ -166,33 +166,33 @@ export const handleChatMessage = async (io, socket, data) => {
 
     // // server share new msg to the receiver and confirms receiver has got msg. then it updates msg status in DB
     if (receiver && receiver.socketId) {
-      console.log("---- Receiver is online, attempting delivery.");
+      // console.log("---- Receiver is online, attempting delivery.");
 
       io.timeout(1000)
         .to(receiver.socketId)
         .emit("receiveMessage", savedMessage, async (err, responses) => {
           if (err) {
             // some clients did not acknowledge the event in the given delay
-            console.error("Message delivery failed:", err);
+            // console.error("Message delivery failed:", err);
           } else {
             // Iterate through the responses array
             for (const response of responses) {
               const {messageId, status, chatId} = response;
-              // console.log("--- messageId, status:", messageId, status);
+              // // console.log("--- messageId, status:", messageId, status);
               if (messageId && status === "received") {
                 const msg = await Message.findById(messageId);
                 if (msg) {
                   msg.status = "delivered";
                   await msg.save();
-                  console.log("---- message delivered");
+                  // console.log("---- message delivered");
                   addUnreadMsg(msg);
                   // Notify the sender that msg is delivered to receiver
                   socket.emit("messageDelivered", messageId);
                 } else {
-                  console.log(`--- No message found with ID: ${messageId}`);
+                  // console.log(`--- No message found with ID: ${messageId}`);
                 }
               } else {
-                console.log("--- Required data is missing");
+                // console.log("--- Required data is missing");
               }
             }
           }
@@ -202,10 +202,10 @@ export const handleChatMessage = async (io, socket, data) => {
       // Add to undelivered queue
       receiver.undeliveredMessages.push(savedMessage._id);
       await receiver.save();
-      console.log("---- undeliveredMessages saved in DB: ");
+      // console.log("---- undeliveredMessages saved in DB: ");
     }
   } catch (error) {
-    console.error("Error creating chat with message:", error);
+    // console.error("Error creating chat with message:", error);
     throw new ApiError(500, "Internal server error");
   }
 };
@@ -227,9 +227,9 @@ export const addUnreadMsg = async (msg) => {
       },
       {new: true} // To return the updated document
     );
-    console.log("Unread message added successfully.");
+    // console.log("Unread message added successfully.");
   } catch (error) {
-    console.error("Error add Unread Msg :", error);
+    // console.error("Error add Unread Msg :", error);
   }
 };
 
@@ -253,9 +253,9 @@ export const removeReadMsg = async (chatId, messagesToRemove) => {
       },
       {new: true} // To return the updated document
     );
-    console.log("Unread messages removed successfully.");
+    // console.log("Unread messages removed successfully.");
   } catch (error) {
-    console.error("Error removing unread messages:", error);
+    // console.error("Error removing unread messages:", error);
   }
 };
 
@@ -266,13 +266,13 @@ export const handleMessageRead = async (io, socket, data) => {
 
   const sender = await getUserSocket(senderId);
   try {
-    console.log("--- messageId : ", messageId);
+    // console.log("--- messageId : ", messageId);
     await Message.findByIdAndUpdate(messageId, {status: "read"});
 
     io.timeout(3000)
       .to(sender.socketId)
       .emit("message-read-confirmation", messageId);
   } catch (err) {
-    console.error(err);
+    // console.error(err);
   }
 };

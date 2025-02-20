@@ -1,7 +1,8 @@
-import mongoose, {Schema} from "mongoose";
+import mongoose, {Schema} from 'mongoose';
 
 const userSchema = new Schema(
   {
+    googleId: {type: String}, // For Google OAuth
     username: {
       type: String,
       trim: true,
@@ -17,7 +18,7 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: [true, "Password is required"],
+      required: [true, 'Password is required'],
     },
     phoneNumber: {
       type: String,
@@ -28,12 +29,12 @@ const userSchema = new Schema(
     avatar: {
       type: String, // cloudinary url
       required: true,
-      default: "", // URL of profile picture
+      default: '', // URL of profile picture
     },
 
     about: {
       type: String,
-      default: "Hey there! I am using WhatsApp.",
+      default: 'Hey there! I am using WhatsApp.',
     },
     lastSeen: {
       type: Date,
@@ -51,13 +52,13 @@ const userSchema = new Schema(
     undeliveredMessages: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Message",
+        ref: 'Message',
       },
     ],
 
     chatsList: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: "User",
+      ref: 'User',
       default: [], // Initialize as an empty array
     }, // Can store both chat and group chat IDs
     // remember update user Schema in backend
@@ -66,7 +67,7 @@ const userSchema = new Schema(
       {
         contactId: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
+          ref: 'User',
         },
         nickname: String, // Optional nickname for contact
       },
@@ -83,4 +84,4 @@ const userSchema = new Schema(
   }
 );
 
-export const User = mongoose.model("User", userSchema);
+export const User = mongoose.model('User', userSchema);

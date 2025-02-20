@@ -1,19 +1,19 @@
-import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
-import axios from "axios";
-import {toast} from "react-toastify";
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import axios from 'axios';
+import {toast} from 'react-toastify';
 
 export const registerUser = createAsyncThunk(
-  "register/registerUser",
+  'register/registerUser',
   async (formData, {rejectWithValue}) => {
     const B_URL = import.meta.env.VITE_BACKEND_URL;
 
     try {
       const response = await axios.post(`${B_URL}/auth/register`, formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
         },
       });
-      console.log("response of registerUser slice ", response.data);
+      // console.log("response of registerUser slice ", response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -22,11 +22,11 @@ export const registerUser = createAsyncThunk(
 );
 
 const registerSlice = createSlice({
-  name: "register",
+  name: 'register',
   initialState: {
     user: null,
     loading: false,
-    message: "",
+    message: '',
     error: null,
   },
   reducers: {},

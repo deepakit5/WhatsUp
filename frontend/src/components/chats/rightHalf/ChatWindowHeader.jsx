@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from "react";
-import {useSelector} from "react-redux";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import CallIcon from "@mui/icons-material/Call";
-import VideocamIcon from "@mui/icons-material/Videocam";
-import SearchIcon from "@mui/icons-material/Search";
-import {openDrawerRight} from "../../../redux/slices/chat/rightDrawer.slice";
-import {Button, ButtonBase, IconButton, Paper} from "@mui/material";
+import React, {useEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import CallIcon from '@mui/icons-material/Call';
+import VideocamIcon from '@mui/icons-material/Videocam';
+import SearchIcon from '@mui/icons-material/Search';
+import {openDrawerRight} from '../../../redux/slices/chat/rightDrawer.slice';
+import {Avatar, Button, ButtonBase, IconButton, Paper} from '@mui/material';
 
 const ChatWindowHeader = () => {
   const {selectedChat, selectedUser} = useSelector((state) => state.chatWindow);
@@ -29,22 +29,24 @@ const ChatWindowHeader = () => {
 
   return (
     <div className="chat-header h-18 flex  justify-between border-b  p-2  bg-slate-100">
-      <div className="flex ">
+      <div className="flex w-full  ">
         <img
           src={user.avatar}
-          alt={"P"}
-          className="header-avatar w-12 h-12 rounded-full mr-3 ml-2 mt-1"
+          alt={'P'}
+          className="header-avatar w-10 h-10 rounded-full mr-3 ml-2 mt-1"
         />
 
-        <div className="header-info">
-          <h3 className="text-lg ">{user.username}</h3>
+        <div className="header-info ">
+          <p className="text-lg w-[140px]  md:w-[370px]  truncate    ">
+            {user.username}
+          </p>
+
           <p className="text-base text-gray-600 ml-1">
-            {/* {isOnline ? "online" : "offline"} */}
             {user._id === onlineUserId
               ? isOnline
               : user.isOnline
-              ? "online"
-              : "offline"}
+              ? 'online'
+              : 'offline'}
           </p>
         </div>
       </div>
@@ -64,7 +66,7 @@ const ChatWindowHeader = () => {
         <div className="flex relative">
           <div
             className={` flex items-center ${
-              threeDotClicked && "bg-gray-300 rounded-full"
+              threeDotClicked && 'bg-gray-300 rounded-full'
             }`}>
             <IconButton onClick={handleThreeDots}>
               <MoreVertIcon />
@@ -81,14 +83,14 @@ const ChatWindowHeader = () => {
           {/* Animated Menu  for 3 dot */}
           <div
             className={`${
-              threeDotClicked ? "scale-100 opacity-100" : "scale-0 opacity-0"
+              threeDotClicked ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
             } transform origin-top-right transition-all duration-300 ease-out bg-white  rounded-lg shadow-lg absolute top-12 right-1 w-52 text-gray-700 text-base z-50`}>
             <Paper elevation={4} square={false}>
               <ul className="py-2 ">
                 <li className="hover:bg-gray-200  ">
                   <ButtonBase
                     className="w-full h-full"
-                    onClick={() => handleDrawer("addGroupMembers")}>
+                    onClick={() => handleDrawer('addGroupMembers')}>
                     <p className=" w-full  h-full p-2 pl-4  text-left">
                       Contact info
                     </p>
@@ -98,7 +100,7 @@ const ChatWindowHeader = () => {
                 <li className="hover:bg-gray-200  ">
                   <ButtonBase
                     className="w-full h-full"
-                    onClick={() => handleDrawer("addGroupMembers")}>
+                    onClick={() => handleDrawer('addGroupMembers')}>
                     <p className=" w-full  h-full p-2 pl-4  text-left">
                       Select messages
                     </p>
@@ -107,7 +109,7 @@ const ChatWindowHeader = () => {
                 <li className="hover:bg-gray-200  ">
                   <ButtonBase
                     className="w-full h-full"
-                    onClick={() => handleDrawer("addGroupMembers")}>
+                    onClick={() => handleDrawer('addGroupMembers')}>
                     <p className=" w-full  h-full p-2 pl-4  text-left">
                       Mute notifications
                     </p>
@@ -117,7 +119,7 @@ const ChatWindowHeader = () => {
                 <li className="hover:bg-gray-200  ">
                   <ButtonBase
                     className="w-full h-full"
-                    onClick={() => handleDrawer("addGroupMembers")}>
+                    onClick={() => handleDrawer('addGroupMembers')}>
                     <p className=" w-full  h-full p-2 pl-4  text-left">
                       Disappearing messages
                     </p>
@@ -127,7 +129,7 @@ const ChatWindowHeader = () => {
                 <li className="hover:bg-gray-200  ">
                   <ButtonBase
                     className="w-full h-full"
-                    onClick={() => handleDrawer("addGroupMembers")}>
+                    onClick={() => handleDrawer('addGroupMembers')}>
                     <p className=" w-full  h-full p-2 pl-4  text-left">
                       Close chat
                     </p>
@@ -136,7 +138,7 @@ const ChatWindowHeader = () => {
                 <li className="hover:bg-gray-200  ">
                   <ButtonBase
                     className="w-full h-full"
-                    onClick={() => handleDrawer("addGroupMembers")}>
+                    onClick={() => handleDrawer('addGroupMembers')}>
                     <p className=" w-full  h-full p-2 pl-4  text-left">
                       Report
                     </p>
@@ -145,14 +147,14 @@ const ChatWindowHeader = () => {
                 <li className="hover:bg-gray-200  ">
                   <ButtonBase
                     className="w-full h-full"
-                    onClick={() => handleDrawer("addGroupMembers")}>
+                    onClick={() => handleDrawer('addGroupMembers')}>
                     <p className=" w-full  h-full p-2 pl-4  text-left">Block</p>
                   </ButtonBase>
                 </li>
                 <li className="hover:bg-gray-200  ">
                   <ButtonBase
                     className="w-full h-full"
-                    onClick={() => handleDrawer("addGroupMembers")}>
+                    onClick={() => handleDrawer('addGroupMembers')}>
                     <p className=" w-full  h-full p-2 pl-4  text-left">
                       Clear chat
                     </p>
@@ -161,7 +163,7 @@ const ChatWindowHeader = () => {
                 <li className="hover:bg-gray-200  ">
                   <ButtonBase
                     className="w-full h-full"
-                    onClick={() => handleDrawer("addGroupMembers")}>
+                    onClick={() => handleDrawer('addGroupMembers')}>
                     <p className=" w-full  h-full p-2 pl-4  text-left  text-red-500">
                       Delete chat
                     </p>

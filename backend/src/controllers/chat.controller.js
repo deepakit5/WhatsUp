@@ -1,6 +1,6 @@
-import {Chat} from "../models/chat.model.js";
-import {Message} from "../models/message.model.js";
-import {User} from "../models/user.model.js";
+import {Chat} from '../models/chat.model.js';
+import {Message} from '../models/message.model.js';
+import {User} from '../models/user.model.js';
 
 // Get all existing chats (optional: filter by user)5
 export const getChats = async (req, res) => {
@@ -39,7 +39,7 @@ export const getChats = async (req, res) => {
 
     res.status(200).json(combinedList);
   } catch (error) {
-    res.status(500).json({message: "Failed to fetch chats", error});
+    res.status(500).json({message: 'Failed to fetch chats', error});
   }
 };
 
@@ -52,7 +52,7 @@ export const searchUser = async (req, res) => {
     let result = [];
 
     if (!query) {
-      console.log("no query::::");
+      // console.log('no query::::');
       return res.json(result); // Empty array if no query
     }
 
@@ -67,8 +67,8 @@ export const searchUser = async (req, res) => {
     } else {
       // Search in the user's chatList array
       const currentUser = await User.findById(userId).populate(
-        "chatsList",
-        "username phoneNumber profileImage"
+        'chatsList',
+        'username phoneNumber profileImage'
       );
 
       if (currentUser && currentUser.chatsList) {
@@ -80,8 +80,8 @@ export const searchUser = async (req, res) => {
 
     res.json(result);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({message: "Server Error"});
+    // console.error(error);
+    res.status(500).json({message: 'Server Error'});
   }
 };
 
@@ -89,15 +89,14 @@ export const searchUser = async (req, res) => {
 export const getChatHistory = async (req, res) => {
   try {
     const {chatId} = req.params; // Extract chatId from request parameters
-    console.log("chatId from params in controller ", chatId);
 
     if (!chatId) {
-      return res.status(400).json({message: "Chat ID is required in params"});
+      return res.status(400).json({message: 'Chat ID is required in params'});
     }
     // Find the chat by chatId
     const chat = await Chat.findById(chatId);
     if (!chat) {
-      return res.status(404).json({message: "Chat history not found"});
+      return res.status(404).json({message: 'Chat history not found'});
     }
 
     // Populate messages array from Message model
@@ -105,9 +104,9 @@ export const getChatHistory = async (req, res) => {
     // Send the messages as response
     res.status(200).json(messages);
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     res
       .status(500)
-      .json({message: "An error occurred while fetching chat history"});
+      .json({message: 'An error occurred while fetching chat history'});
   }
 };

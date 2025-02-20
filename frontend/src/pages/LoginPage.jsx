@@ -1,34 +1,31 @@
 // src/pages/LoginPage.js
-import React, {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
-import {toast} from "react-toastify";
-import {
-  Container,
-  Box,
-  Typography,
-  TextField,
-  Button,
-  Divider,
-  Dialog,
-  Alert,
-} from "@mui/material";
-import GoogleIcon from "@mui/icons-material/Google";
-import bg from "../assets/images/bg-login.jpg";
+import React, {useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
+import {toast} from 'react-toastify';
+import axios from 'axios';
+import {Container, Box, Typography, TextField, Button} from '@mui/material';
+import GoogleIcon from '@mui/icons-material/Google';
+import bg from '../assets/images/bg-login.jpg';
 // import axios from "axios";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from 'react-redux';
 import {
+  // checkAuth,
   loginUser,
-  resetError,
-  resetSuccess,
-} from "../redux/slices/authentication/auth.slice.js";
-import {fetchMyProfile} from "../redux/slices/user/user.slice.js";
-import Loading from "../components/ui/Loading.jsx";
+  // resetError,
+  // resetSuccess,
+  setAuth,
+} from '../redux/slices/authentication/auth.slice.js';
+import {fetchMyProfile} from '../redux/slices/user/user.slice.js';
+import Loading from '../components/ui/Loading.jsx';
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const dispatch = useDispatch();
-  const {loading, error, success} = useSelector((state) => state.auth);
+  const {loading, isAuthenticated, error, success} = useSelector(
+    (state) => state.auth
+  );
+  const B_URL = import.meta.env.VITE_BACKEND_URL;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -37,12 +34,28 @@ const LoginPage = () => {
     dispatch(fetchMyProfile());
   };
 
-  const handleGoogleSignIn = () => {
-    // Handle Google Sign-in
-    console.log("this function is disabled now.");
-    Alert(
-      "this feature is disabled for some time. kindly enter email and password."
-    );
+  // ---------- for Google-authentication ------
+  // const [loadingGauth, setLoadingGauth] = useState(false);
+
+  // useEffect(() => {
+  //   fetch(`${B_URL}/auth/me`, {credentials: 'include'}) // Make sure credentials are included
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       if (data.user) {
+  //         setAuth(true);
+  //       } else {
+  //         setAuth(false);
+  //       }
+  //       setLoadingGauth(false);
+  //     })
+  //     .catch(() => setLoadingGauth(false));
+  // }, []);
+
+  // if (loadingGauth) return <div>Loading...</div>;
+
+  const handleGoogleSignIn = async () => {
+    // window.location.href = `${B_URL}/auth/google`;
+    window.open(`${B_URL}/auth/google`, '_self');
   };
 
   return (
@@ -50,20 +63,20 @@ const LoginPage = () => {
       <Container
         maxWidth="full"
         sx={{
-          height: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
           backgroundImage: `url(${bg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
         }}>
         <Box
           maxWidth="md"
           sx={{
-            width: "100%",
-            height: "70vh",
-            display: "flex",
+            width: '100%',
+            height: '70vh',
+            display: 'flex',
             boxShadow: 3,
             borderRadius: 2,
           }}>
@@ -71,12 +84,12 @@ const LoginPage = () => {
           <Box
             sx={{
               flex: 1,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
               padding: 3,
-              bgcolor: "background.default",
+              bgcolor: 'background.default',
             }}>
             <Typography variant="h5" gutterBottom>
               Log in with Email
@@ -114,7 +127,7 @@ const LoginPage = () => {
                 fullWidth
                 sx={{mt: 2}}
                 type="submit">
-                {loading ? <Loading text="verifying..." /> : "Log In"}
+                {loading ? <Loading text="verifying..." /> : 'Log In'}
               </Button>
             </form>
             <div className="flex justify-center items-center h-screen">
@@ -133,12 +146,12 @@ const LoginPage = () => {
           <Box
             sx={{
               flex: 1,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
               padding: 3,
-              bgcolor: "grey.100",
+              bgcolor: 'grey.100',
             }}>
             <Typography variant="h5" gutterBottom>
               Sign up with Google
