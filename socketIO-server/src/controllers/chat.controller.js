@@ -1,9 +1,9 @@
 // chatController.js
-import {Chat} from "../models/chat.model.js";
-import {Message} from "../models/message.model.js"; // Import the message model if storing chats
-import {User} from "../models/user.model.js";
-import {ApiError} from "../utils/ApiError.js";
-import {uploadOnCloudinary} from "../utils/cloudinary.js";
+import {Chat} from '../models/chat.model.js';
+import {Message} from '../models/message.model.js'; // Import the message model if storing chats
+import {User} from '../models/user.model.js';
+import {ApiError} from '../utils/ApiError.js';
+import {uploadOnCloudinary} from '../utils/cloudinary.js';
 
 // Helper functions
 const getUserSocket = async (userId) => {
@@ -50,7 +50,7 @@ export const handleChatMessage = async (io, socket, data) => {
       content: content,
       fileInfo,
       caption: caption,
-      status: "saved",
+      status: 'saved',
       type: type,
       time: time,
       date: date,
@@ -64,8 +64,8 @@ export const handleChatMessage = async (io, socket, data) => {
       members: {$all: [senderId, receiverId]}, // Match both members in any order
     });
 
-    let lastMsgForChat = "";
-    if (type === "text") {
+    let lastMsgForChat = '';
+    if (type === 'text') {
       lastMsgForChat = content;
     } else {
       lastMsgForChat = fileInfo.fileName;
@@ -119,8 +119,8 @@ export const handleChatMessage = async (io, socket, data) => {
       );
 
       // console.log(
-        "Sender's chatsList updated with the latest chat at the beginning."
-      );
+      //   "Sender's chatsList updated with the latest chat at the beginning."
+      // );
 
       // ------------------------ receiver ----------
 
@@ -145,8 +145,8 @@ export const handleChatMessage = async (io, socket, data) => {
       );
 
       // console.log(
-        "receiver's chatsList updated with the latest chat at the beginning."
-      );
+      //   "receiver's chatsList updated with the latest chat at the beginning."
+      // );
     }
 
     // Emit acknowledgement for the message-sender that message is received by server. (for single tick  in FE )
@@ -158,7 +158,7 @@ export const handleChatMessage = async (io, socket, data) => {
       status: savedMessage.status,
     };
     // server tells to sender msg saved in DB
-    socket.timeout(1000).emit("messageSaved", msgDetails, (response) => {
+    socket.timeout(1000).emit('messageSaved', msgDetails, (response) => {
       // this callback is execute only if client side send ack.
     });
 
@@ -170,7 +170,7 @@ export const handleChatMessage = async (io, socket, data) => {
 
       io.timeout(1000)
         .to(receiver.socketId)
-        .emit("receiveMessage", savedMessage, async (err, responses) => {
+        .emit('receiveMessage', savedMessage, async (err, responses) => {
           if (err) {
             // some clients did not acknowledge the event in the given delay
             // console.error("Message delivery failed:", err);
@@ -179,15 +179,15 @@ export const handleChatMessage = async (io, socket, data) => {
             for (const response of responses) {
               const {messageId, status, chatId} = response;
               // // console.log("--- messageId, status:", messageId, status);
-              if (messageId && status === "received") {
+              if (messageId && status === 'received') {
                 const msg = await Message.findById(messageId);
                 if (msg) {
-                  msg.status = "delivered";
+                  msg.status = 'delivered';
                   await msg.save();
                   // console.log("---- message delivered");
                   addUnreadMsg(msg);
                   // Notify the sender that msg is delivered to receiver
-                  socket.emit("messageDelivered", messageId);
+                  socket.emit('messageDelivered', messageId);
                 } else {
                   // console.log(`--- No message found with ID: ${messageId}`);
                 }
@@ -206,7 +206,7 @@ export const handleChatMessage = async (io, socket, data) => {
     }
   } catch (error) {
     // console.error("Error creating chat with message:", error);
-    throw new ApiError(500, "Internal server error");
+    throw new ApiError(500, 'Internal server error');
   }
 };
 // ----------message is delivered but not read by receiver-----
@@ -267,11 +267,11 @@ export const handleMessageRead = async (io, socket, data) => {
   const sender = await getUserSocket(senderId);
   try {
     // console.log("--- messageId : ", messageId);
-    await Message.findByIdAndUpdate(messageId, {status: "read"});
+    await Message.findByIdAndUpdate(messageId, {status: 'read'});
 
     io.timeout(3000)
       .to(sender.socketId)
-      .emit("message-read-confirmation", messageId);
+      .emit('message-read-confirmation', messageId);
   } catch (err) {
     // console.error(err);
   }

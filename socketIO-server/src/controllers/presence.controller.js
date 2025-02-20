@@ -1,6 +1,6 @@
 // presenceController.js
-import {Message} from "../models/message.model.js";
-import {User} from "../models/user.model.js";
+import {Message} from '../models/message.model.js';
+import {User} from '../models/user.model.js';
 
 export const handleUserOnline = async (io, socket) => {
   const userId = socket.user._id;
@@ -14,15 +14,15 @@ export const handleUserOnline = async (io, socket) => {
       await user.save();
 
       // Broadcast to contacts that this user is online
-      io.emit("userOnline", {userId});
+      io.emit('userOnline', {userId});
 
-      let usera = await user.populate("undeliveredMessages");
+      let usera = await user.populate('undeliveredMessages');
 
       if (usera && usera.undeliveredMessages.length > 0) {
         usera.undeliveredMessages.forEach((message) => {
           io.timeout(1000)
             .to(socket.id)
-            .emit("receiveMessage", message, async (err, responses) => {
+            .emit('receiveMessage', message, async (err, responses) => {
               if (err) {
                 // console.log(err);
               }
@@ -31,18 +31,14 @@ export const handleUserOnline = async (io, socket) => {
               for (const response of responses) {
                 const {messageId, status, chatId} = response;
                 // // console.log("--- messageId, status:", messageId, status);
-                if (messageId && status === "received") {
+                if (messageId && status === 'received') {
                   const msg = await Message.findById(messageId);
                   if (msg) {
-                    msg.status = "delivered";
+                    msg.status = 'delivered';
                     await msg.save();
 
-                    // console.log(
-                      `--- msg status aved in db in presence controller: `
-                    );
-
                     // Notify the sender
-                    socket.emit("messageDelivered", messageId);
+                    socket.emit('messageDelivered', messageId);
                   } else {
                     // console.log(`--- No message found with ID: ${messageId}`);
                   }
@@ -69,10 +65,10 @@ export const handleUserOffline = async (io, socket) => {
   if (user) {
     user.isOnline = false;
     user.lastSeen = new Date();
-    user.socketId = "######abc";
+    user.socketId = null;
     await user.save();
 
     // Broadcast to contacts that this user is offline
-    io.emit("userOffline", {userId: user._id});
+    io.emit('userOffline', {userId: user._id});
   }
 }; //tested

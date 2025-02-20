@@ -139,8 +139,6 @@ const DisplayMyStatus = ({myStatuses, onClose}) => {
                       <span className=" text-xl mx-1">{viewers.length}</span>
                     </div>
                   </div>
-
-                  {// console.log('currentStatus: ', currentStatus)}
                 </div>
               ) : (
                 <div className="relative  ">
