@@ -7,9 +7,10 @@ dotenv.config({
 });
 
 // its is DB call, not DB connection. DB connection file is written in database folder
+const PORT = process.env.PORT || 8000;
 connectDB()
   .then(() => {
-    app.listen(process.env.PORT || 8000, () => {
+    app.listen(PORT, () => {
       // console.log(`Server is running at port : ${process.env.PORT}`);
     });
   })
