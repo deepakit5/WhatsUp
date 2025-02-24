@@ -7,7 +7,7 @@ import FilterOutlinedIcon from '@mui/icons-material/FilterOutlined';
 
 import AddIcon from '@mui/icons-material/Add';
 import {openDrawerLeft} from '../../redux/slices/chat/leftDrawer.slice';
-import sendTextStatus from './SendTextStatus.jsx';
+// import sendTextStatus from './SendTextStatus.jsx';
 import StatusUpload from './StatusUpload.jsx';
 import {
   fetchMyStatuses,
