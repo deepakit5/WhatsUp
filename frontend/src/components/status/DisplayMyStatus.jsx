@@ -26,7 +26,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 const DisplayMyStatus = ({myStatuses, onClose}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  //   // console.log('--- myStatuses: ', myStatuses);
+  //   console.log('--- myStatuses: ', myStatuses);
   const {profileImage, username} = useSelector((state) => state.user);
   const {viewers} = useSelector((state) => state.status);
   const [open, setOpen] = useState(false);

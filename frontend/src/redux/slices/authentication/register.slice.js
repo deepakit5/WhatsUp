@@ -13,7 +13,7 @@ export const registerUser = createAsyncThunk(
           'Content-Type': 'multipart/form-data',
         },
       });
-      // console.log("response of registerUser slice ", response.data);
+      console.log('response of registerUser slice ', response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

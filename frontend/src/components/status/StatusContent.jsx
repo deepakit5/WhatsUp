@@ -5,12 +5,12 @@ import {useSelector} from 'react-redux';
 import {useSocket} from '../../hooks/useSocket.hook';
 
 const StatusContent = ({currentStatus}) => {
-  // console.log('@@## currentStatus: ', currentStatus);
+  console.log('@@## currentStatus: ', currentStatus);
   const socket = useSocket();
   const {username, userId, profileImage} = useSelector((state) => state.user);
 
   useEffect(() => {
-    // console.log('--- status-seen emitting...');
+    console.log('--- status-seen emitting...');
     socket.timeout(1000).emit('status-seen', {
       statusId: currentStatus._id,
       viewerId: userId,

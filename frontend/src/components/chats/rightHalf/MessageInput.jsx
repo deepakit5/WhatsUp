@@ -59,7 +59,7 @@ const MessageInput = () => {
 
   const handleAddBtn = (e) => {
     setAddBtnClicked(!addBtnClicked);
-    // console.log("addBtnClicked in handle in chats: ", addBtnClicked);
+    console.log('addBtnClicked in handle in chats: ', addBtnClicked);
   };
 
   const formatFileSize = (sizeInBytes) => {
@@ -93,7 +93,7 @@ const MessageInput = () => {
 
         pages = pdfDoc.getPageCount(); // Extract page count
       } catch (error) {
-        // console.error("Error loading PDF:", error);
+        console.error('Error loading PDF:', error);
       }
     }
     // ------------------x--------
@@ -310,7 +310,7 @@ const MessageInput = () => {
                   className="hidden"
                   accept="image/*"
                   onChange={handleFileChange}
-                  // onChange={(e) => // console.log(e.target.files[0])} // Handle file selection
+                  // onChange={(e) => console.log(e.target.files[0])} // Handle file selection
                 />
               </li>
               {/* videos */}

@@ -9,8 +9,8 @@ export const searchUsers = createAsyncThunk(
   async (query, {rejectWithValue}) => {
     const B_URL = import.meta.env.VITE_BACKEND_URL;
     try {
-      // console.log("BEFORE searchUsers call api: ");
-      // console.log("query ji in slice: ", query);
+      console.log('BEFORE searchUsers call api: ');
+      console.log('query ji in slice: ', query);
 
       const response = await axios.get(
         `${B_URL}/chat/searchUser?query=${query}`,
@@ -23,7 +23,7 @@ export const searchUsers = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      // console.error("Error in searchUsers:", error);
+      console.error('Error in searchUsers:', error);
       return rejectWithValue(error.response?.data || 'Failed to search users ');
     }
   }
@@ -52,7 +52,7 @@ const searchSlice = createSlice({
       })
       .addCase(searchUsers.rejected, (state, action) => {
         state.loading = false;
-        // console.log(action.error);
+        console.log(action.error);
         state.error = action.error.message;
         toast.error(state.error);
       });

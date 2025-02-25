@@ -15,21 +15,21 @@ const ChatMain = ({containerRef}) => {
   const {isOpen} = useSelector((state) => state.leftDrawer);
 
   const {chatsList, loading, searchQuery} = useSelector((state) => state.chat);
-  // // console.log("chats list value in chat-main.jsx: ", chatsList);
+  console.log('chats list value in chat-main.jsx: ', chatsList);
 
   const handleSearch = (searchTerm, searchContext) => {
     if (searchContext === 'chatList') {
-      // console.log(`Searching in ${searchContext}: ${searchTerm}`);
+      console.log(`Searching in ${searchContext}: ${searchTerm}`);
 
       dispatch(filterChats(searchTerm));
     }
   };
 
   useEffect(() => {
-    // // console.log("---- fetching chat listin chat main: ");
+    console.log('---- fetching chat listin chat main: ');
 
     return () => {
-      // // console.log("second");
+      // console.log("second");
 
       dispatch(setSearchTerm(''));
     };

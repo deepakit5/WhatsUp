@@ -3,12 +3,12 @@ import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 
 const AiMain = ({containerRef}) => {
-  // console.log('inside ai main');
+  console.log('inside ai main');
   const {isOpen} = useSelector((state) => state.leftDrawer);
 
   // Log containerRef updates for debugging
   useEffect(() => {
-    // console.log('containerRef in AiMain: ', containerRef?.current);
+    console.log('containerRef in AiMain: ', containerRef?.current);
   }, [containerRef]);
 
   // Safeguard against null containerRef

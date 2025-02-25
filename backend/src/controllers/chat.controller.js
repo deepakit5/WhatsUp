@@ -52,7 +52,7 @@ export const searchUser = async (req, res) => {
     let result = [];
 
     if (!query) {
-      // console.log('no query::::');
+      console.log('no query::::');
       return res.json(result); // Empty array if no query
     }
 
@@ -80,7 +80,7 @@ export const searchUser = async (req, res) => {
 
     res.json(result);
   } catch (error) {
-    // console.error(error);
+    console.error(error);
     res.status(500).json({message: 'Server Error'});
   }
 };
@@ -104,7 +104,7 @@ export const getChatHistory = async (req, res) => {
     // Send the messages as response
     res.status(200).json(messages);
   } catch (error) {
-    // console.error(error);
+    console.error(error);
     res
       .status(500)
       .json({message: 'An error occurred while fetching chat history'});

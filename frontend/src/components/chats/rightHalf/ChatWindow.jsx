@@ -59,7 +59,7 @@ const ChatWindow = () => {
               currentMsgDate = formatDateTime(new Date(Date.now()), {
                 date: true,
               });
-              // console.log('##### currentMsgDate: ', currentMsgDate);
+              console.log('##### currentMsgDate: ', currentMsgDate);
             }
 
             const showDate = index === 0 || currentMsgDate !== prevMsgDate;

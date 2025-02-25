@@ -44,7 +44,7 @@ const Message = ({msg, onImageLoad}) => {
     } else if (typeof msg.content === 'object') {
       setFileUrl(URL.createObjectURL(msg.content));
     } else {
-      // console.log("setting file null: ");
+      console.log('setting file null: ');
       setFileUrl(null);
     }
   }, [msg, msg.content]);
@@ -54,7 +54,7 @@ const Message = ({msg, onImageLoad}) => {
       msg.senderId !== currentUserId &&
       (msg.status === 'saved' || msg.status === 'delivered')
     ) {
-      // console.log("--- message read emitting...");
+      console.log('--- message read emitting...');
       socket.timeout(1000).emit('message-read', {
         messageId: msg._id,
         chatId: msg.chatId,
@@ -274,7 +274,7 @@ const Message = ({msg, onImageLoad}) => {
   const handleDeleteMsgForEveryone = (msg) => {
     setMsgOptionClicked(false);
     if (msg.status === 'pending') {
-      // console.log("--------- deleting msg locally...");
+      console.log('--------- deleting msg locally...');
       dispatch(deleteMessage(msg.tempId));
     } else {
       try {
@@ -284,24 +284,24 @@ const Message = ({msg, onImageLoad}) => {
           chatId: msg.chatId,
           content: msg.content,
         };
-        // console.log("msg to be deleted: ", msgInfo);
-        // console.log("Socket connected:", socket.connected); // Should be true
-        // console.log("Socket ID:", socket.id); // Should not be undefined
+        console.log('msg to be deleted: ', msgInfo);
+        console.log('Socket connected:', socket.connected); // Should be true
+        console.log('Socket ID:', socket.id); // Should not be undefined
 
         socket
           .timeout(3000)
           .emit('deleteMsgForEveryone', msgInfo, (err, res) => {
             if (err) {
-              // console.error("message deletion failed");
+              console.error('message deletion failed');
             } else {
               if (res && res.status === 'done') {
                 dispatch(deleteMessage(msg._id));
-                // console.log(`Message ${msg.content} deleted successfully.`);
+                console.log(`Message ${msg.content} deleted successfully.`);
               }
             }
           });
       } catch (error) {
-        // console.error("Error in the  deleting message:", error);
+        console.error('Error in the  deleting message:', error);
       }
     }
   };

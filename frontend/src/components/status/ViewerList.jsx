@@ -7,7 +7,7 @@ import {getStatusDayTime} from '../../utils/getStatusDayTime';
 const ViewerList = ({currentStatus}) => {
   // Get the viewer list for the currently playing status
   const viewers = currentStatus?.viewers || [];
-  // console.log('\n### viewers: ', viewers);
+  console.log('\n### viewers: ', viewers);
   return (
     <div className="   relative  min-w-64 min-h-80 bg-black">
       {viewers.length > 0 ? (

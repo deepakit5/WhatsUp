@@ -4,7 +4,7 @@ import {Status} from '../models/status.model.js';
 import {User} from '../models/user.model.js';
 
 export const handleStatusSeen = async (io, socket, data) => {
-  // // console.log('handleStatusSeen  data: ', data);
+  console.log('handleStatusSeen  data: ', data);
 
   const {statusId, viewerId, viewerName, viewerImg} = data;
 
@@ -29,13 +29,13 @@ export const handleStatusSeen = async (io, socket, data) => {
 
     // if user is online notify it
     if (sender?.socketId) {
-      // console.log('status-seen-notify emitting...');
+      console.log('status-seen-notify emitting...');
       io.timeout(3000)
         .to(sender.socketId)
         .emit('status-seen-notify', newViewer);
     }
   } catch (err) {
-    // console.error(err);
+    console.error(err);
   }
 };
 
@@ -58,7 +58,7 @@ export const handleStatusReply = async (io, socket, data, ack) => {
         .emit('statusReply', {statusId, message, userId});
     }
   } catch (err) {
-    // console.error('Error handle Status Reply :', err);
+    console.error('Error handle Status Reply :', err);
     throw new ApiError(500, 'Internal server error');
   }
 };

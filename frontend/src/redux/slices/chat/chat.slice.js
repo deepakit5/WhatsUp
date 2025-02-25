@@ -15,11 +15,11 @@ export const fetchChatList = createAsyncThunk(
         },
       });
 
-      // // console.log("---- fetch Chat List response: ", response.data);
+      console.log('---- fetch Chat List response: ', response.data);
       return response.data;
     } catch (error) {
-      // console.log('Error in fetchChatList 111:', error);
-      // console.error('Error in fetchChatList:', error.response || error.message);
+      console.log('Error in fetchChatList 111:', error);
+      console.error('Error in fetchChatList:', error.response || error.message);
       return rejectWithValue(
         error.response?.data || {message: 'failed to fetch Chat list'}
       );
@@ -42,7 +42,7 @@ const chatSlice = createSlice({
   reducers: {
     setSearchTerm: (state, action) => {
       state.searchTerm = action.payload;
-      // console.log('search term is setted to zero');
+      console.log('search term is setted to zero');
     },
     // Action to filter the chat list based on search input
     filterChats: (state, action) => {
@@ -67,7 +67,7 @@ const chatSlice = createSlice({
 
       .addCase(fetchChatList.fulfilled, (state, action) => {
         state.chatsList = action.payload;
-        // // console.log("value of chatslist in redux : ", state.chatsList);
+        console.log('value of chatslist in redux : ', state.chatsList);
         state.loading = false;
         state.message = action.payload.message;
       })

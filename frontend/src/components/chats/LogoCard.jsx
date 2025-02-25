@@ -22,7 +22,7 @@ const LogoCard = () => {
 
   const handleThreeDots = () => {
     setThreeDotClicked(!threeDotClicked);
-    // console.log("threeDotClicked in handle in logo card: ", threeDotClicked);
+    console.log('threeDotClicked in handle in logo card: ', threeDotClicked);
   };
 
   return (

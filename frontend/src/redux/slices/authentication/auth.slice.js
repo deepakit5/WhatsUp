@@ -87,7 +87,7 @@ export const checkAuth = createAsyncThunk('auth/checkAuth', async () => {
 //         localStorage.setItem('token', data.accessToken);
 
 //         // Return the---- data to be stored in the Redux state
-//         // console.log('------ googleAuthCallback: ', data);
+//         console.log('------ googleAuthCallback: ', data);
 //         return data;
 //       } else {
 //         // If the response is not successful, reject with the error message

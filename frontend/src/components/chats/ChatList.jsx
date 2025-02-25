@@ -16,7 +16,7 @@ const ChatList = () => {
   const {newMessage} = useSelector((state) => state.chatWindow);
 
   useEffect(() => {
-    // // console.log("---- fetching chat list jsx of chat list");
+    // console.log("---- fetching chat list jsx of chat list");
     setChattedList(chatsList);
   }, [chatsList]);
 
@@ -38,7 +38,7 @@ const ChatList = () => {
   useEffect(() => {
     // Handle new message and reorder chat list
     if (newMessage) {
-      // console.log('New message received:', newMessage);
+      console.log('New message received:', newMessage);
 
       // Check if the chat is already at the first position
       if (chatsList[0]?.chat._id === newMessage.chatId) {

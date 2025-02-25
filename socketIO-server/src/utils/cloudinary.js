@@ -4,7 +4,7 @@ import fs from 'fs';
 const uploadOnCloudinary = async (localFilePath) => {
   try {
     if (!localFilePath) {
-      // console.log("localFilePath does not got");
+      console.log('localFilePath does not got');
       return null;
     }
 
@@ -22,12 +22,12 @@ const uploadOnCloudinary = async (localFilePath) => {
       public_id: 'avatar',
     });
     // file has been uploaded successfully
-    // console.log("file is uploaded on cloudinary ", response.url);
+    console.log('file is uploaded on cloudinary ', response.url);
     fs.unlinkSync(localFilePath);
     return response;
   } catch (error) {
     fs.unlinkSync(localFilePath); // remove the locally saved temporary file as the upload operation got failed
-    // console.log("error in cloudinary- ", error);
+    console.log('error in cloudinary- ', error);
     return null;
   }
 };

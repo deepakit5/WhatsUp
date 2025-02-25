@@ -21,7 +21,7 @@ export const uploadStatus = createAsyncThunk(
       if (response?.data) {
         dispatch(fetchMyStatuses);
       }
-      // console.log('---- response from upload status:', response.data);
+      console.log('---- response from upload status:', response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -40,7 +40,7 @@ export const fetchMyStatuses = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       });
-      // console.log('response from fetch my status:', response.data);
+      console.log('response from fetch my status:', response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || 'Error fetching statuses');
@@ -61,7 +61,7 @@ export const fetchStatusList = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       });
-      // console.log('response of status-list:', response.data);
+      console.log('response of status-list:', response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || 'Error fetching statuses');
@@ -112,27 +112,27 @@ export const statusSocketListeners = createAsyncThunk(
       // Listener for `receive reply Message on status` event
       socket.on('statusReply', (data, ack) => {
         try {
-          // console.log('--- statusReply received : ', data);
+          console.log('--- statusReply received : ', data);
           dispatch(addNewReply(data));
 
           // Send the acknowledgment using the provided callback
           if (ack) {
             ack({status: 'received'});
           } else {
-            // console.error('--- No acknowledgment function provided.');
+            console.error('--- No acknowledgment function provided.');
           }
           // Dispatch an action to store the message
         } catch (error) {
-          // console.error('Error in status Reply listener:', error);
+          console.error('Error in status Reply listener:', error);
         }
       });
 
       socket.on('status-seen-notify', (data) => {
         try {
-          // console.log('--- status-seen-notify : ', data);
+          console.log('--- status-seen-notify : ', data);
           dispatch(addViewer(data));
         } catch (error) {
-          // console.log(error);
+          console.log(error);
         }
       });
     }

@@ -6,7 +6,7 @@ import {User} from '../models/user.model.js';
 // Upload Status with Multiple Media
 export const uploadStatus = async (req, res) => {
   try {
-    // // console.log('----- req :', req);
+    // console.log('----- req :', req);
     const userId = req.user._id;
 
     const {caption} = req.body;
@@ -63,7 +63,7 @@ export const getAllStatus = asyncHandler(async (req, res) => {
     .populate('senderId', 'username avatar') // Get only the username
     .sort({createdAt: -1});
 
-  // // console.log('before map statuses: ', statuses);
+  // console.log('before map statuses: ', statuses);
   // Group statuses by senderId (user-wise)
   const userStatusMap = new Map();
 

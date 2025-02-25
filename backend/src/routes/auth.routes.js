@@ -48,7 +48,7 @@ router.route('/reset-password/:token').post(resetPassword);
 router.get(
   '/google',
   (req, res, next) => {
-    // console.log('Google Auth Route Reached');
+    console.log('Google Auth Route Reached');
     next();
   },
   passport.authenticate('google', {session: false, scope: ['profile', 'email']})
@@ -58,7 +58,7 @@ router.get(
 // router.get(
 //   '/google/callback',
 //   (req, res, next) => {
-//     // console.log('Google Callback Route Reached');
+//     console.log('Google Callback Route Reached');
 //     next();
 //   },
 
@@ -67,7 +67,7 @@ router.get(
 //     failureRedirect: `${process.env.FRONTEND_URL}/auth/login`,
 //   }),
 //   async (req, res) => {
-//     // console.log('Google Authentication Successful');
+//     console.log('Google Authentication Successful');
 
 //     const {
 //       accessToken,
@@ -118,7 +118,7 @@ router.get(
 router.get(
   '/google/callback',
   (req, res, next) => {
-    // console.log('Google Callback Route Reached');
+    console.log('Google Callback Route Reached');
     next();
   },
 
@@ -128,7 +128,7 @@ router.get(
   }),
   googleAuthCallback //on succussfull G-authentication this function will run
   // async (req, res) => {
-  //   // console.log('Google Authentication Successful');
+  //   console.log('Google Authentication Successful');
   //   res.redirect(`${process.env.FRONTEND_URL}/auth/me`);
   // }
 );

@@ -28,19 +28,19 @@ export const chatWindowSocketListeners = createAsyncThunk(
       // Listener for `receiveMessage` event
       socket.on('receiveMessage', (message, ack) => {
         try {
-          // console.log("--- message received : ", message);
+          console.log('--- message received : ', message);
           dispatch(addMessage(message));
 
           // Send the acknowledgment using the provided callback
           if (ack) {
             ack({messageId: message._id, status: 'received'});
           } else {
-            // console.error("--- No acknowledgment function provided.");
+            console.error('--- No acknowledgment function provided.');
           }
 
           // Dispatch an action to store the message
         } catch (error) {
-          // console.error("Error in receiveMessage listener:", error);
+          console.error('Error in receiveMessage listener:', error);
         }
       });
 
@@ -52,7 +52,7 @@ export const chatWindowSocketListeners = createAsyncThunk(
       // Listen for read notifications
       // message-read-notify: Emitted by the server to notify the sender that the message has been read.
       socket.on('message-read-confirmation', (messageId) => {
-        // console.log("---- Message read confirmation :", messageId);
+        console.log('---- Message read confirmation :', messageId);
 
         // Update the UI to reflect that the message was read
         dispatch(updateMessageStatus({messageId, status: 'read'}));
@@ -60,11 +60,11 @@ export const chatWindowSocketListeners = createAsyncThunk(
 
       // Listener for `receiveMessage` event
       socket.on('deleteTheMessage', (messageId, ack) => {
-        // console.log("-------deleteTheMessage is listening.....");
+        console.log('-------deleteTheMessage is listening.....');
         try {
           dispatch(deleteMessage(messageId));
         } catch (err) {
-          // console.error("deleteTheMessage: ", err);
+          console.error('deleteTheMessage: ', err);
         }
 
         ack({status: 'message deleted succesfully at receiver side'});
@@ -162,7 +162,7 @@ const chatWindowSlice = createSlice({
       if (state.selectedChat?.chat?._id === state.newMessage.chatId) {
         state.messages.push(state.newMessage);
       } else {
-        // console.log("selected chat chat not found in add message ,");
+        console.log('selected chat chat not found in add message ,');
       }
     },
 
@@ -188,9 +188,9 @@ const chatWindowSlice = createSlice({
       const message = state.messages.find((msg) => msg._id === messageId);
       if (message) {
         message.status = status; // Update status of the message
-        // console.log("msg is found and  setted status:", status);
+        console.log('msg is found and  setted status:', status);
       } else {
-        // console.log("message not found to update status in slice");
+        console.log('message not found to update status in slice');
       }
     },
 

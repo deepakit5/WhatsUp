@@ -65,14 +65,14 @@ const ChatCard = ({chat}) => {
       const isSender = newMessage.senderId === userId;
 
       if (!isSender && !isActiveChat) {
-        // console.log('\n--- counting increased by +1 :');
+        console.log('\n--- counting increased by +1 :');
         setUnreadMsgCount((prevCount) => prevCount + 1);
       }
     }
 
     // Reset unread messages if the chat becomes active
     if (isActiveChat) {
-      // console.log('setting set Unread MsgCount to 0: ');
+      console.log('setting set Unread MsgCount to 0: ');
       setUnreadMsgCount(0);
     }
   }, [newMessage, isActiveChat, chat.chat._id]);

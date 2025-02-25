@@ -30,20 +30,20 @@ const io = new SocketIO(server, {
 connectDB()
   .then(() => {
     server.listen(process.env.PORT || 8000, () => {
-      // console.log(`Socket.IO Server is running at port : ${process.env.PORT}`);
+      console.log(`Socket.IO Server is running at port : ${process.env.PORT}`);
     });
   })
   .catch((err) => {
-    // console.log("MONGO db connection failed !!", err);
+    console.log('MONGO db connection failed !!', err);
   });
 
 // Middleware to authenticate socket connections with JWT
 io.use(verifyJWT);
-// console.log("verification done");
+console.log('verification done');
 
 // Handle incoming socket connections
 io.on('connection', (socket) => {
-  // console.log(`--New user connected--: ${socket.id}`);
+  console.log(`--New user connected--: ${socket.id}`);
 
   handleUserOnline(io, socket);
 

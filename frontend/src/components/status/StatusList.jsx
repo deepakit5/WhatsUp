@@ -8,7 +8,7 @@ const StatusList = () => {
   const {statusList} = useSelector((state) => state.status);
   const [selectedStatus, setSelectedStatus] = useState(null);
 
-  // console.log('--- statuslist: ', statusList);
+  console.log('--- statuslist: ', statusList);
 
   return (
     <div className=" mt-2 ">

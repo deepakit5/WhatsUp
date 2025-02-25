@@ -59,7 +59,7 @@ const NewChat = ({containerRef}) => {
     dispatch(openDrawerRight('rightHalfMain'));
 
     dispatch(selectUser(user));
-    // // console.log("dispatching selected chat in new chat ", user);
+    console.log('dispatching selected chat in new chat ', user);
   };
 
   return (

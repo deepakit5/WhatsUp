@@ -12,7 +12,7 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
 
     if (!token) {
       // return next(new ApiError(401, 'Token is missing'));
-      // console.log('--- Token is missing in auth-middleware');
+      console.log('--- Token is missing in auth-middleware');
       return res.redirect(`${process.env.FRONTEND_URL}/login`);
     }
 
@@ -24,7 +24,7 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
 
     if (!user) {
       // next(new ApiError(401, 'Invalid token!'));
-      // console.log('--- Invalid token! in auth middleware ');
+      console.log('--- Invalid token! in auth middleware ');
       return res.redirect(`${process.env.FRONTEND_URL}/login`);
     }
 
@@ -32,7 +32,7 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
     next();
   } catch (error) {
     // return next(new ApiError(401, error?.message || 'Invalid access token'));
-    // console.log('--- Token is missing in auth-middleware');
+    console.log('--- Token is missing in auth-middleware');
 
     return res.redirect(`${process.env.FRONTEND_URL}/login`);
   }

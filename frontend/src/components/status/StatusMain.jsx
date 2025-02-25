@@ -44,7 +44,7 @@ const StatusMain = ({containerRef}) => {
 
   const handleThreeDots = () => {
     setThreeDotClicked(!threeDotClicked);
-    // console.log('threeDotClicked in handle: ', threeDotClicked);
+    console.log('threeDotClicked in handle: ', threeDotClicked);
   };
 
   useEffect(() => {

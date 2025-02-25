@@ -10,7 +10,7 @@ const SearchBar = ({
 }) => {
   // Validate onSearch to ensure it's a function
   if (typeof onSearch !== 'function') {
-    // console.error("onSearch prop must be a function");
+    console.error('onSearch prop must be a function');
     return null; // Render nothing if onSearch is invalid
   }
 

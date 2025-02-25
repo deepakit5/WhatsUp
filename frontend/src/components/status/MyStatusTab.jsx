@@ -17,7 +17,7 @@ const MyStatusTab = () => {
 
   //
   const {myStatuses, openStatusUpload} = useSelector((state) => state.status);
-  // console.log('--- myStatuses: ', myStatuses);
+  console.log('--- myStatuses: ', myStatuses);
 
   const {profileImage} = useSelector((state) => state.user);
 

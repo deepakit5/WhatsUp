@@ -283,7 +283,7 @@ const resetPassword = async (req, res) => {
 
 // Google OAuth callback
 const googleAuthCallback = (req, res) => {
-  // // console.log('Google Authentication Successful');
+  console.log('Google Authentication Successful');
 
   if (!req.user) return res.redirect('/login');
   // Access the user and tokens returned by the `done` function
@@ -304,7 +304,7 @@ const googleAuthCallback = (req, res) => {
 };
 
 const googleAuthenticatedUser = async (req, res) => {
-  // // console.log('req is: ', req);
+  // console.log('req is: ', req);
   // const user = {};
   // const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(
   //   user._id

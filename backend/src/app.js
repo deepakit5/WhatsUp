@@ -44,7 +44,7 @@ app.use('/api/v1', allRoutes);
 
 // Catch-all for undefined routes (optional)
 app.use((req, res, next) => {
-  // console.error(`Route Not Found: ${req.method} ${req.originalUrl}`); // Log the missing route
+  console.error(`Route Not Found: ${req.method} ${req.originalUrl}`); // Log the missing route
   res.status(404).json({
     success: false,
     message: `Route not found: ${req.method} ${req.originalUrl}`,

@@ -5,8 +5,8 @@ import {User} from '../models/user.model.js';
 export const handleDeleteMessage = async (io, socket, data, ack) => {
   try {
     const {messageId, receiverId, chatId, content} = data;
-    // console.log("inside deleteMsgForEveryone event listener");
-    // console.log("---------msg- content: ", content);
+    console.log('inside deleteMsgForEveryone event listener');
+    console.log('---------msg- content: ', content);
 
     // Delete the message from the database
     await Message.findByIdAndDelete(messageId);
@@ -15,7 +15,7 @@ export const handleDeleteMessage = async (io, socket, data, ack) => {
       {_id: chatId}, // Find the chat by ID
       {$pull: {messages: messageId}} // Remove the specific message ID from the array
     );
-    // // console.log("---- msg deleted successfully in DB");
+    console.log('---- msg deleted successfully in DB');
 
     // Notify the receiver to delete the message if online
     if (receiver && receiver.socketId) {
@@ -23,18 +23,18 @@ export const handleDeleteMessage = async (io, socket, data, ack) => {
         .to(receiver.socketId)
         .emit('deleteTheMessage', messageId, (err, res) => {
           if (err) {
-            // console.error("---- message deletion failed at receiver side ");
+            console.error('---- message deletion failed at receiver side ');
           } else {
-            // console.log("response of deleteTheMessage: ", res);
+            console.log('response of deleteTheMessage: ', res);
           }
         });
     } else {
-      // console.log("socket.id is not found:");
+      console.log('socket.id is not found:');
     }
     // Call the acknowledgment callback to notify the user
     ack({status: 'done'});
   } catch (err) {
-    // console.error("Error deleting message:", err);
+    console.error('Error deleting message:', err);
     ack({status: 'error', message: 'Internal server error'}); // Send error acknowledgment
     throw new ApiError(500, 'Internal server error');
   }

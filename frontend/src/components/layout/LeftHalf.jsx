@@ -101,10 +101,10 @@ const LeftHalf = () => {
   // useEffect(() => {
   //   // Cleanup function to close the drawer when the component unmounts
   //   return () => {
-  //     // console.log("isDrawerOpen inside effect before dispatch: ", isDrawerOpen);
+  //     console.log("isDrawerOpen inside effect before dispatch: ", isDrawerOpen);
 
   //     dispatch(closeDrawer());
-  //     // console.log("isDrawerOpen inside effect after dispatch: ", isDrawerOpen);
+  //     console.log("isDrawerOpen inside effect after dispatch: ", isDrawerOpen);
   //   };
   // }, [content]);
 

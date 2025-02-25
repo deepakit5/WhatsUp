@@ -12,7 +12,7 @@ const socket = io(SO_URL, {
   },
 });
 
-// console.log("\n\n\n-----socket.id in socket SERVICES : ", socket.id);
+console.log('\n\n\n-----socket.id in socket SERVICES : ', socket.id);
 export default socket;
 
 //

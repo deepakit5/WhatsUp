@@ -17,7 +17,7 @@ export const formatDateTime = (date, options = {date: true, time: true}) => {
   return '';
 };
 
-// // console ---------
-// // console.log(formatDateTime(new Date(), { date: true, time: true })); // "25/12/2024 03:45 PM"
-// // console.log(formatDateTime(new Date(), { date: true }));            // "25/12/2024"
-// // console.log(formatDateTime(new Date(), { time: true }));            // "03:45 PM"
+// console ---------
+// console.log(formatDateTime(new Date(), { date: true, time: true })); // "25/12/2024 03:45 PM"
+// console.log(formatDateTime(new Date(), { date: true }));            // "25/12/2024"
+// console.log(formatDateTime(new Date(), { time: true }));            // "03:45 PM"

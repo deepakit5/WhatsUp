@@ -27,7 +27,7 @@ export const getUser = asyncHandler(async (req, res) => {
       .status(200)
       .json(new ApiResponse(200, user, 'User fetched successfully'));
   } catch (error) {
-    // console.error("Error fetching user:", error);
+    console.error('Error fetching user:', error);
     res.status(500).json({message: 'Server error'});
   }
 });
@@ -87,7 +87,7 @@ export const updateUser = asyncHandler(async (req, res) => {
       )
     );
   } catch (error) {
-    // console.error("Error updating user:", error);
+    console.error('Error updating user:', error);
     throw new ApiError(500, 'Internal Server error');
   }
 });

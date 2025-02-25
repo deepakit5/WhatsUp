@@ -14,7 +14,7 @@ export const chatWindowHeaderSocketListeners = createAsyncThunk(
       });
 
       socket.on('userOffline', ({userId}) => {
-        // console.log("userOffline listener userId : ", userId);
+        console.log('userOffline listener userId : ', userId);
 
         dispatch(setOnlineStatus({userId, status: 'offline'}));
       });

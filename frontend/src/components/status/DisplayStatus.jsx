@@ -15,7 +15,7 @@ const DisplayStatus = ({status, onClose}) => {
   const [isPaused, setIsPaused] = useState(false);
   const [reply, setReply] = useState('');
   const dispatch = useDispatch();
-  //   // console.log('--- status: ', status);
+  //   console.log('--- status: ', status);
 
   const totalStatuses = status.statuses.length;
 
@@ -65,7 +65,7 @@ const DisplayStatus = ({status, onClose}) => {
 
   const handleReply = () => {
     if (reply.trim()) {
-      // console.log('sending reply on status .....');
+      console.log('sending reply on status .....');
       //   dispatch(sendReply({statusId: currentStatus._id, text: reply}));
       setReply('');
     }

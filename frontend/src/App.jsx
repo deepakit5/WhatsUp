@@ -25,7 +25,7 @@ const App = () => {
 
   // Check for authToken on app load
   useEffect(() => {
-    // console.log('--- use effect in app .jsx is ruuning');
+    console.log('--- use effect in app .jsx is ruuning');
     const token = Cookies.get('accessToken');
     if (token) {
       localStorage.setItem('token', token); // Store token in localStorage
@@ -33,7 +33,7 @@ const App = () => {
       dispatch(setAuth({authen: true, token: token}));
       dispatch(fetchMyProfile());
     } else {
-      // console.log('---- token does not found!!!');
+      console.log('---- token does not found!!!');
       dispatch(setAuth({authen: false, token: ''}));
     }
   }, [dispatch]);
