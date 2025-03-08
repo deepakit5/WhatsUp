@@ -28,12 +28,8 @@ passport.use(
           });
         }
 
-        const {
-          accessToken,
-          refreshToken,
-          ACCESS_TOKEN_EXPIRY,
-          REFRESH_TOKEN_EXPIRY,
-        } = await generateAccessAndRefereshTokens(user._id);
+        const {accessToken, refreshToken} =
+          await generateAccessAndRefereshTokens(user._id);
 
         return done(null, {user, accessToken, refreshToken});
 
@@ -45,13 +41,16 @@ passport.use(
   )
 );
 
-passport.serializeUser((user, done) => done(null, user._id));
+passport.serializeUser((user, done) => done(null, user));
 
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await User.findById(id);
-    done(null, user);
-  } catch (error) {
-    done(error, null);
-  }
+passport.deserializeUser((user, done) => {
+  done(null, user);
 });
+// passport.deserializeUser(async (id, done) => {
+//   try {
+//     const user = await User.findById(id);
+//     done(null, user);
+//   } catch (error) {
+//     done(error, null);
+//   }
+// });

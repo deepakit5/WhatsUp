@@ -51,7 +51,8 @@ router.get(
     console.log('Google Auth Route Reached');
     next();
   },
-  passport.authenticate('google', {session: false, scope: ['profile', 'email']})
+  // passport.authenticate('google', {session: false, scope: ['profile', 'email']})
+  passport.authenticate('google', {scope: ['profile', 'email']})
 );
 
 // Google Auth Callback
@@ -127,10 +128,6 @@ router.get(
     failureRedirect: `${process.env.FRONTEND_URL}/login`,
   }),
   googleAuthCallback //on succussfull G-authentication this function will run
-  // async (req, res) => {
-  //   console.log('Google Authentication Successful');
-  //   res.redirect(`${process.env.FRONTEND_URL}/auth/me`);
-  // }
 );
 
 router.route('/me').get(verifyJWT, googleAuthenticatedUser);

@@ -285,18 +285,22 @@ const resetPassword = async (req, res) => {
 const googleAuthCallback = (req, res) => {
   console.log('Google Authentication Successful');
 
-  if (!req.user) return res.redirect('/login');
   // Access the user and tokens returned by the `done` function
   const {user, accessToken, refreshToken} = req.user;
-
+  if (!user || !accessToken || !refreshToken) {
+    console.log('user is not found in req of googleAuthCallback');
+    return res.redirect('/login');
+  }
   // Send the tokens to the client (e.g., via cookies or JSON response)
   const options = {
-    httpOnly: false,
-    secure: true,
+    httpOnly: true,
+    // secure: true, // for production
+    secure: false, // for localhost
     sameSite: 'Strict',
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 2 days
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   };
 
+  console.log('cookie has set');
   res.cookie('accessToken', accessToken, options);
   res.cookie('refreshToken', refreshToken, options);
 

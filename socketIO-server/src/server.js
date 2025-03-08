@@ -19,7 +19,6 @@ const server = http.createServer(app);
 
 const io = new SocketIO(server, {
   cors: {
-    // origin: "*", // Adjust this to your frontend's domain in production
     origin: process.env.FRONTEND_URL,
     methods: ['POST', 'GET', 'PUT', 'DELETE'],
     credentials: true,

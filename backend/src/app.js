@@ -1,10 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-// import session from 'express-session';
 import passport from 'passport';
 import './config/passport.config.js';
-// import authRoutes from './routes/authRoutes.js';
 
 const app = express();
 
@@ -12,7 +10,7 @@ app.use(
   cors({
     origin: [process.env.FRONTEND_URL],
     methods: ['POST', 'GET', 'PUT', 'DELETE', 'PATCH'],
-    credentials: true, //to make fronted and backend connection easier
+    credentials: true, // Allow cookies
   })
 );
 
@@ -21,19 +19,7 @@ app.use(express.urlencoded({extended: true, limit: '16kb'}));
 
 app.use(cookieParser()); //parses cookies from the incoming request
 
-// middlewares for google authentications
-// app.use(
-//   session({
-//     secret: process.env.SESSION_SECRET,
-//     resave: false,
-//     saveUninitialized: false,
-//   })
-// );
 app.use(passport.initialize());
-// app.use(passport.session());
-
-// Routes
-// app.use('/auth', authRoutes);
 
 //routes import
 import allRoutes from './routes/index.routes.js';

@@ -16,7 +16,7 @@ import RegisterPage from './pages/RegisterPage.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
 import ResetPassword from './pages/ResetPassword.jsx';
 import PageNotFound from './pages/PageNotFound.jsx';
-import {setAuth} from './redux/slices/authentication/auth.slice.js';
+import {checkAuth, setAuth} from './redux/slices/authentication/auth.slice.js';
 import {fetchMyProfile} from './redux/slices/user/user.slice.js';
 
 const App = () => {
@@ -24,18 +24,22 @@ const App = () => {
   const {isAuthenticated, token} = useSelector((state) => state.auth);
 
   // Check for authToken on app load
-  useEffect(() => {
-    console.log('--- use effect in app .jsx is ruuning');
-    const token = Cookies.get('accessToken');
-    if (token) {
-      localStorage.setItem('token', token); // Store token in localStorage
+  // useEffect(() => {
+  //   console.log('--- use effect in app .jsx is ruuning');
+  //   const token = Cookies.get('accessToken');
+  //   if (token) {
+  //     localStorage.setItem('token', token); // Store token in localStorage
 
-      dispatch(setAuth({authen: true, token: token}));
-      dispatch(fetchMyProfile());
-    } else {
-      console.log('---- token does not found!!!');
-      dispatch(setAuth({authen: false, token: ''}));
-    }
+  //     dispatch(setAuth({authen: true, token: token}));
+  //     dispatch(fetchMyProfile());
+  //   } else {
+  //     console.log('---- token does not found!!!');
+  //     dispatch(setAuth({authen: false, token: ''}));
+  //   }
+  // }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(checkAuth());
   }, [dispatch]);
 
   return (
@@ -43,21 +47,21 @@ const App = () => {
       {/* <AppRouter /> */}
       <Router>
         <Routes>
-          <Route path="/register" element={<RegisterPage />} />
-
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password/:token" element={<ResetPassword />} />
-
-          <Route
-            path="/login"
-            element={isAuthenticated ? <Navigate to="/" /> : <LoginPage />}
-          />
-          {/* <Route path="/login" element={<LoginPage />} /> */}
+          <Route path="/login" element={<LoginPage />} />
 
           <Route
             path="/"
             element={isAuthenticated ? <HomePage /> : <Navigate to="/login" />}
           />
+          {/* <Route
+            path="/login"
+            element={isAuthenticated ? <Navigate to="/" /> : <LoginPage />}
+          /> */}
+
+          <Route path="/register" element={<RegisterPage />} />
+
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
 
           <Route path="*" element={<PageNotFound />} />
         </Routes>

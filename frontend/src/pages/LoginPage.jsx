@@ -35,23 +35,6 @@ const LoginPage = () => {
   };
 
   // ---------- for Google-authentication ------
-  // const [loadingGauth, setLoadingGauth] = useState(false);
-
-  // useEffect(() => {
-  //   fetch(`${B_URL}/auth/me`, {credentials: 'include'}) // Make sure credentials are included
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       if (data.user) {
-  //         setAuth(true);
-  //       } else {
-  //         setAuth(false);
-  //       }
-  //       setLoadingGauth(false);
-  //     })
-  //     .catch(() => setLoadingGauth(false));
-  // }, []);
-
-  // if (loadingGauth) return <div>Loading...</div>;
 
   const handleGoogleSignIn = async () => {
     // window.location.href = `${B_URL}/auth/google`;

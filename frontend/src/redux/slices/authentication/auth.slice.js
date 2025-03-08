@@ -57,15 +57,17 @@ export const resetPassword = createAsyncThunk(
   }
 );
 
-// Async action to verify auth token
+// Async action to verify auth token for g-auth
 export const checkAuth = createAsyncThunk('auth/checkAuth', async () => {
+  const B_URL = import.meta.env.VITE_BACKEND_URL;
+
   try {
-    const res = await axios.get('http://localhost:5000/home', {
+    const {data} = await axios.get(`${B_URL}/auth/me`, {
       withCredentials: true,
     });
-    return res.data.user; // Returns user data if authenticated
-  } catch (error) {
-    return null; // Not authenticated
+    dispatch(loginSuccess(data.user));
+  } catch (err) {
+    console.log('Not authenticated');
   }
 });
 
@@ -101,6 +103,7 @@ export const checkAuth = createAsyncThunk('auth/checkAuth', async () => {
 // );
 
 // Define the slice, which holds the state, reducers, and extraReducers for asynchronous actions
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -114,9 +117,13 @@ const authSlice = createSlice({
   },
   reducers: {
     // Define a synchronous reducer for logging out the user
-    setAuth: (state, {payload}) => {
-      state.isAuthenticated = payload.authen;
-      state.token = payload.token;
+    // setAuth: (state, {payload}) => {
+    //   state.isAuthenticated = payload.authen;
+    //   state.token = payload.token;
+    // },
+    loginSuccess: (state, action) => {
+      state.isAuthenticated = true;
+      state.user = action.payload;
     },
     logout: (state) => {
       state.isAuthenticated = false;
