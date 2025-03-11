@@ -26,6 +26,7 @@ passport.use(
             avatar: profile.photos[0].value,
             phoneNumber: profile.id,
           });
+          console.log('user created successfully:');
         }
 
         const {accessToken, refreshToken} =
@@ -46,11 +47,3 @@ passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => {
   done(null, user);
 });
-// passport.deserializeUser(async (id, done) => {
-//   try {
-//     const user = await User.findById(id);
-//     done(null, user);
-//   } catch (error) {
-//     done(error, null);
-//   }
-// });

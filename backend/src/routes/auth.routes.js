@@ -8,7 +8,8 @@ import {
   resetPassword,
   generateAccessAndRefereshTokens,
   googleAuthCallback,
-  googleAuthenticatedUser,
+  authenticatedUser,
+  // googleAuthenticatedUser,
 } from '../controllers/auth.controller.js';
 import {upload} from '../middlewares/multer.middleware.js';
 import {verifyJWT} from '../middlewares/auth.middleware.js';
@@ -39,8 +40,8 @@ router.route('/refresh-token').post(refreshAccessToken); // tested
 
 router.route('/forgot-password').post(forgotPassword);
 router.route('/reset-password/:token').post(resetPassword);
-// ----------new  google authentication 2nd approach ------
-//
+
+router.route('/me').get(verifyJWT, authenticatedUser);
 
 // ---------- google authentication------
 // Google Auth Route
@@ -129,15 +130,5 @@ router.get(
   }),
   googleAuthCallback //on succussfull G-authentication this function will run
 );
-
-router.route('/me').get(verifyJWT, googleAuthenticatedUser);
-
-// Logout
-// router.get('/logout', (req, res) => {
-//   req.logout((err) => {
-//     if (err) return res.status(500).send(err);
-//     res.redirect(process.env.FRONTEND_URL);
-//   });
-// });
 
 export default router;

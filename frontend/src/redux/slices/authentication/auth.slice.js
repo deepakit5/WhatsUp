@@ -65,44 +65,15 @@ export const checkAuth = createAsyncThunk('auth/checkAuth', async () => {
     const {data} = await axios.get(`${B_URL}/auth/me`, {
       withCredentials: true,
     });
-    dispatch(loginSuccess(data.user));
+    // dispatch(loginSuccess(data.user));
+    console.log('inside check-auth got response');
+    console.log('check auth data in check-auth: ', data.data);
+    return data.data;
   } catch (err) {
     console.log('Not authenticated');
+    return rejectWithValue(err.response.data);
   }
 });
-
-// google authentiation response
-
-// export const googleAuthCallback = createAsyncThunk(
-//   'auth/googleAuthCallback',
-//   async (_, {rejectWithValue}) => {
-//     const B_URL = import.meta.env.VITE_BACKEND_URL;
-
-//     try {
-//       // Make the API call to the Google callback endpoint
-//       const response = await fetch(`${B_URL}/auth/google/callback`);
-//       const data = await response.json();
-
-//       // Check if the response is successful
-//       if (data.success) {
-//         // Save tokens to local storage
-//         localStorage.setItem('token', data.accessToken);
-
-//         // Return the---- data to be stored in the Redux state
-//         console.log('------ googleAuthCallback: ', data);
-//         return data;
-//       } else {
-//         // If the response is not successful, reject with the error message
-//         return rejectWithValue(data.message);
-//       }
-//     } catch (error) {
-//       // Handle any network or other errors
-//       return rejectWithValue(error.message);
-//     }
-//   }
-// );
-
-// Define the slice, which holds the state, reducers, and extraReducers for asynchronous actions
 
 const authSlice = createSlice({
   name: 'auth',
@@ -112,19 +83,11 @@ const authSlice = createSlice({
     isAuthenticated: false,
     message: '',
     loading: false,
+    loadingAutoLogin: false,
     success: false,
     error: false,
   },
   reducers: {
-    // Define a synchronous reducer for logging out the user
-    // setAuth: (state, {payload}) => {
-    //   state.isAuthenticated = payload.authen;
-    //   state.token = payload.token;
-    // },
-    loginSuccess: (state, action) => {
-      state.isAuthenticated = true;
-      state.user = action.payload;
-    },
     logout: (state) => {
       state.isAuthenticated = false;
       state.user = null;
@@ -145,35 +108,24 @@ const authSlice = createSlice({
   },
   // Define extraReducers to handle async thunk actions
   extraReducers: (builder) => {
-    // builder.addCase(checkAuth.fulfilled, (state, action) => {
-    //   if (action.payload) {
-    //     state.isAuthenticated = true;
-    //     state.user = action.payload;
-    //   }
-    // });
-
-    // -----login/signup with google --------x------------
-    // builder
-    //   // Handle the pending state
-    //   .addCase(googleAuthCallback.pending, (state) => {
-    //     state.loading = true;
-    //     state.error = null;
-    //   })
-    //   // Handle the fulfilled state
-    //   .addCase(googleAuthCallback.fulfilled, (state, action) => {
-    //     state.loading = false;
-    //     state.user = action.payload.user;
-    //     state.isAuthenticated = true;
-    //     state.message = action.payload.message;
-    //     toast.success(state.message);
-    //     // state.accessToken = action.payload.accessToken;
-    //     // state.refreshToken = action.payload.refreshToken;
-    //   })
-    //   // Handle the rejected state
-    //   .addCase(googleAuthCallback.rejected, (state, action) => {
-    //     state.loading = false;
-    //     state.error = action.payload;
-    //   });
+    builder
+      .addCase(checkAuth.pending, (state) => {
+        state.loadingAutoLogin = true;
+        state.error = null;
+      })
+      .addCase(checkAuth.fulfilled, (state, action) => {
+        state.loadingAutoLogin = false;
+        state.isAuthenticated = true;
+        state.user = action.payload;
+      })
+      .addCase(checkAuth.rejected, (state, action) => {
+        state.loadingAutoLogin = false;
+        state.isAuthenticated = false;
+        state.user = null;
+        state.error = 'Authentication failed';
+        state.error = action.payload.message;
+        toast.error(state.error);
+      });
 
     // ------manual login -------x--------
     builder
@@ -229,6 +181,12 @@ const authSlice = createSlice({
   },
 });
 
-export const {logout, setAuth, resetSuccess, resetError, clearMessage} =
-  authSlice.actions;
+export const {
+  logout,
+  loginSuccess,
+  setAuth,
+  resetSuccess,
+  resetError,
+  clearMessage,
+} = authSlice.actions;
 export default authSlice.reducer;

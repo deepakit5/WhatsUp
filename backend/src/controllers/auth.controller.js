@@ -293,11 +293,16 @@ const googleAuthCallback = (req, res) => {
   }
   // Send the tokens to the client (e.g., via cookies or JSON response)
   const options = {
-    httpOnly: true,
-    // secure: true, // for production
-    secure: false, // for localhost
-    sameSite: 'Strict',
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    httpOnly: true, // Prevents client-side JS from accessing the cookie
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 day expiry
+
+    // for localhost
+    // secure: false,
+    // sameSite: 'Lax', // Required for cross-origin requests
+
+    // in production
+    secure: true, // Ensures the cookie is sent only over HTTPS
+    sameSite: 'None', // Required for cross-origin requests
   };
 
   console.log('cookie has set');
@@ -307,34 +312,12 @@ const googleAuthCallback = (req, res) => {
   res.redirect(`${process.env.FRONTEND_URL}/`);
 };
 
-const googleAuthenticatedUser = async (req, res) => {
-  // console.log('req is: ', req);
-  // const user = {};
-  // const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(
-  //   user._id
-  // );
-  // const loggedInUser = await User.findById(user._id).select(
-  //   '-password -refreshToken'
-  // );
-  // const options = {
-  //   httpOnly: true,
-  //   secure: true,
-  // };
-  // return res
-  //   .status(200)
-  //   .cookie('accessToken', accessToken, options)
-  //   .cookie('refreshToken', refreshToken, options)
-  //   .json(
-  //     new ApiResponse(
-  //       200,
-  //       {
-  //         // user: loggedInUser,
-  //         accessToken,
-  //         refreshToken,
-  //       },
-  //       'User logged In Successfully'
-  //     )
-  //   );
+const authenticatedUser = async (req, res) => {
+  console.log('inside authenticated User: ');
+  console.log('req.user: ', req.user);
+  return res
+    .status(200)
+    .json(new ApiResponse(200, req.user, 'User fetched successfully 2'));
 };
 
 export {
@@ -346,5 +329,5 @@ export {
   forgotPassword,
   resetPassword,
   googleAuthCallback,
-  googleAuthenticatedUser,
+  authenticatedUser,
 };

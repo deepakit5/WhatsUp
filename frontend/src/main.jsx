@@ -1,13 +1,14 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import {Provider} from "react-redux";
-import {store} from "./app/store.js";
-import App from "./App";
-import "./index.css";
-import {ToastContainer, toast} from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import {Provider} from 'react-redux';
+import {store} from './app/store.js';
+import App from './App';
+import './index.css';
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {BrowserRouter} from 'react-router-dom';
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     {/* <AppRouter /> */}
     <ToastContainer
@@ -22,6 +23,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       pauseOnHover
       theme="light" // or "dark" / "colored"
     />
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>
 );

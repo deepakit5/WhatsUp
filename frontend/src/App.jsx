@@ -1,11 +1,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from 'react-router-dom';
+import {Route, Routes, Navigate, useNavigate} from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 import {useSocket} from './hooks/useSocket.hook.js';
@@ -21,51 +16,40 @@ import {fetchMyProfile} from './redux/slices/user/user.slice.js';
 
 const App = () => {
   const dispatch = useDispatch();
-  const {isAuthenticated, token} = useSelector((state) => state.auth);
+  const navigate = useNavigate(); // Initialize navigate correctly
+  const {isAuthenticated, loadingAutoLogin, token} = useSelector(
+    (state) => state.auth
+  );
 
-  // Check for authToken on app load
-  // useEffect(() => {
-  //   console.log('--- use effect in app .jsx is ruuning');
-  //   const token = Cookies.get('accessToken');
-  //   if (token) {
-  //     localStorage.setItem('token', token); // Store token in localStorage
-
-  //     dispatch(setAuth({authen: true, token: token}));
-  //     dispatch(fetchMyProfile());
-  //   } else {
-  //     console.log('---- token does not found!!!');
-  //     dispatch(setAuth({authen: false, token: ''}));
-  //   }
-  // }, [dispatch]);
+  console.log('value of isAuthenticated: ', isAuthenticated);
 
   useEffect(() => {
     dispatch(checkAuth());
-  }, [dispatch]);
+  }, []);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/'); // Programmatic navigation to the homepage
+    }
+  }, [isAuthenticated]);
 
   return (
     <>
-      {/* <AppRouter /> */}
-      <Router>
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
 
-          <Route
-            path="/"
-            element={isAuthenticated ? <HomePage /> : <Navigate to="/login" />}
-          />
-          {/* <Route
-            path="/login"
-            element={isAuthenticated ? <Navigate to="/" /> : <LoginPage />}
-          /> */}
+        <Route
+          path="/"
+          element={isAuthenticated ? <HomePage /> : <Navigate to="/login" />}
+        />
 
-          <Route path="/register" element={<RegisterPage />} />
+        <Route path="/register" element={<RegisterPage />} />
 
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
 
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </Router>
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
     </>
   );
 };

@@ -15,7 +15,7 @@ const ChatMain = ({containerRef}) => {
   const {isOpen} = useSelector((state) => state.leftDrawer);
 
   const {chatsList, loading, searchQuery} = useSelector((state) => state.chat);
-  console.log('chats list value in chat-main.jsx: ', chatsList);
+  // console.log('chats list value in chat-main.jsx: ', chatsList);
 
   const handleSearch = (searchTerm, searchContext) => {
     if (searchContext === 'chatList') {

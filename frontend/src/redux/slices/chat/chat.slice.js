@@ -15,7 +15,7 @@ export const fetchChatList = createAsyncThunk(
         },
       });
 
-      console.log('---- fetch Chat List response: ', response.data);
+      // console.log('---- fetch Chat List response: ', response.data);
       return response.data;
     } catch (error) {
       console.log('Error in fetchChatList 111:', error);
@@ -67,7 +67,7 @@ const chatSlice = createSlice({
 
       .addCase(fetchChatList.fulfilled, (state, action) => {
         state.chatsList = action.payload;
-        console.log('value of chatslist in redux : ', state.chatsList);
+        // console.log('value of chatslist in redux : ', state.chatsList);
         state.loading = false;
         state.message = action.payload.message;
       })
