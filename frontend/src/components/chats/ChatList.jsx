@@ -11,14 +11,21 @@ const ChatList = () => {
   const {chatsList, searchTerm, filteredChatsList, loading} = useSelector(
     (state) => state.chat
   );
-  const [chattedList, setChattedList] = useState(chatsList);
+  // const [chattedList, setChattedList] = useState(chatsList );
+  const [chattedList, setChattedList] = useState([]);
 
   const {newMessage} = useSelector((state) => state.chatWindow);
 
   useEffect(() => {
-    // console.log("---- fetching chat list jsx of chat list");
-    setChattedList(chatsList);
+    if (Array.isArray(chatsList)) {
+      setChattedList(chatsList);
+    }
   }, [chatsList]);
+
+  // useEffect(() => {
+  //   // console.log("---- fetching chat list jsx of chat list");
+  //   setChattedList(chatsList);
+  // }, [chatsList]);
 
   // for searching user name in chat list
   useEffect(() => {
@@ -63,9 +70,17 @@ const ChatList = () => {
 
   return (
     <div className=" h-[80vh] flex flex-col  overflow-y-auto  ">
-      {loading ? (
+      {/* {loading ? (
         <Loading text="Fetching Chats..." />
       ) : chattedList.length > 0 ? (
+        chattedList.map((chat) => <ChatCard key={chat.chat._id} chat={chat} />)
+      ) : (
+        <p className="text-xl text-gray-600 text-center">No chats available!</p>
+      )} */}
+
+      {loading ? (
+        <Loading text="Fetching Chats..." />
+      ) : Array.isArray(chattedList) && chattedList.length > 0 ? (
         chattedList.map((chat) => <ChatCard key={chat.chat._id} chat={chat} />)
       ) : (
         <p className="text-xl text-gray-600 text-center">No chats available!</p>

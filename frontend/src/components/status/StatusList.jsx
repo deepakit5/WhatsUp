@@ -12,32 +12,33 @@ const StatusList = () => {
 
   return (
     <div className=" mt-2 ">
-      {statusList.map((status) => (
-        <div
-          key={status.senderId}
-          onClick={() => setSelectedStatus(status)} // Set selected status
-          className="border-b border-gray-500 bg-white  px-4 py-3 flex items-center space-x-4 cursor-pointer">
-          <img
-            src={status.statuses[0].mediaUrl}
-            alt={<PersonIcon />}
-            className="w-12 h-12 rounded-full "
-          />
-          <div className="">
-            <p className="text-xl  text-gray-800">
-              {status.senderName} (
-              <span className="text-xl text-green-500 ">
-                {status.statusCount}
-              </span>
-              )
-            </p>
+      {Array.isArray(statusList) &&
+        statusList.map((status) => (
+          <div
+            key={status.senderId}
+            onClick={() => setSelectedStatus(status)} // Set selected status
+            className="border-b border-gray-500 bg-white  px-4 py-3 flex items-center space-x-4 cursor-pointer">
+            <img
+              src={status.statuses[0].mediaUrl}
+              alt={<PersonIcon />}
+              className="w-12 h-12 rounded-full "
+            />
+            <div className="">
+              <p className="text-xl  text-gray-800">
+                {status.senderName} (
+                <span className="text-xl text-green-500 ">
+                  {status.statusCount}
+                </span>
+                )
+              </p>
 
-            {/* <div className="text-sm text-gray-500">{status.status}</div> */}
-            <p className="text-sm text-gray-700">
-              {getStatusDayTime(status.statuses[0].createdAt)}
-            </p>
+              {/* <div className="text-sm text-gray-500">{status.status}</div> */}
+              <p className="text-sm text-gray-700">
+                {getStatusDayTime(status.statuses[0].createdAt)}
+              </p>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
 
       {/* Show StatusDisplay when a status is clicked */}
       {selectedStatus && (
