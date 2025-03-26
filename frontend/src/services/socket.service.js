@@ -6,10 +6,7 @@ const SO_URL = import.meta.env.VITE_SOCKET_URL;
 const socket = io(SO_URL, {
   autoConnect: true, // Prevents automatic connection, so you can manually connect/disconnect
   transports: ['websocket'],
-  auth: {
-    // we can add any default authentication info if necessary, e.g., tokens
-    token: localStorage.getItem('token'), // Assuming token is stored in localStorage
-  },
+  withCredentials: true, // Ensures cookies (including your HTTP-only token) are sent automatically
 });
 
 console.log('\n\n\n-----socket.id in socket SERVICES : ', socket.id);

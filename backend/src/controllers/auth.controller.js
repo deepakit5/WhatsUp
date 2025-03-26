@@ -282,15 +282,22 @@ const resetPassword = async (req, res) => {
 };
 
 // Google OAuth callback
-const googleAuthCallback = (req, res) => {
+const googleAuthCallback = async (req, res) => {
   console.log('Google Authentication Successful');
 
   // Access the user and tokens returned by the `done` function
-  const {user, accessToken, refreshToken} = req.user;
+  console.log(' inside g auth req.user: ', req.user);
+  const {user} = req.user;
+
+  const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(
+    user._id
+  );
+
   if (!user || !accessToken || !refreshToken) {
     console.log('user is not found in req of googleAuthCallback');
     return res.redirect('/login');
   }
+
   // Send the tokens to the client (e.g., via cookies or JSON response)
   const options = {
     httpOnly: true, // Prevents client-side JS from accessing the cookie
@@ -305,7 +312,6 @@ const googleAuthCallback = (req, res) => {
     sameSite: 'None', // Required for cross-origin requests
   };
 
-  console.log('cookie has set');
   res.cookie('accessToken', accessToken, options);
   res.cookie('refreshToken', refreshToken, options);
 
@@ -314,7 +320,6 @@ const googleAuthCallback = (req, res) => {
 
 const authenticatedUser = async (req, res) => {
   console.log('inside authenticated User: ');
-  console.log('req.user: ', req.user);
   return res
     .status(200)
     .json(new ApiResponse(200, req.user, 'User fetched successfully 2'));

@@ -15,9 +15,7 @@ export const searchUsers = createAsyncThunk(
       const response = await axios.get(
         `${B_URL}/chat/searchUser?query=${query}`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
+          withCredentials: true,
         }
       );
 

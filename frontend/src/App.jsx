@@ -25,7 +25,8 @@ const App = () => {
 
   useEffect(() => {
     dispatch(checkAuth());
-  }, []);
+    dispatch(fetchMyProfile());
+  }, [isAuthenticated]);
 
   useEffect(() => {
     if (isAuthenticated) {

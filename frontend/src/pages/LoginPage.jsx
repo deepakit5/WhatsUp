@@ -37,8 +37,8 @@ const LoginPage = () => {
   // ---------- for Google-authentication ------
 
   const handleGoogleSignIn = async () => {
-    // window.location.href = `${B_URL}/auth/google`;
-    window.open(`${B_URL}/auth/google`, '_self');
+    window.location.href = `${B_URL}/auth/google`;
+    // window.open(`${B_URL}/auth/google`, '_self');
   };
 
   return (

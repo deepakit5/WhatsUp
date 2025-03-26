@@ -13,9 +13,6 @@ export const loginUser = createAsyncThunk(
         password,
       });
 
-      const token = response.data.data.accessToken;
-      localStorage.setItem('token', token); // Store token in localStorage
-
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -62,7 +59,7 @@ export const checkAuth = createAsyncThunk('auth/checkAuth', async () => {
   const B_URL = import.meta.env.VITE_BACKEND_URL;
 
   try {
-    const {data} = await axios.get(`${B_URL}/auth/me`, {
+    const {data} = await axios.get(`${B_URL}/auth/verifyMe`, {
       withCredentials: true,
     });
     // dispatch(loginSuccess(data.user));
@@ -79,7 +76,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState: {
     user: null,
-    token: localStorage.getItem('token') || '',
+    token: null,
     isAuthenticated: false,
     message: '',
     loading: false,

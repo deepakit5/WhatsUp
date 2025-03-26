@@ -80,9 +80,7 @@ export const fetchChatHistory = createAsyncThunk(
     const B_URL = import.meta.env.VITE_BACKEND_URL;
     try {
       const response = await axios.get(`${B_URL}/chat/${chatId}/history`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
+        withCredentials: true,
       });
 
       return response.data;
@@ -100,8 +98,6 @@ export const sendMessageMedia = createAsyncThunk(
   async (file, {getState, rejectWithValue}) => {
     const B_URL = import.meta.env.VITE_BACKEND_URL;
     try {
-      const token = localStorage.getItem('token');
-
       const formData = new FormData();
       formData.append('file', file);
 
@@ -111,8 +107,8 @@ export const sendMessageMedia = createAsyncThunk(
         {
           headers: {
             'Content-Type': 'multipart/form-data', // Required for file uploads
-            Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         }
       );
       return response.data.data;

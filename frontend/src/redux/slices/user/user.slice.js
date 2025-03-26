@@ -1,44 +1,41 @@
-import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
-import axios from "axios";
-import {toast} from "react-toastify";
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import axios from 'axios';
+import {toast} from 'react-toastify';
 
 // Async thunk for fetching user data
 export const fetchMyProfile = createAsyncThunk(
-  "user/fetchMyProfile", // Action type string for the thunk
+  'user/fetchMyProfile', // Action type string for the thunk
 
   async (_, {rejectWithValue}) => {
     const B_URL = import.meta.env.VITE_BACKEND_URL;
     try {
       const response = await axios.get(`${B_URL}/user/me`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
+        withCredentials: true,
       });
 
       return response.data.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || "Failed to fetch profile");
+      return rejectWithValue(error.response?.data || 'Failed to fetch profile');
     }
   }
 );
 
 // Async thunk for updating user data
 export const updateProfile = createAsyncThunk(
-  "user/updateProfile",
+  'user/updateProfile',
   async (updatedData, {getState, rejectWithValue}) => {
     const B_URL = import.meta.env.VITE_BACKEND_URL;
     try {
       const {userId} = getState().user;
-      const token = localStorage.getItem("token"); // Get the JWT token from local storage (or wherever you stored it)
 
       const response = await axios.patch(
         `${B_URL}/user/update/me`,
         updatedData,
         {
           headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
           },
+          withCredentials: true,
         }
       );
       return response.data.data;
@@ -50,23 +47,21 @@ export const updateProfile = createAsyncThunk(
 
 // Async thunk for updating updateProfileImg
 export const updateProfileImg = createAsyncThunk(
-  "user/updateProfileImg",
+  'user/updateProfileImg',
   async (file, {getState, rejectWithValue}) => {
     const B_URL = import.meta.env.VITE_BACKEND_URL;
     try {
-      const token = localStorage.getItem("token");
-
       const formData = new FormData();
-      formData.append("avatar", file);
+      formData.append('avatar', file);
 
       const response = await axios.patch(
         `${B_URL}/user/update-avatar`,
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data", // Required for file uploads
-            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data', // Required for file uploads
           },
+          withCredentials: true,
         }
       );
 
@@ -78,18 +73,18 @@ export const updateProfileImg = createAsyncThunk(
 );
 
 const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState: {
-    userId: "",
-    username: "anonymous",
-    isOnline: "offline", // for real time update depend on socket
+    userId: '',
+    username: 'anonymous',
+    isOnline: 'offline', // for real time update depend on socket
     chatsList: [],
-    profileImage: "Your profile Image",
-    about: "hey there, i am using WhatsUp not WhatsApp.",
-    email: "",
-    phoneNumber: "",
+    profileImage: 'Your profile Image',
+    about: 'hey there, i am using WhatsUp not WhatsApp.',
+    email: '',
+    phoneNumber: '',
     loading: false,
-    message: "",
+    message: '',
     error: null,
   },
   reducers: {

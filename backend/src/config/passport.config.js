@@ -29,14 +29,10 @@ passport.use(
           console.log('user created successfully:');
         }
 
-        const {accessToken, refreshToken} =
-          await generateAccessAndRefereshTokens(user._id);
-
-        return done(null, {user, accessToken, refreshToken});
-
-        // return done(null, user);
+        done(null, {user});
       } catch (error) {
-        return done(error, null);
+        // return done(error, null);
+        done(error, null);
       }
     }
   )
@@ -44,6 +40,11 @@ passport.use(
 
 passport.serializeUser((user, done) => done(null, user));
 
-passport.deserializeUser((user, done) => {
-  done(null, user);
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
 });

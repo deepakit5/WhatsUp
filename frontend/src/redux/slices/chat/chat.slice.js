@@ -10,9 +10,7 @@ export const fetchChatList = createAsyncThunk(
     const B_URL = import.meta.env.VITE_BACKEND_URL;
     try {
       const response = await axios.get(`${B_URL}/chat/getAllChats`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
+        withCredentials: true,
       });
 
       // console.log('---- fetch Chat List response: ', response.data);

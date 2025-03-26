@@ -11,12 +11,11 @@ export const uploadStatus = createAsyncThunk(
   async (formData, {dispatch, rejectWithValue}) => {
     const B_URL = import.meta.env.VITE_BACKEND_URL;
     try {
-      const token = localStorage.getItem('token');
       const response = await axios.post(`${B_URL}/status/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`,
         },
+        withCredentials: true,
       });
       if (response?.data) {
         dispatch(fetchMyStatuses);
@@ -34,11 +33,8 @@ export const fetchMyStatuses = createAsyncThunk(
   async (_, {rejectWithValue}) => {
     const B_URL = import.meta.env.VITE_BACKEND_URL;
     try {
-      const token = localStorage.getItem('token');
       const response = await axios.get(`${B_URL}/status/myStatuses`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        withCredentials: true,
       });
       console.log('response from fetch my status:', response.data);
       return response.data;
@@ -55,11 +51,8 @@ export const fetchStatusList = createAsyncThunk(
   async (_, {rejectWithValue}) => {
     const B_URL = import.meta.env.VITE_BACKEND_URL;
     try {
-      const token = localStorage.getItem('token');
       const response = await axios.get(`${B_URL}/status/getAllStatus`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        withCredentials: true,
       });
       console.log('response of status-list:', response.data);
       return response.data;

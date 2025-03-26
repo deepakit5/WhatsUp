@@ -4,31 +4,30 @@ import socket from '../services/socket.service.js';
 import {useSelector} from 'react-redux';
 
 export const useSocket = () => {
-  const token = useSelector((state) => state.auth.token);
+  // const token = useSelector((state) => state.auth.token);
   const [socketId, setSocketId] = useState(null);
 
   useEffect(() => {
     // it runs for every component who use usesocket hook
     console.log('--- use effect run in use socket hook .js :');
-    if (token) {
-      // Update the socket's auth token
-      socket.auth = {token};
-      // Connect to the Socket.IO server
-      socket.connect();
-      // Listen for the 'connect' event to ensure socket.id is defined
-      socket.on('connect', () => {
-        // console.log(
-        //   "Connected with socket ID from use-socket hook:",
-        //   socket.id
-        // );
-        setSocketId(socket.id); // Store the socket ID in state or use as needed
-      });
-    } else {
-      // Disconnect if no token is present
-      // console.log('--- token is absent: ');
-      console.log('--- disconnecting from frontend side...: ');
-      socket.disconnect();
-    }
+    // if (token) {
+    // Update the socket's auth token
+    // socket.auth = {token};
+    // Connect to the Socket.IO server
+    socket.connect();
+    // Listen for the 'connect' event to ensure socket.id is defined
+    socket.on('connect', () => {
+      setSocketId(socket.id); // Store the socket ID in state or use as needed
+    });
+
+    socket.on('connect_error', (err) => {
+      console.error(' Socket connection error:', err.message);
+    });
+    // } else {
+
+    //   console.log('--- disconnecting from frontend side...: ');
+    //   socket.disconnect();
+    // }
 
     // Emit 'offline' event when the tab is closed
     const handleTabClose = () => {
@@ -45,7 +44,7 @@ export const useSocket = () => {
       // socket.off("connect"); // Remove the connect event listener
       console.log('--- disconnecting as clean up frontend side...: ');
     };
-  }, [token]);
+  }, []);
 
   return socket;
 };

@@ -9,7 +9,6 @@ import {
   generateAccessAndRefereshTokens,
   googleAuthCallback,
   authenticatedUser,
-  // googleAuthenticatedUser,
 } from '../controllers/auth.controller.js';
 import {upload} from '../middlewares/multer.middleware.js';
 import {verifyJWT} from '../middlewares/auth.middleware.js';
@@ -41,7 +40,7 @@ router.route('/refresh-token').post(refreshAccessToken); // tested
 router.route('/forgot-password').post(forgotPassword);
 router.route('/reset-password/:token').post(resetPassword);
 
-router.route('/me').get(verifyJWT, authenticatedUser);
+router.route('/verifyMe').get(verifyJWT, authenticatedUser);
 
 // ---------- google authentication------
 // Google Auth Route
@@ -55,67 +54,6 @@ router.get(
   // passport.authenticate('google', {session: false, scope: ['profile', 'email']})
   passport.authenticate('google', {scope: ['profile', 'email']})
 );
-
-// Google Auth Callback
-// router.get(
-//   '/google/callback',
-//   (req, res, next) => {
-//     console.log('Google Callback Route Reached');
-//     next();
-//   },
-
-//   passport.authenticate('google', {
-//     session: false,
-//     failureRedirect: `${process.env.FRONTEND_URL}/auth/login`,
-//   }),
-//   async (req, res) => {
-//     console.log('Google Authentication Successful');
-
-//     const {
-//       accessToken,
-//       refreshToken,
-//       user,
-//       ACCESS_TOKEN_EXPIRY,
-//       REFRESH_TOKEN_EXPIRY,
-//     } = req.user;
-
-//     const loggedInUser = await User.findById(user._id).select(
-//       '-password -refreshToken'
-//     );
-//     const options = {
-//       httpOnly: true,
-//       secure: true,
-//     };
-
-//     res
-//       .cookie('accessToken', accessToken, options)
-//       .cookie('refreshToken', refreshToken, options)
-//       .json(
-//         new ApiResponse(
-//           200,
-//           {
-//             user: loggedInUser,
-//             accessToken,
-//             refreshToken,
-//           },
-//           'User logged In Successfully'
-//         )
-//       );
-//     // .redirect(`${process.env.FRONTEND_URL}`);
-//   }
-// );
-// ------------x--------------x---------
-// ------------x--------------x---------
-// ------------x--------------x---------
-// router.get(
-//   '/google/callback',
-//   passport.authenticate('google', {session: false}),
-//   googleAuthCallback
-// );
-
-// ------------x--------------x---------
-// ------------x--------------x---------
-// ------------x--------------x---------
 
 router.get(
   '/google/callback',
