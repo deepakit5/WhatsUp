@@ -288,16 +288,18 @@ const googleAuthCallback = async (req, res) => {
   // Access the user and tokens returned by the `done` function
   console.log(' inside g auth req.user: ', req.user);
   const {user} = req.user;
-
+  console.log('user got');
   const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(
     user._id
   );
+
+  console.log('accessToken, refreshToken got--');
 
   if (!user || !accessToken || !refreshToken) {
     console.log('user is not found in req of googleAuthCallback');
     return res.redirect('/login');
   }
-
+  console.log('trying to set cookie-options: ');
   // Send the tokens to the client (e.g., via cookies or JSON response)
   const options = {
     httpOnly: true, // Prevents client-side JS from accessing the cookie
@@ -314,7 +316,7 @@ const googleAuthCallback = async (req, res) => {
 
   res.cookie('accessToken', accessToken, options);
   res.cookie('refreshToken', refreshToken, options);
-
+  console.log('token is set and redirecting to the home-url of frontend...');
   res.redirect(`${process.env.FRONTEND_URL}/`);
 };
 
