@@ -64,7 +64,8 @@ router.get(
 
   passport.authenticate('google', {
     session: false,
-    failureRedirect: `${process.env.FRONTEND_URL}/login`,
+    // failureRedirect: `${process.env.FRONTEND_URL}/login`,
+    failureRedirect: `/login`,
   }),
   googleAuthCallback //on succussfull G-authentication this function will run
 );

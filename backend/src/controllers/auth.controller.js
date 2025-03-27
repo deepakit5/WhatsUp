@@ -286,42 +286,33 @@ const googleAuthCallback = async (req, res) => {
   console.log('Google Authentication Successful');
 
   // Access the user and tokens returned by the `done` function
-  console.log(' inside g auth req.user: ', req.user);
   const {user} = req.user;
-  console.log('user got');
+  if (!user) {
+    console.log('user did not get1');
+    return res.redirect('/login');
+  }
   const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(
     user._id
   );
 
-  console.log('accessToken, refreshToken got--');
-
-  if (!user || !accessToken || !refreshToken) {
-    console.log('user is not found in req of googleAuthCallback');
+  if (!accessToken || !refreshToken) {
+    console.log('accessToken is not found in req of googleAuthCallback');
     return res.redirect('/login');
   }
   console.log('trying to set cookie-options: ');
-  // Send the tokens to the client (e.g., via cookies or JSON response)
   const options = {
     httpOnly: true, // Prevents client-side JS from accessing the cookie
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 day expiry
     path: '/', // Ensures cookies are available across routes
-    // for localhost
-    // secure: false,
-    // sameSite: 'Lax', // Required for cross-origin requests
-
-    // in production
-    secure: true, // Ensures the cookie is sent only over HTTPS
-    sameSite: 'None', // Required for cross-origin requests
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
   };
 
   res.cookie('accessToken', accessToken, options);
   res.cookie('refreshToken', refreshToken, options);
   console.log('token is set and redirecting to the home-url of frontend...');
 
-  res
-    .status(200)
-    .json({success: true, redirectUrl: `${process.env.FRONTEND_URL}/`});
-  // res.redirect(`${process.env.FRONTEND_URL}/`);
+  res.redirect(`${process.env.FRONTEND_URL}/`);
 };
 
 const authenticatedUser = async (req, res) => {

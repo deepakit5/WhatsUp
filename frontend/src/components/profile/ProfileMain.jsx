@@ -275,7 +275,7 @@ const ProfileMain = ({containerRef}) => {
 
           {/* Phone Number  phoneNumber */}
           <div className="border  border-b-gray-300   pl-5  pr-5 bg-gray-100 ">
-            <p className="text-base  mt-2">Phone Number:</p>
+            <p className="text-base  mt-2"> UID/Phone Number:</p>
             <div className="flex justify-between w-full">
               {isEditing.phoneNumber ? (
                 <input
