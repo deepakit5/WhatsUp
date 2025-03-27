@@ -36,9 +36,22 @@ const LoginPage = () => {
 
   // ---------- for Google-authentication ------
 
+  // const handleGoogleSignIn = async () => {
+  //   window.location.href = `${B_URL}/auth/google`;
+  //   // window.open(`${B_URL}/auth/google`, '_self');
+  // };
+
   const handleGoogleSignIn = async () => {
-    window.location.href = `${B_URL}/auth/google`;
-    // window.open(`${B_URL}/auth/google`, '_self');
+    try {
+      const response = await axios.get(`${B_URL}/auth/google`, {
+        withCredentials: true,
+      });
+      if (response.data.success) {
+        window.location.href = response.data.redirectUrl;
+      }
+    } catch (error) {
+      console.error('Google Sign-In Error:', error);
+    }
   };
 
   return (
