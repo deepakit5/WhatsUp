@@ -42,11 +42,13 @@ const LoginPage = () => {
   // };
 
   const handleGoogleSignIn = async () => {
+    console.log('google sign in starting...');
     try {
       const response = await axios.get(`${B_URL}/auth/google`, {
         withCredentials: true,
       });
       if (response.data.success) {
+        console.log(' response.data in login page: ', response.data);
         window.location.href = response.data.redirectUrl;
       }
     } catch (error) {
